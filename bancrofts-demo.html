@@ -35,6 +35,20 @@
     background: #000;
   }
 
+  /* Sits between intro and video, stays #f5f5f5 until video
+     is fully faded in — prevents any black flash during crossover */
+  #bridge {
+    position: absolute;
+    inset: 0;
+    z-index: 90;
+    background: #f5f5f5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  #bridge.visible  { opacity: 1; }
+  #bridge.fade-out { opacity: 0; }
+
   /* ─────────────────────────────
      INTRO SCREEN
   ───────────────────────────── */
@@ -418,6 +432,9 @@
 <body>
 <div class="phone-wrapper">
 
+  <!-- Bridge layer keeps background f5f5f5 during transition -->
+  <div id="bridge"></div>
+
   <!-- VIDEO — always present, holds last frame -->
   <video id="map-video" playsinline muted preload="auto">
     <source src="Mobile-Map.mp4" type="video/mp4">
@@ -492,21 +509,35 @@
   const mapVideo  = document.getElementById('map-video');
   const uiOverlay = document.getElementById('ui-overlay');
   const enterBtn  = document.getElementById('enterBtn');
+  const bridge    = document.getElementById('bridge');
 
   mapVideo.load();
 
   function startSequence() {
     enterBtn.style.pointerEvents = 'none';
+
+    // Step 1: bring bridge up instantly (still f5f5f5, hides what's below)
+    bridge.classList.add('visible');
+
+    // Step 2: fade intro out over the bridge
     intro.classList.add('fade-out');
 
+    // Step 3: start video fading in behind the bridge
     setTimeout(() => {
       mapVideo.classList.add('visible');
       mapVideo.play().catch(() => {});
+
+      // Step 4: once video opacity transition is done, fade bridge away
+      setTimeout(() => {
+        bridge.classList.remove('visible');
+        bridge.classList.add('fade-out');
+        setTimeout(() => { intro.style.display = 'none'; }, 400);
+      }, 500);
     }, 400);
 
+    // Step 5: when video ends, freeze on last frame and fade UI in
     mapVideo.addEventListener('ended', () => {
       uiOverlay.classList.add('visible');
-      setTimeout(() => { intro.style.display = 'none'; }, 200);
     }, { once: true });
   }
 
