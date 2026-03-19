@@ -46,7 +46,6 @@
     pointer-events: none;
   }
 
-  /* Logo — top 80.34px, w 120px, h 32px, centred */
   .intro-logo {
     position: absolute;
     width: 120px;
@@ -59,7 +58,6 @@
     animation: iLogoIn 0.9s ease 0.3s forwards;
   }
 
-  /* Statement — top 331px, font-size 25px, whitespace nowrap */
   .intro-statement {
     position: absolute;
     left: 50%;
@@ -76,7 +74,6 @@
     animation: iStatIn 1s ease 0.6s forwards;
   }
 
-  /* Gold divider — top 421px, w 180px */
   .intro-line {
     position: absolute;
     left: 50%;
@@ -89,7 +86,6 @@
     animation: iLineIn 0.8s ease 1.2s forwards;
   }
 
-  /* Subtitle — top 461px */
   .intro-sub {
     position: absolute;
     left: 50%;
@@ -106,10 +102,6 @@
     animation: iFadeIn 0.8s ease 1.4s forwards;
   }
 
-  /* CTA button — top 623px, matching Figma exactly
-     bg #2c4255, border 2px rgba(44,66,85,0.5)
-     The outer border effect from the screenshot is a
-     box-shadow inset to mimic the 50% opacity outer ring */
   .intro-cta {
     position: absolute;
     left: 50%;
@@ -119,8 +111,8 @@
     align-items: center;
     justify-content: center;
     background: #2c4255;
-    border: 2px solid rgba(44, 66, 85, 0.5);
-    box-shadow: 0 0 0 3px rgba(44, 66, 85, 0.18);
+    border: 2px solid rgba(44,66,85,0.5);
+    box-shadow: 0 0 0 3px rgba(44,66,85,0.18);
     padding: 8px 20px 6px;
     cursor: pointer;
     white-space: nowrap;
@@ -131,12 +123,12 @@
     text-transform: uppercase;
     text-align: center;
     line-height: 1;
+    min-width: 200px;
     opacity: 0;
     animation: iFadeIn 0.8s ease 1.8s forwards;
     transition: background 0.2s ease;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
-    min-width: 200px;
   }
 
   .intro-cta:hover  { background: #1e2f3d; }
@@ -177,6 +169,11 @@
     pointer-events: auto;
   }
 
+  #video-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   #map-video {
     position: absolute;
     inset: 0;
@@ -193,19 +190,19 @@
     inset: 0;
     min-height: 100vh;
     overflow: hidden;
+    background: #0d1a24;
     opacity: 0;
     pointer-events: none;
-    background: #0d1a24;
-    /* no transition — we switch it on at the right moment */
+    transition: opacity 0.5s ease;
+    z-index: 1;
   }
 
   #main.visible {
     opacity: 1;
     pointer-events: auto;
-    transition: opacity 0.5s ease;
   }
 
-  /* IOS-View 1 */
+  /* IOS-View 1 — Figma: left -819, top -238, w 2258, h 1270 */
   .aerial-bg {
     position: absolute;
     width: 2258px;
@@ -252,7 +249,6 @@
     z-index: 3;
   }
 
-  /* Nav — logo centred, contact left, menu right at top 90px */
   nav {
     position: absolute;
     top: 90px;
@@ -290,7 +286,6 @@
     display: block;
   }
 
-  /* Hotspots — centred on coordinate with translate(-50%, 0) */
   .hotspot {
     position: absolute;
     width: 20px;
@@ -329,13 +324,11 @@
     50%       { box-shadow: 0 0 0 6px rgba(245,245,245,0); }
   }
 
-  /* Figma positions: left is the centre coordinate */
   .hs-1 { left: calc(66.67% - 4px);  top: 296px; }
   .hs-2 { left: calc(87.5% - 17px);  top: 568px; }
   .hs-3 { left: calc(20.83% + 6px);  top: 555px; }
   .hs-4 { left: calc(29.17% - 3px);  top: 406px; }
 
-  /* Visit Us CTA — left calc(70.83% - 8px), -translate-x-1/2, top 566px */
   .visit-cta {
     position: absolute;
     left: calc(70.83% - 8px);
@@ -365,7 +358,6 @@
     line-height: 1;
   }
 
-  /* Map guide — centred, top 689px */
   .map-guide {
     position: absolute;
     left: 50%;
@@ -378,7 +370,6 @@
     opacity: 0.85;
   }
 
-  /* Tooltips */
   .tooltip {
     position: absolute;
     z-index: 20;
@@ -454,19 +445,19 @@
   <!-- 3. MAP / FINAL SCREEN -->
   <div id="main">
     <img class="aerial-bg"
-      src="https://www.figma.com/api/mcp/asset/4b89c4f9-5b09-40f8-95ce-acfdfbb63dcb"
+      src="https://www.figma.com/api/mcp/asset/0e65d207-f664-4a5e-a6db-c7f64bde1d2e"
       alt="">
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
     <img class="clouds"
-      src="https://www.figma.com/api/mcp/asset/0fd9446f-c542-47f3-8803-4e721f684ffa"
+      src="https://www.figma.com/api/mcp/asset/1045e2a9-dbc3-4a86-9407-8dbe3699cf41"
       alt="">
 
     <nav>
       <span class="nav-link">Contact</span>
       <div class="nav-logo-wrap">
         <img class="nav-logo"
-          src="https://www.figma.com/api/mcp/asset/602bd957-9e3e-4623-b238-89ec2e21ccb5"
+          src="https://www.figma.com/api/mcp/asset/fd182a78-a5c5-4e13-bb78-fc28bf9b86e3"
           alt="Bancroft's School">
       </div>
       <span class="nav-link">Menu</span>
@@ -480,7 +471,7 @@
     <div class="visit-cta"><span>Visit us</span></div>
 
     <img class="map-guide"
-      src="https://www.figma.com/api/mcp/asset/84e0a629-1526-4f25-bd86-dda5cd929249"
+      src="https://www.figma.com/api/mcp/asset/af90294d-3ecc-498e-b4e7-ec72f4197816"
       alt="Map guide">
 
     <div class="tooltip" id="tip-1">
@@ -514,36 +505,41 @@
   const main        = document.getElementById('main');
   const enterBtn    = document.getElementById('enterBtn');
 
-  // Preload video as early as possible
+  // Preload video immediately
   mapVideo.load();
 
   function startSequence() {
-    // Step 1: fade out intro
+    // Prevent double-firing
+    enterBtn.style.pointerEvents = 'none';
+
+    // Fade intro out
     intro.classList.add('fade-out');
 
-    // Step 2: fade in video screen and play
+    // Fade video in and play
     setTimeout(() => {
       videoScreen.classList.add('visible');
-      mapVideo.play();
-      intro.style.display = 'none';
-    }, 550);
+      mapVideo.play().catch(() => {});
+    }, 400);
 
-    // Step 3: when video ends, cross-fade to map screen seamlessly
+    // When video ends, show map screen underneath, then fade video out
     mapVideo.addEventListener('ended', () => {
-      // Show main underneath before fading video out
-      main.style.opacity = '0';
-      main.style.display = 'block';
-      main.style.pointerEvents = 'none';
+      // Bring main up behind the video (no transition yet)
+      main.style.transition = 'none';
+      main.style.opacity = '1';
+      main.style.pointerEvents = 'auto';
 
-      // Small delay then cross-fade
+      // Give browser one frame to paint main, then fade video out
       requestAnimationFrame(() => {
-        main.classList.add('visible');
-        videoScreen.style.transition = 'opacity 0.5s ease';
-        videoScreen.style.opacity = '0';
-
-        setTimeout(() => {
-          videoScreen.style.display = 'none';
-        }, 550);
+        requestAnimationFrame(() => {
+          videoScreen.classList.add('fade-out');
+          videoScreen.classList.remove('visible');
+          setTimeout(() => {
+            intro.style.display = 'none';
+            videoScreen.style.display = 'none';
+            // Restore transition for any future use
+            main.style.transition = 'opacity 0.5s ease';
+          }, 550);
+        });
       });
     }, { once: true });
   }
