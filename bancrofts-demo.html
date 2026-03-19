@@ -26,7 +26,7 @@
     min-height: 100vh;
     position: relative;
     overflow: hidden;
-    background: #f5f5f5;
+    background: #000;
   }
 
   /* ─────────────────────────────
@@ -151,81 +151,50 @@
   }
 
   /* ─────────────────────────────
-     VIDEO SCREEN
+     VIDEO — sits behind everything,
+     stays on last frame permanently
   ───────────────────────────── */
-  #video-screen {
-    position: absolute;
-    inset: 0;
-    z-index: 50;
-    background: #000;
-    min-height: 100vh;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-  }
-
-  #video-screen.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  #video-screen.fade-out {
-    opacity: 0;
-    pointer-events: none;
-  }
-
   #map-video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  #map-video.visible {
+    opacity: 1;
   }
 
   /* ─────────────────────────────
-     MAP / FINAL SCREEN
+     UI OVERLAY — fades in over
+     the frozen video last frame
   ───────────────────────────── */
-  #main {
+  #ui-overlay {
     position: absolute;
     inset: 0;
+    z-index: 10;
     min-height: 100vh;
-    overflow: hidden;
-    background: #0d1a24;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
-    z-index: 1;
   }
 
-  #main.visible {
+  #ui-overlay.visible {
     opacity: 1;
     pointer-events: auto;
   }
 
-  /* IOS-View 1 — Figma: left -819, top -238, w 2258, h 1270 */
-  .aerial-bg {
-    position: absolute;
-    width: 2258px;
-    height: 1270px;
-    left: -819px;
-    top: -238px;
-    object-fit: cover;
-    pointer-events: none;
-    animation: kenBurns 22s ease-in-out infinite alternate;
-  }
-
-  @keyframes kenBurns {
-    from { transform: scale(1); }
-    to   { transform: scale(1.05) translate(10px, -6px); }
-  }
-
+  /* Gradients over video */
   .grad-top {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 459px;
     background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
     pointer-events: none;
-    z-index: 2;
   }
 
   .grad-bottom {
@@ -234,9 +203,9 @@
     height: 190px;
     background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
     pointer-events: none;
-    z-index: 2;
   }
 
+  /* Clouds */
   .clouds {
     position: absolute;
     width: 836px;
@@ -246,9 +215,9 @@
     transform: rotate(-16.94deg);
     opacity: 0.35;
     pointer-events: none;
-    z-index: 3;
   }
 
+  /* Nav */
   nav {
     position: absolute;
     top: 90px;
@@ -286,6 +255,7 @@
     display: block;
   }
 
+  /* Hotspots */
   .hotspot {
     position: absolute;
     width: 20px;
@@ -324,11 +294,13 @@
     50%       { box-shadow: 0 0 0 6px rgba(245,245,245,0); }
   }
 
+  /* Figma positions */
   .hs-1 { left: calc(66.67% - 4px);  top: 296px; }
   .hs-2 { left: calc(87.5% - 17px);  top: 568px; }
   .hs-3 { left: calc(20.83% + 6px);  top: 555px; }
   .hs-4 { left: calc(29.17% - 3px);  top: 406px; }
 
+  /* Visit Us CTA */
   .visit-cta {
     position: absolute;
     left: calc(70.83% - 8px);
@@ -358,10 +330,11 @@
     line-height: 1;
   }
 
+  /* Map guide — Figma: bottom 73px, centred */
   .map-guide {
     position: absolute;
     left: 50%;
-    top: 689px;
+    bottom: 73px;
     transform: translateX(-50%);
     width: 281px;
     height: 50px;
@@ -370,6 +343,7 @@
     opacity: 0.85;
   }
 
+  /* Tooltips */
   .tooltip {
     position: absolute;
     z-index: 20;
@@ -424,40 +398,24 @@
 <body>
 <div class="phone-wrapper">
 
-  <!-- 1. INTRO SCREEN -->
-  <div id="intro">
-    <img class="intro-logo"
-      src="https://www.figma.com/api/mcp/asset/269fdf72-59a2-4922-9517-9ee1fe9cbcb5"
-      alt="Bancroft's School">
-    <p class="intro-statement">Where London ends,<br>something greater begins.</p>
-    <div class="intro-line"></div>
-    <p class="intro-sub">Woodford Green Est &bull; 1737</p>
-    <div class="intro-cta" id="enterBtn">Explore the school</div>
-  </div>
+  <!-- VIDEO — always present, stays on last frame -->
+  <video id="map-video" playsinline muted preload="auto">
+    <source src="Mobile-Map.mp4" type="video/mp4">
+  </video>
 
-  <!-- 2. VIDEO SCREEN -->
-  <div id="video-screen">
-    <video id="map-video" playsinline muted preload="auto">
-      <source src="Mobile-Map.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- 3. MAP / FINAL SCREEN -->
-  <div id="main">
-    <img class="aerial-bg"
-      src="https://www.figma.com/api/mcp/asset/0e65d207-f664-4a5e-a6db-c7f64bde1d2e"
-      alt="">
+  <!-- UI OVERLAY — fades in over frozen video -->
+  <div id="ui-overlay">
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
     <img class="clouds"
-      src="https://www.figma.com/api/mcp/asset/1045e2a9-dbc3-4a86-9407-8dbe3699cf41"
+      src="https://www.figma.com/api/mcp/asset/157987f8-9ae5-4e27-a30b-1249eb65f856"
       alt="">
 
     <nav>
       <span class="nav-link">Contact</span>
       <div class="nav-logo-wrap">
         <img class="nav-logo"
-          src="https://www.figma.com/api/mcp/asset/fd182a78-a5c5-4e13-bb78-fc28bf9b86e3"
+          src="https://www.figma.com/api/mcp/asset/83cb386f-de7d-4092-9b87-d4c0b44eb453"
           alt="Bancroft's School">
       </div>
       <span class="nav-link">Menu</span>
@@ -471,7 +429,7 @@
     <div class="visit-cta"><span>Visit us</span></div>
 
     <img class="map-guide"
-      src="https://www.figma.com/api/mcp/asset/af90294d-3ecc-498e-b4e7-ec72f4197816"
+      src="https://www.figma.com/api/mcp/asset/c3f6dc36-8ee9-46ca-9cb0-3ebbc4787c56"
       alt="Map guide">
 
     <div class="tooltip" id="tip-1">
@@ -496,20 +454,29 @@
     </div>
   </div>
 
+  <!-- INTRO SCREEN — sits on top of everything -->
+  <div id="intro">
+    <img class="intro-logo"
+      src="https://www.figma.com/api/mcp/asset/269fdf72-59a2-4922-9517-9ee1fe9cbcb5"
+      alt="Bancroft's School">
+    <p class="intro-statement">Where London ends,<br>something greater begins.</p>
+    <div class="intro-line"></div>
+    <p class="intro-sub">Woodford Green Est &bull; 1737</p>
+    <div class="intro-cta" id="enterBtn">Explore the school</div>
+  </div>
+
 </div>
 
 <script>
-  const intro       = document.getElementById('intro');
-  const videoScreen = document.getElementById('video-screen');
-  const mapVideo    = document.getElementById('map-video');
-  const main        = document.getElementById('main');
-  const enterBtn    = document.getElementById('enterBtn');
+  const intro     = document.getElementById('intro');
+  const mapVideo  = document.getElementById('map-video');
+  const uiOverlay = document.getElementById('ui-overlay');
+  const enterBtn  = document.getElementById('enterBtn');
 
   // Preload video immediately
   mapVideo.load();
 
   function startSequence() {
-    // Prevent double-firing
     enterBtn.style.pointerEvents = 'none';
 
     // Fade intro out
@@ -517,30 +484,16 @@
 
     // Fade video in and play
     setTimeout(() => {
-      videoScreen.classList.add('visible');
+      mapVideo.classList.add('visible');
       mapVideo.play().catch(() => {});
     }, 400);
 
-    // When video ends, show map screen underneath, then fade video out
+    // When video ends, freeze on last frame and fade UI in over the top
     mapVideo.addEventListener('ended', () => {
-      // Bring main up behind the video (no transition yet)
-      main.style.transition = 'none';
-      main.style.opacity = '1';
-      main.style.pointerEvents = 'auto';
-
-      // Give browser one frame to paint main, then fade video out
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          videoScreen.classList.add('fade-out');
-          videoScreen.classList.remove('visible');
-          setTimeout(() => {
-            intro.style.display = 'none';
-            videoScreen.style.display = 'none';
-            // Restore transition for any future use
-            main.style.transition = 'opacity 0.5s ease';
-          }, 550);
-        });
-      });
+      // Video naturally stays on last frame — just fade the UI overlay in
+      uiOverlay.classList.add('visible');
+      // Clean up intro from DOM after it's gone
+      setTimeout(() => { intro.style.display = 'none'; }, 200);
     }, { once: true });
   }
 
@@ -573,7 +526,7 @@
     });
   });
 
-  document.getElementById('main').addEventListener('click', () => {
+  document.getElementById('ui-overlay').addEventListener('click', () => {
     document.querySelectorAll('.tooltip.show').forEach(t => {
       t.classList.remove('show');
       document.querySelector(`.hotspot[data-tip="${t.id}"]`)?.classList.remove('active');
