@@ -230,8 +230,8 @@
   .grad-bottom {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    height: 190px;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    height: 328px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
     pointer-events: none;
   }
 
@@ -359,29 +359,27 @@
   }
 
   /*
-    Pixel positions from Figma artboard (375px wide).
-    Calculated as: left = percentage * 375 + offset
-    hs-1: calc(66.67% - 4px)  = 246px,  top 296px
-    hs-2: calc(87.5%  - 17px) = 311px,  top 568px  ← Visit Us
-    hs-3: calc(20.83% + 6px)  = 84px,   top 555px
-    hs-4: calc(29.17% - 3px)  = 106px,  top 406px
+    Pixel positions from Figma artboard (375px wide) — updated build.
+    hs-1: calc(66.67% - 4px)  = 246px, top 235px
+    hs-2: calc(87.5%  - 17px) = 311px, top 507px  ← Visit Us
+    hs-3: calc(20.83% + 6px)  = 84px,  top 494px
+    hs-4: calc(29.17% - 3px)  = 106px, top 345px
   */
-  .hs-1 { left: 246px; top: 296px; }
-  .hs-2 { left: 311px; top: 568px; }
-  .hs-3 { left: 84px;  top: 555px; }
-  .hs-4 { left: 106px; top: 406px; }
+  .hs-1 { left: 246px; top: 235px; }
+  .hs-2 { left: 311px; top: 507px; }
+  .hs-3 { left: 84px;  top: 494px; }
+  .hs-4 { left: 106px; top: 345px; }
 
   /*
-    Visit Us CTA — hidden by default, fades in when hotspot is tapped.
-    Vertically centred on the hotspot (hs-2 top: 568px, height ~30px → centre 568px).
-    Positioned to the left of the hotspot so they sit together.
-    Border matches image 1 reference: #f5f5f5 bg, 2px solid rgba(245,245,245,0.5) border.
+    Visit Us CTA — hidden by default, pure opacity fade on tap.
+    Vertically centred on hs-2 (top 507px).
+    Left edge sits at the CTA centre: calc(70.83% - 8px) = 258px.
+    Positioned left of hotspot using translate(-100%, -50%).
+    Double-border effect: 2px solid border + 3px box-shadow at 50% opacity.
   */
   .visit-cta {
     position: absolute;
-    /* Align vertical centre with hs-2 centre (568px) */
-    top: 568px;
-    /* Place to the left of hs-2 (311px), with a small gap */
+    top: 507px;
     left: 258px;
     transform: translate(-100%, -50%);
     z-index: 10;
@@ -390,10 +388,10 @@
     justify-content: center;
     background: #f5f5f5;
     border: 2px solid rgba(245,245,245,0.5);
+    box-shadow: 0 0 0 3px rgba(245,245,245,0.25);
     padding: 7px 14px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    /* Hidden until tapped */
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
@@ -416,11 +414,11 @@
     line-height: 1;
   }
 
-  /* Map guide — centred, bottom 73px */
+  /* Map guide — centred, bottom 43px from Figma */
   .map-guide {
     position: absolute;
     left: 50%;
-    bottom: 73px;
+    bottom: 43px;
     transform: translateX(-50%);
     width: 281px;
     height: 50px;
@@ -443,14 +441,14 @@
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
     <img class="clouds"
-      src="https://www.figma.com/api/mcp/asset/d4aade6e-f27b-4dcf-9f38-08883980019c"
+      src="https://www.figma.com/api/mcp/asset/28d13c91-efbe-455c-944a-3f160429b952"
       alt="">
 
     <nav>
       <span class="nav-link">Contact</span>
       <div class="nav-logo-wrap">
         <img class="nav-logo"
-          src="https://www.figma.com/api/mcp/asset/ccf040b1-55bb-40dd-98c6-7e243d1f75c2"
+          src="https://www.figma.com/api/mcp/asset/2514c4db-aa10-4dd4-8c4f-8ca64f842a87"
           alt="Bancroft's School">
       </div>
       <span class="nav-link">Menu</span>
@@ -471,7 +469,7 @@
 
     <!-- Map guide -->
     <img class="map-guide"
-      src="https://www.figma.com/api/mcp/asset/58c0d6a0-f5a6-47cd-a575-9877cde26f24"
+      src="https://www.figma.com/api/mcp/asset/bdb69832-0703-4410-9a03-53cd298e4bfc"
       alt="Map guide">
   </div>
 
@@ -497,7 +495,27 @@
   const visitHotspot = document.getElementById('visitHotspot');
   const visitCta     = document.getElementById('visitCta');
 
-  mapVideo.load();
+  // Track whether the sequence has been completed this session
+  const COMPLETED_KEY = 'bancrofts_demo_completed';
+
+  function showFinalState() {
+    // Seek video to last frame and show UI overlay immediately
+    mapVideo.load();
+    mapVideo.addEventListener('loadedmetadata', () => {
+      mapVideo.currentTime = mapVideo.duration;
+    }, { once: true });
+    mapVideo.classList.add('visible');
+    wrapper.classList.add('video-active');
+    intro.style.display = 'none';
+    uiOverlay.classList.add('visible');
+  }
+
+  // On page load, check if sequence was already completed
+  if (sessionStorage.getItem(COMPLETED_KEY)) {
+    showFinalState();
+  } else {
+    mapVideo.load();
+  }
 
   function startSequence() {
     enterBtn.style.pointerEvents = 'none';
@@ -515,6 +533,8 @@
 
     mapVideo.addEventListener('ended', () => {
       uiOverlay.classList.add('visible');
+      // Mark as completed so returning to the page shows the final state
+      sessionStorage.setItem(COMPLETED_KEY, '1');
     }, { once: true });
   }
 
