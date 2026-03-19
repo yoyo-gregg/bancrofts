@@ -6,10 +6,25 @@
 <title>Bancroft's School</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+<!--
+  PP Writer is a licensed typeface — load it from your own hosted copy
+  if you have the files. The @font-face block below expects pp-writer-book.woff2
+  and pp-writer-book.woff to be in the same folder as this HTML file.
+  If not present, Cormorant Garamond is used as a close fallback.
+-->
 <style>
+  @font-face {
+    font-family: 'PP Writer';
+    src: url('pp-writer-book.woff2') format('woff2'),
+         url('pp-writer-book.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  /* No scroll anywhere */
   html, body {
     width: 100%;
     height: 100%;
@@ -21,10 +36,8 @@
   }
 
   /*
-    Wrapper is locked to exactly 375px — matching the Figma artboard.
-    This ensures hotspot pixel positions always align with video content
-    regardless of the physical screen width.
-    On wider screens it centres with the background showing either side.
+    Locked to 375px — the Figma artboard width.
+    All pixel positions are relative to this container.
   */
   .phone-wrapper {
     width: 375px;
@@ -33,6 +46,10 @@
     position: relative;
     overflow: hidden;
     background: #f5f5f5;
+  }
+
+  .phone-wrapper.video-active {
+    background: #000;
   }
 
   /* ─────────────────────────────
@@ -51,7 +68,7 @@
     pointer-events: none;
   }
 
-  /* Logo — top: 50.34px, centred */
+  /* Logo — top 50px, centred */
   .intro-logo {
     position: absolute;
     width: 120px;
@@ -64,16 +81,20 @@
     animation: iLogoIn 0.9s ease 0.3s forwards;
   }
 
-  /* Statement — calc(50% - 75px) */
+  /*
+    Statement — vertically centred slightly above middle.
+    PP Writer with Cormorant Garamond fallback.
+    Size matches Figma screenshot — 32px gives the weight shown in image 1.
+  */
   .intro-statement {
     position: absolute;
     left: 50%;
     top: calc(50% - 75px);
     transform: translateX(-50%);
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'PP Writer', 'Cormorant Garamond', Georgia, serif;
     font-weight: 400;
-    font-size: 25px;
-    line-height: 1.25;
+    font-size: 32px;
+    line-height: 1.2;
     color: #2c4255;
     text-align: center;
     white-space: nowrap;
@@ -81,7 +102,7 @@
     animation: iStatIn 1s ease 0.6s forwards;
   }
 
-  /* Gold divider — calc(50% + 15px), centred */
+  /* Gold divider — calc(50% + 15px) */
   .intro-line {
     position: absolute;
     left: 50%;
@@ -101,9 +122,9 @@
     top: calc(50% + 55px);
     width: 235px;
     transform: translateX(-50%);
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 12px;
-    letter-spacing: 0.1em;
+    font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
     color: #2c4255;
     text-align: center;
     text-transform: uppercase;
@@ -111,7 +132,7 @@
     animation: iFadeIn 0.8s ease 1.4s forwards;
   }
 
-  /* CTA — bottom: 130px, centred, text centred */
+  /* CTA — bottom 130px */
   .intro-cta {
     position: absolute;
     left: 50%;
@@ -123,11 +144,11 @@
     background: #2c4255;
     border: 2px solid rgba(44,66,85,0.5);
     box-shadow: 0 0 0 3px rgba(44,66,85,0.18);
-    padding: 8px 24px 8px;
+    padding: 10px 24px;
     cursor: pointer;
     white-space: nowrap;
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 12px;
+    font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+    font-size: 11px;
     letter-spacing: 0.2em;
     color: #f5f5f5;
     text-transform: uppercase;
@@ -161,7 +182,9 @@
   }
 
   /* ─────────────────────────────
-     VIDEO — stays on last frame
+     VIDEO
+     object-position locked to top-left so the crop matches
+     the Figma artboard exactly — hotspot px coords stay accurate.
   ───────────────────────────── */
   #map-video {
     position: absolute;
@@ -169,20 +192,13 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
     z-index: 1;
     opacity: 0;
     transition: opacity 0.6s ease;
   }
 
-  #map-video.visible {
-    opacity: 1;
-  }
-
-  /* Only darken the wrapper once the video is fading in,
-     so the f5f5f5 background shows through during the crossover */
-  .phone-wrapper.video-active {
-    background: #000;
-  }
+  #map-video.visible { opacity: 1; }
 
   /* ─────────────────────────────
      UI OVERLAY
@@ -228,7 +244,7 @@
     pointer-events: none;
   }
 
-  /* Nav — top: 60px from Figma */
+  /* Nav — top 60px from Figma */
   nav {
     position: absolute;
     top: 60px;
@@ -241,7 +257,7 @@
   }
 
   .nav-link {
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
     font-size: 11px;
     letter-spacing: 0.16em;
     color: #f5f5f5;
@@ -267,10 +283,9 @@
   }
 
   /*
-    Hotspots — pixel positions from Figma 375px artboard.
-    Using absolute px values (not %) so they never drift
-    relative to the video content regardless of screen size.
-    left value is the centre point of each hotspot.
+    Hotspots — pixel positions based on Figma 375px artboard.
+    margin: -10px -10px centres each 20px dot on its coordinate.
+    Only hs-2 (Visit Us) is interactive — others are display only.
   */
   .hotspot {
     position: absolute;
@@ -279,14 +294,10 @@
     border-radius: 50%;
     background: rgba(245,245,245,0.9);
     z-index: 10;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     animation: pulse 2.5s ease-in-out infinite;
-    transition: transform 0.2s ease, background 0.2s ease;
-    -webkit-tap-highlight-color: transparent;
-    /* offset by half width so left/top is the visual centre */
     margin-left: -10px;
     margin-top: -10px;
   }
@@ -300,7 +311,15 @@
     flex-shrink: 0;
   }
 
-  .hotspot:hover, .hotspot.active {
+  /* Only Visit Us hotspot is tappable */
+  .hotspot.interactive {
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hotspot.interactive:hover,
+  .hotspot.interactive.active {
     background: #fff;
     animation: none;
     box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
@@ -313,19 +332,22 @@
   }
 
   /*
-    Figma artboard: 375px wide.
-    Hotspot centres in px:
-    hs-1: left calc(66.67% - 4px) = ~246px,  top 296px
-    hs-2: left calc(87.5% - 17px) = ~311px,  top 568px
-    hs-3: left calc(20.83% + 6px) = ~84px,   top 555px
-    hs-4: left calc(29.17% - 3px) = ~106px,  top 406px
+    Pixel positions from Figma artboard (375px wide).
+    Calculated as: left = percentage * 375 + offset
+    hs-1: calc(66.67% - 4px)  = 246px,  top 296px
+    hs-2: calc(87.5%  - 17px) = 311px,  top 568px  ← Visit Us
+    hs-3: calc(20.83% + 6px)  = 84px,   top 555px
+    hs-4: calc(29.17% - 3px)  = 106px,  top 406px
   */
   .hs-1 { left: 246px; top: 296px; }
   .hs-2 { left: 311px; top: 568px; }
   .hs-3 { left: 84px;  top: 555px; }
   .hs-4 { left: 106px; top: 406px; }
 
-  /* Visit Us CTA — left calc(70.83% - 8px) = ~258px, -translate-x-1/2, top 566px */
+  /*
+    Visit Us CTA — shown on tap of hs-2.
+    Position: left calc(70.83% - 8px) = 258px, -translateX(50%), top 566px
+  */
   .visit-cta {
     position: absolute;
     left: 258px;
@@ -341,12 +363,13 @@
     cursor: pointer;
     transition: background 0.2s ease;
     -webkit-tap-highlight-color: transparent;
+    /* Hidden until hotspot tapped — always visible per Figma */
   }
 
   .visit-cta:hover { background: #fff; }
 
   .visit-cta span {
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
     font-size: 11px;
     letter-spacing: 0.16em;
     color: #2c4255;
@@ -367,120 +390,54 @@
     z-index: 10;
     opacity: 0.85;
   }
-
-  /* Tooltips */
-  .tooltip {
-    position: absolute;
-    z-index: 20;
-    background: rgba(13,26,36,0.93);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(245,245,245,0.15);
-    padding: 14px 30px 14px 16px;
-    width: 190px;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(6px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-  }
-
-  .tooltip.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
-
-  .tooltip h4 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: #f5f5f5;
-    margin-bottom: 5px;
-  }
-
-  .tooltip p {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 12px;
-    color: rgba(245,245,245,0.65);
-    line-height: 1.5;
-  }
-
-  .tooltip-close {
-    position: absolute;
-    top: 8px; right: 10px;
-    font-size: 18px;
-    color: rgba(245,245,245,0.4);
-    cursor: pointer;
-    line-height: 1;
-  }
-
-  /* Tooltip positions — offset from hotspot centres */
-  #tip-1 { left: 56px;  top: 244px; }
-  #tip-2 { left: 112px; top: 516px; }
-  #tip-3 { left: 74px;  top: 503px; }
-  #tip-4 { left: 16px;  top: 354px; }
 </style>
 </head>
 <body>
 <div class="phone-wrapper">
 
-  <!-- VIDEO — always present, holds last frame -->
+  <!-- VIDEO — stays on last frame permanently -->
   <video id="map-video" playsinline muted preload="auto">
     <source src="Mobile-Map.mp4" type="video/mp4">
   </video>
 
-  <!-- UI OVERLAY -->
+  <!-- UI OVERLAY — fades in over frozen video -->
   <div id="ui-overlay">
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
     <img class="clouds"
-      src="https://www.figma.com/api/mcp/asset/d6f2e42c-56de-4b4c-bfa2-744f3d0db7bb"
+      src="https://www.figma.com/api/mcp/asset/e6620b7d-c03f-4282-9c01-29466aca518c"
       alt="">
 
     <nav>
       <span class="nav-link">Contact</span>
       <div class="nav-logo-wrap">
         <img class="nav-logo"
-          src="https://www.figma.com/api/mcp/asset/a6ca0e09-c6d4-4570-89f5-977168fee3af"
+          src="https://www.figma.com/api/mcp/asset/ea6a9896-5c44-4218-833f-20a934a99403"
           alt="Bancroft's School">
       </div>
       <span class="nav-link">Menu</span>
     </nav>
 
-    <div class="hotspot hs-1" data-tip="tip-1"></div>
-    <div class="hotspot hs-2" data-tip="tip-2"></div>
-    <div class="hotspot hs-3" data-tip="tip-3"></div>
-    <div class="hotspot hs-4" data-tip="tip-4"></div>
+    <!-- hs-1, hs-3, hs-4 — display only, no interaction -->
+    <div class="hotspot hs-1"></div>
+    <div class="hotspot hs-3"></div>
+    <div class="hotspot hs-4"></div>
 
-    <div class="visit-cta"><span>Visit us</span></div>
+    <!-- hs-2 — Visit Us, interactive only -->
+    <div class="hotspot hs-2 interactive" id="visitHotspot"></div>
 
+    <!-- Visit Us CTA — always visible per Figma design -->
+    <div class="visit-cta" id="visitCta">
+      <span>Visit us</span>
+    </div>
+
+    <!-- Map guide -->
     <img class="map-guide"
-      src="https://www.figma.com/api/mcp/asset/1eedebc0-ff85-4558-bf58-87aa967d6558"
+      src="https://www.figma.com/api/mcp/asset/1e85b987-678c-40af-9d4b-2b52b4c2b114"
       alt="Map guide">
-
-    <div class="tooltip" id="tip-1">
-      <span class="tooltip-close" data-close="tip-1">×</span>
-      <h4>The Quad</h4>
-      <p>The heart of school life, open space at the centre of the Bancroft's community.</p>
-    </div>
-    <div class="tooltip" id="tip-2">
-      <span class="tooltip-close" data-close="tip-2">×</span>
-      <h4>The Archway</h4>
-      <p>Our iconic entrance. The walkway through the tower marks the beginning of something exceptional.</p>
-    </div>
-    <div class="tooltip" id="tip-3">
-      <span class="tooltip-close" data-close="tip-3">×</span>
-      <h4>Epping Forest</h4>
-      <p>Direct access from school grounds. Urban families, with room to breathe.</p>
-    </div>
-    <div class="tooltip" id="tip-4">
-      <span class="tooltip-close" data-close="tip-4">×</span>
-      <h4>Prep School</h4>
-      <p>66 pupils per year group. Small enough to know every child. Big enough to inspire them.</p>
-    </div>
   </div>
 
-  <!-- INTRO SCREEN -->
+  <!-- INTRO SCREEN — on top of everything -->
   <div id="intro">
     <img class="intro-logo"
       src="https://www.figma.com/api/mcp/asset/9e2f44a7-7853-492a-8729-1ac7ab8b0aef"
@@ -494,35 +451,30 @@
 </div>
 
 <script>
-  const intro     = document.getElementById('intro');
-  const mapVideo  = document.getElementById('map-video');
-  const uiOverlay = document.getElementById('ui-overlay');
-  const enterBtn  = document.getElementById('enterBtn');
-  const wrapper   = document.querySelector('.phone-wrapper');
+  const intro        = document.getElementById('intro');
+  const mapVideo     = document.getElementById('map-video');
+  const uiOverlay    = document.getElementById('ui-overlay');
+  const enterBtn     = document.getElementById('enterBtn');
+  const wrapper      = document.querySelector('.phone-wrapper');
+  const visitHotspot = document.getElementById('visitHotspot');
+  const visitCta     = document.getElementById('visitCta');
 
   mapVideo.load();
 
   function startSequence() {
     enterBtn.style.pointerEvents = 'none';
-
-    // Fade intro out — f5f5f5 wrapper shows through underneath
     intro.classList.add('fade-out');
 
-    // Start video playing behind the fading intro
     setTimeout(() => {
       mapVideo.play().catch(() => {});
-
-      // Fade video in over the f5f5f5 background (no black visible)
       mapVideo.classList.add('visible');
 
-      // Only switch wrapper to black once video is fully opaque
       setTimeout(() => {
         wrapper.classList.add('video-active');
         intro.style.display = 'none';
       }, 650);
     }, 400);
 
-    // When video ends, freeze on last frame and fade UI in
     mapVideo.addEventListener('ended', () => {
       uiOverlay.classList.add('visible');
     }, { once: true });
@@ -531,36 +483,15 @@
   enterBtn.addEventListener('click', startSequence);
   enterBtn.addEventListener('touchend', (e) => { e.preventDefault(); startSequence(); });
 
-  document.querySelectorAll('.hotspot').forEach(hs => {
-    hs.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const tipId = hs.dataset.tip;
-      document.querySelectorAll('.tooltip.show').forEach(t => {
-        t.classList.remove('show');
-        document.querySelector(`.hotspot[data-tip="${t.id}"]`)?.classList.remove('active');
-      });
-      const tip = document.getElementById(tipId);
-      if (tip) {
-        tip.classList.add('show');
-        hs.classList.add('active');
-      }
-    });
+  // Visit Us hotspot — toggles active state on the hotspot only
+  visitHotspot.addEventListener('click', (e) => {
+    e.stopPropagation();
+    visitHotspot.classList.toggle('active');
   });
 
-  document.querySelectorAll('.tooltip-close').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const tipId = btn.dataset.close;
-      document.getElementById(tipId)?.classList.remove('show');
-      document.querySelector(`.hotspot[data-tip="${tipId}"]`)?.classList.remove('active');
-    });
-  });
-
-  document.getElementById('ui-overlay').addEventListener('click', () => {
-    document.querySelectorAll('.tooltip.show').forEach(t => {
-      t.classList.remove('show');
-      document.querySelector(`.hotspot[data-tip="${t.id}"]`)?.classList.remove('active');
-    });
+  // Tap background to deactivate
+  uiOverlay.addEventListener('click', () => {
+    visitHotspot.classList.remove('active');
   });
 </script>
 </body>
