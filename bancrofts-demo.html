@@ -495,27 +495,8 @@
   const visitHotspot = document.getElementById('visitHotspot');
   const visitCta     = document.getElementById('visitCta');
 
-  // Track whether the sequence has been completed this session
-  const COMPLETED_KEY = 'bancrofts_demo_completed';
-
-  function showFinalState() {
-    // Seek video to last frame and show UI overlay immediately
-    mapVideo.load();
-    mapVideo.addEventListener('loadedmetadata', () => {
-      mapVideo.currentTime = mapVideo.duration;
-    }, { once: true });
-    mapVideo.classList.add('visible');
-    wrapper.classList.add('video-active');
-    intro.style.display = 'none';
-    uiOverlay.classList.add('visible');
-  }
-
-  // On page load, check if sequence was already completed
-  if (sessionStorage.getItem(COMPLETED_KEY)) {
-    showFinalState();
-  } else {
-    mapVideo.load();
-  }
+  // Always start fresh on load — intro is the default state
+  mapVideo.load();
 
   function startSequence() {
     enterBtn.style.pointerEvents = 'none';
@@ -531,10 +512,11 @@
       }, 650);
     }, 400);
 
+    // When video ends, seek to last frame and show UI
     mapVideo.addEventListener('ended', () => {
+      // Seek to end ensures last frame is visible if browser resets position
+      mapVideo.currentTime = mapVideo.duration;
       uiOverlay.classList.add('visible');
-      // Mark as completed so returning to the page shows the final state
-      sessionStorage.setItem(COMPLETED_KEY, '1');
     }, { once: true });
   }
 
