@@ -9,21 +9,27 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  /* No scroll anywhere */
   html, body {
     width: 100%;
     height: 100%;
-    background: #1a1a1a;
+    overflow: hidden;
+    background: #f5f5f5;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
-    overflow-x: hidden;
   }
 
+  /*
+    Wrapper is locked to exactly 375px — matching the Figma artboard.
+    This ensures hotspot pixel positions always align with video content
+    regardless of the physical screen width.
+    On wider screens it centres with the background showing either side.
+  */
   .phone-wrapper {
-    width: 100%;
-    max-width: 430px;
-    min-height: 100vh;
+    width: 375px;
+    flex-shrink: 0;
+    height: 100vh;
     position: relative;
     overflow: hidden;
     background: #000;
@@ -37,7 +43,6 @@
     inset: 0;
     z-index: 100;
     background: #f5f5f5;
-    min-height: 100vh;
     transition: opacity 0.6s ease;
   }
 
@@ -46,22 +51,24 @@
     pointer-events: none;
   }
 
+  /* Logo — top: 50.34px, centred */
   .intro-logo {
     position: absolute;
     width: 120px;
     height: 32px;
     left: 50%;
-    top: 80px;
+    top: 50px;
     transform: translateX(-50%);
     object-fit: contain;
     opacity: 0;
     animation: iLogoIn 0.9s ease 0.3s forwards;
   }
 
+  /* Statement — calc(50% - 75px) */
   .intro-statement {
     position: absolute;
     left: 50%;
-    top: 331px;
+    top: calc(50% - 75px);
     transform: translateX(-50%);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 400;
@@ -74,22 +81,24 @@
     animation: iStatIn 1s ease 0.6s forwards;
   }
 
+  /* Gold divider — calc(50% + 15px), centred */
   .intro-line {
     position: absolute;
     left: 50%;
-    top: 421px;
+    top: calc(50% + 15px);
     width: 180px;
     height: 1px;
-    transform: translateX(-50%) scaleX(0);
+    transform: translateX(-50%) translateY(-50%) scaleX(0);
     background: #c8a96e;
     transform-origin: center;
     animation: iLineIn 0.8s ease 1.2s forwards;
   }
 
+  /* Subtitle — calc(50% + 55px) */
   .intro-sub {
     position: absolute;
     left: 50%;
-    top: 461px;
+    top: calc(50% + 55px);
     width: 235px;
     transform: translateX(-50%);
     font-family: 'EB Garamond', Georgia, serif;
@@ -102,18 +111,19 @@
     animation: iFadeIn 0.8s ease 1.4s forwards;
   }
 
+  /* CTA — bottom: 130px, centred, text centred */
   .intro-cta {
     position: absolute;
     left: 50%;
-    top: 623px;
+    bottom: 130px;
     transform: translateX(-50%);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     background: #2c4255;
     border: 2px solid rgba(44,66,85,0.5);
     box-shadow: 0 0 0 3px rgba(44,66,85,0.18);
-    padding: 8px 20px 6px;
+    padding: 8px 24px 8px;
     cursor: pointer;
     white-space: nowrap;
     font-family: 'EB Garamond', Georgia, serif;
@@ -121,9 +131,9 @@
     letter-spacing: 0.2em;
     color: #f5f5f5;
     text-transform: uppercase;
-    text-align: center;
     line-height: 1;
-    min-width: 200px;
+    min-width: 220px;
+    text-align: center;
     opacity: 0;
     animation: iFadeIn 0.8s ease 1.8s forwards;
     transition: background 0.2s ease;
@@ -143,16 +153,15 @@
     to   { opacity: 1; transform: translateX(-50%) translateY(0); }
   }
   @keyframes iLineIn {
-    from { transform: translateX(-50%) scaleX(0); opacity: 0; }
-    to   { transform: translateX(-50%) scaleX(1); opacity: 1; }
+    from { transform: translateX(-50%) translateY(-50%) scaleX(0); opacity: 0; }
+    to   { transform: translateX(-50%) translateY(-50%) scaleX(1); opacity: 1; }
   }
   @keyframes iFadeIn {
     to { opacity: 1; }
   }
 
   /* ─────────────────────────────
-     VIDEO — sits behind everything,
-     stays on last frame permanently
+     VIDEO — stays on last frame
   ───────────────────────────── */
   #map-video {
     position: absolute;
@@ -170,14 +179,12 @@
   }
 
   /* ─────────────────────────────
-     UI OVERLAY — fades in over
-     the frozen video last frame
+     UI OVERLAY
   ───────────────────────────── */
   #ui-overlay {
     position: absolute;
     inset: 0;
     z-index: 10;
-    min-height: 100vh;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
@@ -188,7 +195,6 @@
     pointer-events: auto;
   }
 
-  /* Gradients over video */
   .grad-top {
     position: absolute;
     top: 0; left: 0; right: 0;
@@ -205,7 +211,6 @@
     pointer-events: none;
   }
 
-  /* Clouds */
   .clouds {
     position: absolute;
     width: 836px;
@@ -217,10 +222,10 @@
     pointer-events: none;
   }
 
-  /* Nav */
+  /* Nav — top: 60px from Figma */
   nav {
     position: absolute;
-    top: 90px;
+    top: 60px;
     left: 0; right: 0;
     z-index: 10;
     display: flex;
@@ -255,7 +260,12 @@
     display: block;
   }
 
-  /* Hotspots */
+  /*
+    Hotspots — pixel positions from Figma 375px artboard.
+    Using absolute px values (not %) so they never drift
+    relative to the video content regardless of screen size.
+    left value is the centre point of each hotspot.
+  */
   .hotspot {
     position: absolute;
     width: 20px;
@@ -270,7 +280,9 @@
     animation: pulse 2.5s ease-in-out infinite;
     transition: transform 0.2s ease, background 0.2s ease;
     -webkit-tap-highlight-color: transparent;
-    transform: translate(-50%, 0);
+    /* offset by half width so left/top is the visual centre */
+    margin-left: -10px;
+    margin-top: -10px;
   }
 
   .hotspot::before {
@@ -278,15 +290,15 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #2c4255;
+    background: #c8a96e;
     flex-shrink: 0;
   }
 
   .hotspot:hover, .hotspot.active {
-    transform: translate(-50%, 0) scale(1.3);
     background: #fff;
     animation: none;
     box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
+    transform: scale(1.3);
   }
 
   @keyframes pulse {
@@ -294,25 +306,32 @@
     50%       { box-shadow: 0 0 0 6px rgba(245,245,245,0); }
   }
 
-  /* Figma positions */
-  .hs-1 { left: calc(66.67% - 4px);  top: 296px; }
-  .hs-2 { left: calc(87.5% - 17px);  top: 568px; }
-  .hs-3 { left: calc(20.83% + 6px);  top: 555px; }
-  .hs-4 { left: calc(29.17% - 3px);  top: 406px; }
+  /*
+    Figma artboard: 375px wide.
+    Hotspot centres in px:
+    hs-1: left calc(66.67% - 4px) = ~246px,  top 296px
+    hs-2: left calc(87.5% - 17px) = ~311px,  top 568px
+    hs-3: left calc(20.83% + 6px) = ~84px,   top 555px
+    hs-4: left calc(29.17% - 3px) = ~106px,  top 406px
+  */
+  .hs-1 { left: 246px; top: 296px; }
+  .hs-2 { left: 311px; top: 568px; }
+  .hs-3 { left: 84px;  top: 555px; }
+  .hs-4 { left: 106px; top: 406px; }
 
-  /* Visit Us CTA */
+  /* Visit Us CTA — left calc(70.83% - 8px) = ~258px, -translate-x-1/2, top 566px */
   .visit-cta {
     position: absolute;
-    left: calc(70.83% - 8px);
+    left: 258px;
     top: 566px;
     transform: translateX(-50%);
     z-index: 10;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     background: #f5f5f5;
     border: 2px solid rgba(245,245,245,0.5);
-    padding: 6px 12px 4px;
+    padding: 6px 12px;
     cursor: pointer;
     transition: background 0.2s ease;
     -webkit-tap-highlight-color: transparent;
@@ -330,7 +349,7 @@
     line-height: 1;
   }
 
-  /* Map guide — Figma: bottom 73px, centred */
+  /* Map guide — centred, bottom 73px */
   .map-guide {
     position: absolute;
     left: 50%;
@@ -352,7 +371,7 @@
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(245,245,245,0.15);
     padding: 14px 30px 14px 16px;
-    width: 200px;
+    width: 190px;
     opacity: 0;
     pointer-events: none;
     transform: translateY(6px);
@@ -389,33 +408,34 @@
     line-height: 1;
   }
 
-  #tip-1 { left: calc(66.67% - 170px); top: 244px; }
-  #tip-2 { left: calc(87.5% - 220px);  top: 516px; }
-  #tip-3 { left: calc(20.83% - 10px);  top: 503px; }
-  #tip-4 { left: calc(29.17% - 80px);  top: 354px; }
+  /* Tooltip positions — offset from hotspot centres */
+  #tip-1 { left: 56px;  top: 244px; }
+  #tip-2 { left: 112px; top: 516px; }
+  #tip-3 { left: 74px;  top: 503px; }
+  #tip-4 { left: 16px;  top: 354px; }
 </style>
 </head>
 <body>
 <div class="phone-wrapper">
 
-  <!-- VIDEO — always present, stays on last frame -->
+  <!-- VIDEO — always present, holds last frame -->
   <video id="map-video" playsinline muted preload="auto">
     <source src="Mobile-Map.mp4" type="video/mp4">
   </video>
 
-  <!-- UI OVERLAY — fades in over frozen video -->
+  <!-- UI OVERLAY -->
   <div id="ui-overlay">
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
     <img class="clouds"
-      src="https://www.figma.com/api/mcp/asset/157987f8-9ae5-4e27-a30b-1249eb65f856"
+      src="https://www.figma.com/api/mcp/asset/d6f2e42c-56de-4b4c-bfa2-744f3d0db7bb"
       alt="">
 
     <nav>
       <span class="nav-link">Contact</span>
       <div class="nav-logo-wrap">
         <img class="nav-logo"
-          src="https://www.figma.com/api/mcp/asset/83cb386f-de7d-4092-9b87-d4c0b44eb453"
+          src="https://www.figma.com/api/mcp/asset/a6ca0e09-c6d4-4570-89f5-977168fee3af"
           alt="Bancroft's School">
       </div>
       <span class="nav-link">Menu</span>
@@ -429,7 +449,7 @@
     <div class="visit-cta"><span>Visit us</span></div>
 
     <img class="map-guide"
-      src="https://www.figma.com/api/mcp/asset/c3f6dc36-8ee9-46ca-9cb0-3ebbc4787c56"
+      src="https://www.figma.com/api/mcp/asset/1eedebc0-ff85-4558-bf58-87aa967d6558"
       alt="Map guide">
 
     <div class="tooltip" id="tip-1">
@@ -454,10 +474,10 @@
     </div>
   </div>
 
-  <!-- INTRO SCREEN — sits on top of everything -->
+  <!-- INTRO SCREEN -->
   <div id="intro">
     <img class="intro-logo"
-      src="https://www.figma.com/api/mcp/asset/269fdf72-59a2-4922-9517-9ee1fe9cbcb5"
+      src="https://www.figma.com/api/mcp/asset/9e2f44a7-7853-492a-8729-1ac7ab8b0aef"
       alt="Bancroft's School">
     <p class="intro-statement">Where London ends,<br>something greater begins.</p>
     <div class="intro-line"></div>
@@ -473,26 +493,19 @@
   const uiOverlay = document.getElementById('ui-overlay');
   const enterBtn  = document.getElementById('enterBtn');
 
-  // Preload video immediately
   mapVideo.load();
 
   function startSequence() {
     enterBtn.style.pointerEvents = 'none';
-
-    // Fade intro out
     intro.classList.add('fade-out');
 
-    // Fade video in and play
     setTimeout(() => {
       mapVideo.classList.add('visible');
       mapVideo.play().catch(() => {});
     }, 400);
 
-    // When video ends, freeze on last frame and fade UI in over the top
     mapVideo.addEventListener('ended', () => {
-      // Video naturally stays on last frame — just fade the UI overlay in
       uiOverlay.classList.add('visible');
-      // Clean up intro from DOM after it's gone
       setTimeout(() => { intro.style.display = 'none'; }, 200);
     }, { once: true });
   }
@@ -500,7 +513,6 @@
   enterBtn.addEventListener('click', startSequence);
   enterBtn.addEventListener('touchend', (e) => { e.preventDefault(); startSequence(); });
 
-  // Hotspot interactions
   document.querySelectorAll('.hotspot').forEach(hs => {
     hs.addEventListener('click', (e) => {
       e.stopPropagation();
