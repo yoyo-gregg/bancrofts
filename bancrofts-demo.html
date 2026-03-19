@@ -264,12 +264,15 @@
     100% { left: -900px; top: 600px;  opacity: 0;    }
   }
 
-  /* Nav — logo top 50px, h 32px. Links centred on same axis. */
+  /*
+    Nav — logo is 120px wide. The asset includes "Bancroft's" + subtitle line.
+    Constrain to max 42px tall so it doesn't blow up, nav height matches.
+  */
   nav {
     position: absolute;
     top: 50px;
     left: 0; right: 0;
-    height: 32px;
+    height: 42px;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -289,18 +292,21 @@
 
   .nav-link:last-child { text-align: right; }
 
-  .nav-logo-wrap {
-    position: absolute;
-    left: 50%;
-    top: -16px;
-    transform: translateX(-50%);
-  }
-
   .nav-logo {
     width: 120px;
     height: 32px;
     object-fit: contain;
     display: block;
+  }
+
+  .nav-logo-wrap {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 100%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
   }
 
   /*
@@ -444,7 +450,7 @@
       <span class="nav-link">Contact</span>
       <div class="nav-logo-wrap">
         <img class="nav-logo"
-          src="https://www.figma.com/api/mcp/asset/254bab3c-b58d-4269-aa27-6bf564e0e924"
+          src="https://www.figma.com/api/mcp/asset/ccf040b1-55bb-40dd-98c6-7e243d1f75c2"
           alt="Bancroft's School">
       </div>
       <span class="nav-link">Menu</span>
