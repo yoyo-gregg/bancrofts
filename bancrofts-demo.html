@@ -82,9 +82,11 @@
   }
 
   /*
-    Statement — vertically centred slightly above middle.
-    PP Writer with Cormorant Garamond fallback.
-    Size matches Figma screenshot — 32px gives the weight shown in image 1.
+    Statement — top calc(50% - 75px).
+    Two lines at ~32px each + 1.2 line-height = ~77px total height.
+    Bottom of text lands at approx calc(50% - 75px + 77px) = calc(50% + 2px).
+    Line is at calc(50% + 42px) — giving ~40px gap below text, matching
+    the 40px gap between line and subtitle (calc(50%+55px) - calc(50%+15px)).
   */
   .intro-statement {
     position: absolute;
@@ -102,24 +104,24 @@
     animation: iStatIn 1s ease 0.6s forwards;
   }
 
-  /* Gold divider — calc(50% + 15px) */
+  /* Gold divider — moved down to create equal gap above and below */
   .intro-line {
     position: absolute;
     left: 50%;
-    top: calc(50% + 15px);
+    top: calc(50% + 42px);
     width: 180px;
     height: 1px;
-    transform: translateX(-50%) translateY(-50%) scaleX(0);
+    transform: translateX(-50%) scaleX(0);
     background: #c8a96e;
     transform-origin: center;
     animation: iLineIn 0.8s ease 1.2s forwards;
   }
 
-  /* Subtitle — calc(50% + 55px) */
+  /* Subtitle — 40px below the line: calc(50% + 42px + 40px) = calc(50% + 82px) */
   .intro-sub {
     position: absolute;
     left: 50%;
-    top: calc(50% + 55px);
+    top: calc(50% + 82px);
     width: 235px;
     transform: translateX(-50%);
     font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
@@ -174,8 +176,8 @@
     to   { opacity: 1; transform: translateX(-50%) translateY(0); }
   }
   @keyframes iLineIn {
-    from { transform: translateX(-50%) translateY(-50%) scaleX(0); opacity: 0; }
-    to   { transform: translateX(-50%) translateY(-50%) scaleX(1); opacity: 1; }
+    from { transform: translateX(-50%) scaleX(0); opacity: 0; }
+    to   { transform: translateX(-50%) scaleX(1); opacity: 1; }
   }
   @keyframes iFadeIn {
     to { opacity: 1; }
@@ -233,22 +235,41 @@
     pointer-events: none;
   }
 
+  /*
+    Cloud animation — starts off-screen top-right, drifts diagonally
+    to bottom-left. Duration: 45s (was 28s — let me know if faster/slower needed).
+    Drop shadow from Figma: 0px 180px 30px rgba(0,0,0,0.5).
+  */
   .clouds {
     position: absolute;
-    width: 836px;
-    height: 492px;
-    left: -22px;
-    top: -8px;
+    width: 791px;
+    height: 274px;
+    left: 400px;
+    top: -300px;
     transform: rotate(-16.94deg);
-    opacity: 0.35;
+    opacity: 0;
     pointer-events: none;
+    filter: drop-shadow(0px 180px 30px rgba(0,0,0,0.5));
   }
 
-  /* Nav — top 60px from Figma */
+  #ui-overlay.visible .clouds {
+    animation: cloudDrift 45s linear 0.5s infinite;
+  }
+
+  @keyframes cloudDrift {
+    0%   { left: 400px;  top: -300px; opacity: 0;    }
+    5%   { opacity: 0.4; }
+    80%  { opacity: 0.4; }
+    95%  { opacity: 0;   }
+    100% { left: -900px; top: 600px;  opacity: 0;    }
+  }
+
+  /* Nav — logo top 50px, h 32px. Links centred on same axis. */
   nav {
     position: absolute;
-    top: 60px;
+    top: 50px;
     left: 0; right: 0;
+    height: 32px;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -345,25 +366,36 @@
   .hs-4 { left: 106px; top: 406px; }
 
   /*
-    Visit Us CTA — shown on tap of hs-2.
-    Position: left calc(70.83% - 8px) = 258px, -translateX(50%), top 566px
+    Visit Us CTA — hidden by default, fades in when hotspot is tapped.
+    Vertically centred on the hotspot (hs-2 top: 568px, height ~30px → centre 568px).
+    Positioned to the left of the hotspot so they sit together.
+    Border matches image 1 reference: #f5f5f5 bg, 2px solid rgba(245,245,245,0.5) border.
   */
   .visit-cta {
     position: absolute;
+    /* Align vertical centre with hs-2 centre (568px) */
+    top: 568px;
+    /* Place to the left of hs-2 (311px), with a small gap */
     left: 258px;
-    top: 566px;
-    transform: translateX(-50%);
+    transform: translate(-100%, -50%);
     z-index: 10;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background: #f5f5f5;
     border: 2px solid rgba(245,245,245,0.5);
-    padding: 6px 12px;
+    padding: 7px 14px;
     cursor: pointer;
-    transition: background 0.2s ease;
     -webkit-tap-highlight-color: transparent;
-    /* Hidden until hotspot tapped — always visible per Figma */
+    /* Hidden until tapped */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .visit-cta.visible {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .visit-cta:hover { background: #fff; }
@@ -405,14 +437,14 @@
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
     <img class="clouds"
-      src="https://www.figma.com/api/mcp/asset/e6620b7d-c03f-4282-9c01-29466aca518c"
+      src="https://www.figma.com/api/mcp/asset/d4aade6e-f27b-4dcf-9f38-08883980019c"
       alt="">
 
     <nav>
       <span class="nav-link">Contact</span>
       <div class="nav-logo-wrap">
         <img class="nav-logo"
-          src="https://www.figma.com/api/mcp/asset/ea6a9896-5c44-4218-833f-20a934a99403"
+          src="https://www.figma.com/api/mcp/asset/254bab3c-b58d-4269-aa27-6bf564e0e924"
           alt="Bancroft's School">
       </div>
       <span class="nav-link">Menu</span>
@@ -426,21 +458,21 @@
     <!-- hs-2 — Visit Us, interactive only -->
     <div class="hotspot hs-2 interactive" id="visitHotspot"></div>
 
-    <!-- Visit Us CTA — always visible per Figma design -->
+    <!-- Visit Us CTA — hidden, fades in on hotspot tap -->
     <div class="visit-cta" id="visitCta">
       <span>Visit us</span>
     </div>
 
     <!-- Map guide -->
     <img class="map-guide"
-      src="https://www.figma.com/api/mcp/asset/1e85b987-678c-40af-9d4b-2b52b4c2b114"
+      src="https://www.figma.com/api/mcp/asset/58c0d6a0-f5a6-47cd-a575-9877cde26f24"
       alt="Map guide">
   </div>
 
   <!-- INTRO SCREEN — on top of everything -->
   <div id="intro">
     <img class="intro-logo"
-      src="https://www.figma.com/api/mcp/asset/9e2f44a7-7853-492a-8729-1ac7ab8b0aef"
+      src="https://www.figma.com/api/mcp/asset/5518b3ed-23eb-4d6d-8a49-6049354e07be"
       alt="Bancroft's School">
     <p class="intro-statement">Where London ends,<br>something greater begins.</p>
     <div class="intro-line"></div>
@@ -483,15 +515,17 @@
   enterBtn.addEventListener('click', startSequence);
   enterBtn.addEventListener('touchend', (e) => { e.preventDefault(); startSequence(); });
 
-  // Visit Us hotspot — toggles active state on the hotspot only
+  // Visit Us hotspot — fades CTA in/out on tap, no movement
   visitHotspot.addEventListener('click', (e) => {
     e.stopPropagation();
-    visitHotspot.classList.toggle('active');
+    const isActive = visitHotspot.classList.toggle('active');
+    visitCta.classList.toggle('visible', isActive);
   });
 
-  // Tap background to deactivate
+  // Tap background to dismiss
   uiOverlay.addEventListener('click', () => {
     visitHotspot.classList.remove('active');
+    visitCta.classList.remove('visible');
   });
 </script>
 </body>
