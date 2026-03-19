@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Bancroft's School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .phone-wrapper {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+
+  /* ─────────────────────────────
+     INTRO SCREEN
+  ───────────────────────────── */
+  #intro {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    background: #f5f5f5;
+    min-height: 100vh;
+    transition: opacity 0.6s ease;
+  }
+
+  #intro.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Logo — top 80.34px, w 120px, h 32px, centred */
+  .intro-logo {
+    position: absolute;
+    width: 120px;
+    height: 32px;
+    left: 50%;
+    top: 80px;
+    transform: translateX(-50%);
+    object-fit: contain;
+    opacity: 0;
+    animation: iLogoIn 0.9s ease 0.3s forwards;
+  }
+
+  /* Statement — top 331px, font-size 25px, whitespace nowrap */
+  .intro-statement {
+    position: absolute;
+    left: 50%;
+    top: 331px;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 1.25;
+    color: #2c4255;
+    text-align: center;
+    white-space: nowrap;
+    opacity: 0;
+    animation: iStatIn 1s ease 0.6s forwards;
+  }
+
+  /* Gold divider — top 421px, w 180px */
+  .intro-line {
+    position: absolute;
+    left: 50%;
+    top: 421px;
+    width: 180px;
+    height: 1px;
+    transform: translateX(-50%) scaleX(0);
+    background: #c8a96e;
+    transform-origin: center;
+    animation: iLineIn 0.8s ease 1.2s forwards;
+  }
+
+  /* Subtitle — top 461px */
+  .intro-sub {
+    position: absolute;
+    left: 50%;
+    top: 461px;
+    width: 235px;
+    transform: translateX(-50%);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: #2c4255;
+    text-align: center;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: iFadeIn 0.8s ease 1.4s forwards;
+  }
+
+  /* CTA button — top 623px, matching Figma exactly
+     bg #2c4255, border 2px rgba(44,66,85,0.5)
+     The outer border effect from the screenshot is a
+     box-shadow inset to mimic the 50% opacity outer ring */
+  .intro-cta {
+    position: absolute;
+    left: 50%;
+    top: 623px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2c4255;
+    border: 2px solid rgba(44, 66, 85, 0.5);
+    box-shadow: 0 0 0 3px rgba(44, 66, 85, 0.18);
+    padding: 8px 20px 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: #f5f5f5;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+    opacity: 0;
+    animation: iFadeIn 0.8s ease 1.8s forwards;
+    transition: background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    min-width: 200px;
+  }
+
+  .intro-cta:hover  { background: #1e2f3d; }
+  .intro-cta:active { background: #161f28; }
+
+  @keyframes iLogoIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+  @keyframes iStatIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+  @keyframes iLineIn {
+    from { transform: translateX(-50%) scaleX(0); opacity: 0; }
+    to   { transform: translateX(-50%) scaleX(1); opacity: 1; }
+  }
+  @keyframes iFadeIn {
+    to { opacity: 1; }
+  }
+
+  /* ─────────────────────────────
+     VIDEO SCREEN
+  ───────────────────────────── */
+  #video-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    background: #000;
+    min-height: 100vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  #video-screen.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #map-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ─────────────────────────────
+     MAP / FINAL SCREEN
+  ───────────────────────────── */
+  #main {
+    position: absolute;
+    inset: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: #0d1a24;
+    /* no transition — we switch it on at the right moment */
+  }
+
+  #main.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.5s ease;
+  }
+
+  /* IOS-View 1 */
+  .aerial-bg {
+    position: absolute;
+    width: 2258px;
+    height: 1270px;
+    left: -819px;
+    top: -238px;
+    object-fit: cover;
+    pointer-events: none;
+    animation: kenBurns 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes kenBurns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.05) translate(10px, -6px); }
+  }
+
+  .grad-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 459px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .grad-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 190px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .clouds {
+    position: absolute;
+    width: 836px;
+    height: 492px;
+    left: -22px;
+    top: -8px;
+    transform: rotate(-16.94deg);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* Nav — logo centred, contact left, menu right at top 90px */
+  nav {
+    position: absolute;
+    top: 90px;
+    left: 0; right: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+
+  .nav-link {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: #f5f5f5;
+    text-transform: uppercase;
+    cursor: pointer;
+    min-width: 48px;
+  }
+
+  .nav-link:last-child { text-align: right; }
+
+  .nav-logo-wrap {
+    position: absolute;
+    left: 50%;
+    top: -16px;
+    transform: translateX(-50%);
+  }
+
+  .nav-logo {
+    width: 120px;
+    height: 32px;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* Hotspots — centred on coordinate with translate(-50%, 0) */
+  .hotspot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(245,245,245,0.9);
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2.5s ease-in-out infinite;
+    transition: transform 0.2s ease, background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    transform: translate(-50%, 0);
+  }
+
+  .hotspot::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2c4255;
+    flex-shrink: 0;
+  }
+
+  .hotspot:hover, .hotspot.active {
+    transform: translate(-50%, 0) scale(1.3);
+    background: #fff;
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245,245,245,0.4); }
+    50%       { box-shadow: 0 0 0 6px rgba(245,245,245,0); }
+  }
+
+  /* Figma positions: left is the centre coordinate */
+  .hs-1 { left: calc(66.67% - 4px);  top: 296px; }
+  .hs-2 { left: calc(87.5% - 17px);  top: 568px; }
+  .hs-3 { left: calc(20.83% + 6px);  top: 555px; }
+  .hs-4 { left: calc(29.17% - 3px);  top: 406px; }
+
+  /* Visit Us CTA — left calc(70.83% - 8px), -translate-x-1/2, top 566px */
+  .visit-cta {
+    position: absolute;
+    left: calc(70.83% - 8px);
+    top: 566px;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    border: 2px solid rgba(245,245,245,0.5);
+    padding: 6px 12px 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .visit-cta:hover { background: #fff; }
+
+  .visit-cta span {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: #2c4255;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  /* Map guide — centred, top 689px */
+  .map-guide {
+    position: absolute;
+    left: 50%;
+    top: 689px;
+    transform: translateX(-50%);
+    width: 281px;
+    height: 50px;
+    object-fit: contain;
+    z-index: 10;
+    opacity: 0.85;
+  }
+
+  /* Tooltips */
+  .tooltip {
+    position: absolute;
+    z-index: 20;
+    background: rgba(13,26,36,0.93);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(245,245,245,0.15);
+    padding: 14px 30px 14px 16px;
+    width: 200px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .tooltip.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .tooltip h4 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f5f5f5;
+    margin-bottom: 5px;
+  }
+
+  .tooltip p {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 12px;
+    color: rgba(245,245,245,0.65);
+    line-height: 1.5;
+  }
+
+  .tooltip-close {
+    position: absolute;
+    top: 8px; right: 10px;
+    font-size: 18px;
+    color: rgba(245,245,245,0.4);
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  #tip-1 { left: calc(66.67% - 170px); top: 244px; }
+  #tip-2 { left: calc(87.5% - 220px);  top: 516px; }
+  #tip-3 { left: calc(20.83% - 10px);  top: 503px; }
+  #tip-4 { left: calc(29.17% - 80px);  top: 354px; }
+</style>
+</head>
+<body>
+<div class="phone-wrapper">
+
+  <!-- 1. INTRO SCREEN -->
+  <div id="intro">
+    <img class="intro-logo"
+      src="https://www.figma.com/api/mcp/asset/269fdf72-59a2-4922-9517-9ee1fe9cbcb5"
+      alt="Bancroft's School">
+    <p class="intro-statement">Where London ends,<br>something greater begins.</p>
+    <div class="intro-line"></div>
+    <p class="intro-sub">Woodford Green Est &bull; 1737</p>
+    <div class="intro-cta" id="enterBtn">Explore the school</div>
+  </div>
+
+  <!-- 2. VIDEO SCREEN -->
+  <div id="video-screen">
+    <video id="map-video" playsinline muted preload="auto">
+      <source src="Mobile-Map.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 3. MAP / FINAL SCREEN -->
+  <div id="main">
+    <img class="aerial-bg"
+      src="https://www.figma.com/api/mcp/asset/4b89c4f9-5b09-40f8-95ce-acfdfbb63dcb"
+      alt="">
+    <div class="grad-top"></div>
+    <div class="grad-bottom"></div>
+    <img class="clouds"
+      src="https://www.figma.com/api/mcp/asset/0fd9446f-c542-47f3-8803-4e721f684ffa"
+      alt="">
+
+    <nav>
+      <span class="nav-link">Contact</span>
+      <div class="nav-logo-wrap">
+        <img class="nav-logo"
+          src="https://www.figma.com/api/mcp/asset/602bd957-9e3e-4623-b238-89ec2e21ccb5"
+          alt="Bancroft's School">
+      </div>
+      <span class="nav-link">Menu</span>
+    </nav>
+
+    <div class="hotspot hs-1" data-tip="tip-1"></div>
+    <div class="hotspot hs-2" data-tip="tip-2"></div>
+    <div class="hotspot hs-3" data-tip="tip-3"></div>
+    <div class="hotspot hs-4" data-tip="tip-4"></div>
+
+    <div class="visit-cta"><span>Visit us</span></div>
+
+    <img class="map-guide"
+      src="https://www.figma.com/api/mcp/asset/84e0a629-1526-4f25-bd86-dda5cd929249"
+      alt="Map guide">
+
+    <div class="tooltip" id="tip-1">
+      <span class="tooltip-close" data-close="tip-1">×</span>
+      <h4>The Quad</h4>
+      <p>The heart of school life, open space at the centre of the Bancroft's community.</p>
+    </div>
+    <div class="tooltip" id="tip-2">
+      <span class="tooltip-close" data-close="tip-2">×</span>
+      <h4>The Archway</h4>
+      <p>Our iconic entrance. The walkway through the tower marks the beginning of something exceptional.</p>
+    </div>
+    <div class="tooltip" id="tip-3">
+      <span class="tooltip-close" data-close="tip-3">×</span>
+      <h4>Epping Forest</h4>
+      <p>Direct access from school grounds. Urban families, with room to breathe.</p>
+    </div>
+    <div class="tooltip" id="tip-4">
+      <span class="tooltip-close" data-close="tip-4">×</span>
+      <h4>Prep School</h4>
+      <p>66 pupils per year group. Small enough to know every child. Big enough to inspire them.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const intro       = document.getElementById('intro');
+  const videoScreen = document.getElementById('video-screen');
+  const mapVideo    = document.getElementById('map-video');
+  const main        = document.getElementById('main');
+  const enterBtn    = document.getElementById('enterBtn');
+
+  // Preload video as early as possible
+  mapVideo.load();
+
+  function startSequence() {
+    // Step 1: fade out intro
+    intro.classList.add('fade-out');
+
+    // Step 2: fade in video screen and play
+    setTimeout(() => {
+      videoScreen.classList.add('visible');
+      mapVideo.play();
+      intro.style.display = 'none';
+    }, 550);
+
+    // Step 3: when video ends, cross-fade to map screen seamlessly
+    mapVideo.addEventListener('ended', () => {
+      // Show main underneath before fading video out
+      main.style.opacity = '0';
+      main.style.display = 'block';
+      main.style.pointerEvents = 'none';
+
+      // Small delay then cross-fade
+      requestAnimationFrame(() => {
+        main.classList.add('visible');
+        videoScreen.style.transition = 'opacity 0.5s ease';
+        videoScreen.style.opacity = '0';
+
+        setTimeout(() => {
+          videoScreen.style.display = 'none';
+        }, 550);
+      });
+    }, { once: true });
+  }
+
+  enterBtn.addEventListener('click', startSequence);
+  enterBtn.addEventListener('touchend', (e) => { e.preventDefault(); startSequence(); });
+
+  // Hotspot interactions
+  document.querySelectorAll('.hotspot').forEach(hs => {
+    hs.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const tipId = hs.dataset.tip;
+      document.querySelectorAll('.tooltip.show').forEach(t => {
+        t.classList.remove('show');
+        document.querySelector(`.hotspot[data-tip="${t.id}"]`)?.classList.remove('active');
+      });
+      const tip = document.getElementById(tipId);
+      if (tip) {
+        tip.classList.add('show');
+        hs.classList.add('active');
+      }
+    });
+  });
+
+  document.querySelectorAll('.tooltip-close').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const tipId = btn.dataset.close;
+      document.getElementById(tipId)?.classList.remove('show');
+      document.querySelector(`.hotspot[data-tip="${tipId}"]`)?.classList.remove('active');
+    });
+  });
+
+  document.getElementById('main').addEventListener('click', () => {
+    document.querySelectorAll('.tooltip.show').forEach(t => {
+      t.classList.remove('show');
+      document.querySelector(`.hotspot[data-tip="${t.id}"]`)?.classList.remove('active');
+    });
+  });
+</script>
+</body>
+</html>
