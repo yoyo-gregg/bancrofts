@@ -6,437 +6,423 @@
 <title>Bancroft's School</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
-
-<!--
-  PP Writer is a licensed typeface — load it from your own hosted copy
-  if you have the files. The @font-face block below expects pp-writer-book.woff2
-  and pp-writer-book.woff to be in the same folder as this HTML file.
-  If not present, Cormorant Garamond is used as a close fallback.
--->
 <style>
-  @font-face {
-    font-family: 'PP Writer';
-    src: url('pp-writer-book.woff2') format('woff2'),
-         url('pp-writer-book.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
+@font-face {
+  font-family: 'PP Writer';
+  src: url('pp-writer-book.woff2') format('woff2'),
+       url('pp-writer-book.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
 
-  /*
-    Locked to 375px — the Figma artboard width.
-    All pixel positions are relative to this container.
-  */
-  .phone-wrapper {
-    width: 375px;
-    flex-shrink: 0;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    background: #f5f5f5;
-  }
+/* Locked to 375px Figma artboard width */
+.phone-wrapper {
+  width: 375px;
+  flex-shrink: 0;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5;
+}
 
-  .phone-wrapper.video-active {
-    background: #000;
-  }
+.phone-wrapper.video-active { background: #000; }
 
-  /* ─────────────────────────────
-     INTRO SCREEN
-  ───────────────────────────── */
-  #intro {
-    position: absolute;
-    inset: 0;
-    z-index: 100;
-    background: #f5f5f5;
-    transition: opacity 0.6s ease;
-  }
+/* ─────────────────────────────
+   INTRO SCREEN
+───────────────────────────── */
+#intro {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: #f5f5f5;
+  transition: opacity 0.6s ease;
+}
 
-  #intro.fade-out {
-    opacity: 0;
-    pointer-events: none;
-  }
+#intro.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
 
-  /* Logo — top 50px, centred */
-  .intro-logo {
-    position: absolute;
-    width: 120px;
-    height: 32px;
-    left: 50%;
-    top: 50px;
-    transform: translateX(-50%);
-    object-fit: contain;
-    opacity: 0;
-    animation: iLogoIn 0.9s ease 0.3s forwards;
-  }
+.intro-logo {
+  position: absolute;
+  width: 120px;
+  height: 32px;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-50%);
+  object-fit: contain;
+  opacity: 0;
+  animation: iLogoIn 0.9s ease 0.3s forwards;
+}
 
-  /*
-    Statement — top calc(50% - 75px).
-    Two lines at ~32px each + 1.2 line-height = ~77px total height.
-    Bottom of text lands at approx calc(50% - 75px + 77px) = calc(50% + 2px).
-    Line is at calc(50% + 42px) — giving ~40px gap below text, matching
-    the 40px gap between line and subtitle (calc(50%+55px) - calc(50%+15px)).
-  */
-  .intro-statement {
-    position: absolute;
-    left: 50%;
-    top: calc(50% - 75px);
-    transform: translateX(-50%);
-    font-family: 'PP Writer', 'Cormorant Garamond', Georgia, serif;
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 1.2;
-    color: #2c4255;
-    text-align: center;
-    white-space: nowrap;
-    opacity: 0;
-    animation: iStatIn 1s ease 0.6s forwards;
-  }
+.intro-statement {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 75px);
+  transform: translateX(-50%);
+  font-family: 'PP Writer', 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.2;
+  color: #2c4255;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  animation: iStatIn 1s ease 0.6s forwards;
+}
 
-  /* Gold divider — moved down to create equal gap above and below */
-  .intro-line {
-    position: absolute;
-    left: 50%;
-    top: calc(50% + 42px);
-    width: 180px;
-    height: 1px;
-    transform: translateX(-50%) scaleX(0);
-    background: #c8a96e;
-    transform-origin: center;
-    animation: iLineIn 0.8s ease 1.2s forwards;
-  }
+.intro-line {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 42px);
+  width: 180px;
+  height: 1px;
+  transform: translateX(-50%) scaleX(0);
+  background: #c8a96e;
+  transform-origin: center;
+  animation: iLineIn 0.8s ease 1.2s forwards;
+}
 
-  /* Subtitle — 40px below the line: calc(50% + 42px + 40px) = calc(50% + 82px) */
-  .intro-sub {
-    position: absolute;
-    left: 50%;
-    top: calc(50% + 82px);
-    width: 235px;
-    transform: translateX(-50%);
-    font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    color: #2c4255;
-    text-align: center;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: iFadeIn 0.8s ease 1.4s forwards;
-  }
+.intro-sub {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 82px);
+  width: 235px;
+  transform: translateX(-50%);
+  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #2c4255;
+  text-align: center;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: iFadeIn 0.8s ease 1.4s forwards;
+}
 
-  /* CTA — bottom 130px */
-  .intro-cta {
-    position: absolute;
-    left: 50%;
-    bottom: 130px;
-    transform: translateX(-50%);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #2c4255;
-    border: 2px solid rgba(44,66,85,0.5);
-    box-shadow: 0 0 0 3px rgba(44,66,85,0.18);
-    padding: 10px 24px;
-    cursor: pointer;
-    white-space: nowrap;
-    font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: #f5f5f5;
-    text-transform: uppercase;
-    line-height: 1;
-    min-width: 220px;
-    text-align: center;
-    opacity: 0;
-    animation: iFadeIn 0.8s ease 1.8s forwards;
-    transition: background 0.2s ease;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-  }
+.intro-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 130px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2c4255;
+  border: 2px solid rgba(44,66,85,0.5);
+  box-shadow: 0 0 0 3px rgba(44,66,85,0.18);
+  padding: 10px 24px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #f5f5f5;
+  text-transform: uppercase;
+  line-height: 1;
+  min-width: 220px;
+  text-align: center;
+  opacity: 0;
+  animation: iFadeIn 0.8s ease 1.8s forwards;
+  transition: background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
 
-  .intro-cta:hover  { background: #1e2f3d; }
-  .intro-cta:active { background: #161f28; }
+.intro-cta:hover  { background: #1e2f3d; }
+.intro-cta:active { background: #161f28; }
 
-  @keyframes iLogoIn {
-    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
-    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-  }
-  @keyframes iStatIn {
-    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
-    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-  }
-  @keyframes iLineIn {
-    from { transform: translateX(-50%) scaleX(0); opacity: 0; }
-    to   { transform: translateX(-50%) scaleX(1); opacity: 1; }
-  }
-  @keyframes iFadeIn {
-    to { opacity: 1; }
-  }
+@keyframes iLogoIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@keyframes iStatIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@keyframes iLineIn {
+  from { transform: translateX(-50%) scaleX(0); opacity: 0; }
+  to   { transform: translateX(-50%) scaleX(1); opacity: 1; }
+}
+@keyframes iFadeIn { to { opacity: 1; } }
 
-  /* ─────────────────────────────
-     VIDEO
-     object-position locked to top-left so the crop matches
-     the Figma artboard exactly — hotspot px coords stay accurate.
-  ───────────────────────────── */
-  #map-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-  }
+/* ─────────────────────────────
+   VIDEO
+───────────────────────────── */
+#map-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
 
-  #map-video.visible { opacity: 1; }
+#map-video.visible { opacity: 1; }
 
-  /* ─────────────────────────────
-     UI OVERLAY
-  ───────────────────────────── */
-  #ui-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 10;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-  }
+/* ─────────────────────────────
+   UI OVERLAY
+───────────────────────────── */
+#ui-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
 
-  #ui-overlay.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
+#ui-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-  .grad-top {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 459px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
-    pointer-events: none;
-  }
+.grad-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 459px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  pointer-events: none;
+}
 
-  .grad-bottom {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 328px;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
-    pointer-events: none;
-  }
+.grad-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 328px;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+  pointer-events: none;
+}
 
-  /*
-    Cloud animation — starts off-screen top-right, drifts diagonally
-    to bottom-left. Duration: 45s (was 28s — let me know if faster/slower needed).
-    Drop shadow from Figma: 0px 180px 30px rgba(0,0,0,0.5).
-  */
-  .clouds {
-    position: absolute;
-    width: 791px;
-    height: 274px;
-    left: 400px;
-    top: -300px;
-    transform: rotate(-16.94deg);
-    opacity: 0;
-    pointer-events: none;
-    filter: drop-shadow(0px 180px 30px rgba(0,0,0,0.5));
-  }
+/* Cloud animation */
+.clouds {
+  position: absolute;
+  width: 791px;
+  height: 274px;
+  left: 400px;
+  top: -300px;
+  transform: rotate(-16.94deg);
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0px 180px 30px rgba(0,0,0,0.5));
+}
 
-  #ui-overlay.visible .clouds {
-    animation: cloudDrift 45s linear 0.5s infinite;
-  }
+#ui-overlay.visible .clouds {
+  animation: cloudDrift 45s linear 0.5s infinite;
+}
 
-  @keyframes cloudDrift {
-    0%   { left: 400px;  top: -300px; opacity: 0;    }
-    5%   { opacity: 0.4; }
-    80%  { opacity: 0.4; }
-    95%  { opacity: 0;   }
-    100% { left: -900px; top: 600px;  opacity: 0;    }
-  }
+@keyframes cloudDrift {
+  0%   { left: 400px;  top: -300px; opacity: 0;   }
+  5%   { opacity: 0.4; }
+  80%  { opacity: 0.4; }
+  95%  { opacity: 0;   }
+  100% { left: -900px; top: 600px;  opacity: 0;   }
+}
 
-  /*
-    Nav — logo is 120px wide. The asset includes "Bancroft's" + subtitle line.
-    Constrain to max 42px tall so it doesn't blow up, nav height matches.
-  */
-  nav {
-    position: absolute;
-    top: 50px;
-    left: 0; right: 0;
-    height: 42px;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-  }
+/* Nav — starts hidden, slides in via JS */
+nav {
+  position: absolute;
+  top: 50px;
+  left: 0; right: 0;
+  height: 42px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  opacity: 0;
+  transform: translateY(-8px);
+}
 
-  .nav-link {
-    font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    color: #f5f5f5;
-    text-transform: uppercase;
-    cursor: pointer;
-    min-width: 48px;
-  }
+nav.animate-in {
+  animation: navSlideIn 0.7s ease forwards;
+}
 
-  .nav-link:last-child { text-align: right; }
+@keyframes navSlideIn {
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  .nav-logo {
-    width: 120px;
-    height: 32px;
-    object-fit: contain;
-    display: block;
-  }
+.nav-link {
+  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #f5f5f5;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-width: 48px;
+}
 
-  .nav-logo-wrap {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    height: 100%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-  }
+.nav-link:last-child { text-align: right; }
 
-  /*
-    Hotspots — pixel positions based on Figma 375px artboard.
-    margin: -10px -10px centres each 20px dot on its coordinate.
-    Only hs-2 (Visit Us) is interactive — others are display only.
-  */
-  .hotspot {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: rgba(245,245,245,0.9);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: pulse 2.5s ease-in-out infinite;
-    margin-left: -10px;
-    margin-top: -10px;
-  }
+.nav-logo-wrap {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 100%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
 
-  .hotspot::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #c8a96e;
-    flex-shrink: 0;
-  }
+.nav-logo {
+  width: 120px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+}
 
-  /* Only Visit Us hotspot is tappable */
-  .hotspot.interactive {
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
-    -webkit-tap-highlight-color: transparent;
-  }
+/* ─────────────────────────────
+   HOTSPOTS
+   All start hidden at scale 0.
+   Bounce in via JS. Pulse after.
+───────────────────────────── */
+.hotspot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(245,245,245,0.9);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Centre on coordinate */
+  margin-left: -10px;
+  margin-top: -10px;
+  opacity: 0;
+  transform: scale(0);
+}
 
-  .hotspot.interactive:hover,
-  .hotspot.interactive.active {
-    background: #fff;
-    animation: none;
-    box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
-    transform: scale(1.3);
-  }
+.hotspot::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c8a96e;
+  flex-shrink: 0;
+}
 
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(245,245,245,0.4); }
-    50%       { box-shadow: 0 0 0 6px rgba(245,245,245,0); }
-  }
+.hotspot.bounce-in {
+  animation: hotspotBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
 
-  /*
-    Pixel positions from Figma artboard (375px wide) — updated build.
-    hs-1: calc(66.67% - 4px)  = 246px, top 235px
-    hs-2: calc(87.5%  - 17px) = 311px, top 507px  ← Visit Us
-    hs-3: calc(20.83% + 6px)  = 84px,  top 494px
-    hs-4: calc(29.17% - 3px)  = 106px, top 345px
-  */
-  .hs-1 { left: 246px; top: 235px; }
-  .hs-2 { left: 311px; top: 507px; }
-  .hs-3 { left: 84px;  top: 494px; }
-  .hs-4 { left: 106px; top: 345px; }
+@keyframes hotspotBounce {
+  0%   { opacity: 0; transform: scale(0);   }
+  60%  { opacity: 1; transform: scale(1.2); }
+  80%  {             transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1);   }
+}
 
-  /*
-    Visit Us CTA — hidden by default, pure opacity fade on tap.
-    Vertically centred on hs-2 (top 507px).
-    Left edge sits at the CTA centre: calc(70.83% - 8px) = 258px.
-    Positioned left of hotspot using translate(-100%, -50%).
-    Double-border effect: 2px solid border + 3px box-shadow at 50% opacity.
-  */
-  .visit-cta {
-    position: absolute;
-    top: 507px;
-    left: 258px;
-    transform: translate(-100%, -50%);
-    z-index: 10;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #f5f5f5;
-    border: 2px solid rgba(245,245,245,0.5);
-    box-shadow: 0 0 0 3px rgba(245,245,245,0.25);
-    padding: 7px 14px;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-  }
+.hotspot.pulsing {
+  opacity: 1;
+  transform: scale(1);
+  animation: pulse 2.5s ease-in-out infinite;
+}
 
-  .visit-cta.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,245,245,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(245,245,245,0); }
+}
 
-  .visit-cta:hover { background: #fff; }
+.hotspot.interactive {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
 
-  .visit-cta span {
-    font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    color: #2c4255;
-    text-transform: uppercase;
-    white-space: nowrap;
-    line-height: 1;
-  }
+.hotspot.interactive.active {
+  background: #fff;
+  animation: none !important;
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
+}
 
-  /* Map guide — centred, bottom 43px from Figma */
-  .map-guide {
-    position: absolute;
-    left: 50%;
-    bottom: 43px;
-    transform: translateX(-50%);
-    width: 281px;
-    height: 50px;
-    object-fit: contain;
-    z-index: 10;
-    opacity: 0.85;
-  }
+/* Pixel positions from Figma (375px artboard) */
+.hs-1 { left: 246px; top: 235px; }
+.hs-2 { left: 311px; top: 507px; }
+.hs-3 { left: 84px;  top: 494px; }
+.hs-4 { left: 106px; top: 345px; }
+
+/* ─────────────────────────────
+   VISIT US CTA
+   Hotspot hs-2 left edge renders at 301px (left:311 + margin-left:-10).
+   CTA right edge at 289px = 12px clear of hotspot left edge.
+   right = 375 - 289 = 86px. No translateX — right is unambiguous.
+   translateY(-50%) centres vertically on hs-2 top (507px).
+───────────────────────────── */
+.visit-cta {
+  position: absolute;
+  right: 86px;
+  top: 507px;
+  transform: translateY(-50%);
+  z-index: 11;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border: 2px solid rgba(245,245,245,0.5);
+  box-shadow: 0 0 0 3px rgba(245,245,245,0.25);
+  padding: 7px 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.visit-cta.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.visit-cta:hover { background: #fff; }
+
+.visit-cta span {
+  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #2c4255;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* Map guide */
+.map-guide {
+  position: absolute;
+  left: 50%;
+  bottom: 43px;
+  transform: translateX(-50%);
+  width: 281px;
+  height: 50px;
+  object-fit: contain;
+  z-index: 10;
+  opacity: 0.85;
+}
 </style>
 </head>
 <body>
 <div class="phone-wrapper">
 
-  <!-- VIDEO — stays on last frame permanently -->
+  <!-- VIDEO -->
   <video id="map-video" playsinline muted preload="auto">
     <source src="Mobile-Map.mp4" type="video/mp4">
   </video>
 
-  <!-- UI OVERLAY — fades in over frozen video -->
+  <!-- UI OVERLAY -->
   <div id="ui-overlay">
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
@@ -454,15 +440,15 @@
       <span class="nav-link">Menu</span>
     </nav>
 
-    <!-- hs-1, hs-3, hs-4 — display only, no interaction -->
+    <!-- Display-only hotspots -->
     <div class="hotspot hs-1"></div>
     <div class="hotspot hs-3"></div>
     <div class="hotspot hs-4"></div>
 
-    <!-- hs-2 — Visit Us, interactive only -->
+    <!-- Visit Us hotspot (interactive) -->
     <div class="hotspot hs-2 interactive" id="visitHotspot"></div>
 
-    <!-- Visit Us CTA — hidden, fades in on hotspot tap -->
+    <!-- Visit Us CTA — hidden until hotspot tapped -->
     <div class="visit-cta" id="visitCta">
       <span>Visit us</span>
     </div>
@@ -473,7 +459,7 @@
       alt="Map guide">
   </div>
 
-  <!-- INTRO SCREEN — on top of everything -->
+  <!-- INTRO SCREEN -->
   <div id="intro">
     <img class="intro-logo"
       src="https://www.figma.com/api/mcp/asset/5518b3ed-23eb-4d6d-8a49-6049354e07be"
@@ -494,9 +480,30 @@
   const wrapper      = document.querySelector('.phone-wrapper');
   const visitHotspot = document.getElementById('visitHotspot');
   const visitCta     = document.getElementById('visitCta');
+  const navEl        = document.querySelector('nav');
+  const hotspots     = document.querySelectorAll('.hotspot');
 
-  // Always start fresh on load — intro is the default state
   mapVideo.load();
+
+  function animateNav() {
+    navEl.classList.add('animate-in');
+  }
+
+  function animateHotspots() {
+    hotspots.forEach(hs => {
+      const delay = Math.floor(Math.random() * 800);
+      setTimeout(() => {
+        hs.classList.add('bounce-in');
+        setTimeout(() => { hs.classList.add('pulsing'); }, 650);
+      }, delay);
+    });
+  }
+
+  function showEndScreen() {
+    uiOverlay.classList.add('visible');
+    animateNav();
+    animateHotspots();
+  }
 
   function startSequence() {
     enterBtn.style.pointerEvents = 'none';
@@ -505,25 +512,30 @@
     setTimeout(() => {
       mapVideo.play().catch(() => {});
       mapVideo.classList.add('visible');
-
       setTimeout(() => {
         wrapper.classList.add('video-active');
         intro.style.display = 'none';
       }, 650);
     }, 400);
 
-    // When video ends, seek to last frame and show UI
+    // Trigger end screen 2 seconds before video finishes
+    let endScreenTriggered = false;
+    mapVideo.addEventListener('timeupdate', () => {
+      if (!endScreenTriggered && mapVideo.duration && mapVideo.currentTime >= mapVideo.duration - 2) {
+        endScreenTriggered = true;
+        showEndScreen();
+      }
+    });
+
     mapVideo.addEventListener('ended', () => {
-      // Seek to end ensures last frame is visible if browser resets position
       mapVideo.currentTime = mapVideo.duration;
-      uiOverlay.classList.add('visible');
     }, { once: true });
   }
 
   enterBtn.addEventListener('click', startSequence);
   enterBtn.addEventListener('touchend', (e) => { e.preventDefault(); startSequence(); });
 
-  // Visit Us hotspot — fades CTA in/out on tap, no movement
+  // Visit Us hotspot — fade CTA in/out
   visitHotspot.addEventListener('click', (e) => {
     e.stopPropagation();
     const isActive = visitHotspot.classList.toggle('active');
