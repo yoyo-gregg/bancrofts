@@ -68,62 +68,57 @@ html, body {
   animation: iLogoIn 0.9s ease 0.3s forwards;
 }
 
-.intro-statement {
+/* Centre column — crest, statement, line, CTA stacked with 30px gaps */
+.intro-content {
   position: absolute;
   left: 50%;
-  top: calc(50% - 75px);
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 245px;
+  opacity: 0;
+  animation: iFadeUp 1s ease 0.5s forwards;
+}
+
+.intro-crest {
+  width: 70px;
+  height: 51px;
+  object-fit: contain;
+  display: block;
+}
+
+.intro-statement {
   font-family: 'PP Writer', 'Cormorant Garamond', Georgia, serif;
   font-weight: 400;
-  font-size: 32px;
-  line-height: 1.2;
+  font-size: 22px;
+  line-height: 1.25;
   color: #2c4255;
   text-align: center;
-  white-space: nowrap;
-  opacity: 0;
-  animation: iStatIn 1s ease 0.6s forwards;
+  white-space: normal;
 }
 
 .intro-line {
-  position: absolute;
-  left: 50%;
-  top: calc(50% + 42px);
-  width: 180px;
+  width: 50px;
   height: 1px;
-  transform: translateX(-50%) scaleX(0);
   background: #c8a96e;
+  align-self: center;
+  transform: scaleX(0);
   transform-origin: center;
-  animation: iLineIn 0.8s ease 1.2s forwards;
-}
-
-.intro-sub {
-  position: absolute;
-  left: 50%;
-  top: calc(50% + 82px);
-  width: 235px;
-  transform: translateX(-50%);
-  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: #2c4255;
-  text-align: center;
-  text-transform: uppercase;
-  opacity: 0;
-  animation: iFadeIn 0.8s ease 1.4s forwards;
+  animation: iLineIn 0.8s ease 1.1s forwards;
 }
 
 .intro-cta {
-  position: absolute;
-  left: 50%;
-  bottom: 130px;
-  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: center;
   background: #2c4255;
   border: 2px solid rgba(44,66,85,0.5);
   box-shadow: 0 0 0 3px rgba(44,66,85,0.18);
-  padding: 10px 24px;
+  padding: 8px 16px 6px;
   cursor: pointer;
   white-space: nowrap;
   font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
@@ -132,10 +127,7 @@ html, body {
   color: #f5f5f5;
   text-transform: uppercase;
   line-height: 1;
-  min-width: 220px;
   text-align: center;
-  opacity: 0;
-  animation: iFadeIn 0.8s ease 1.8s forwards;
   transition: background 0.2s ease;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
@@ -144,17 +136,34 @@ html, body {
 .intro-cta:hover  { background: #1e2f3d; }
 .intro-cta:active { background: #161f28; }
 
+/* Subtitle — pinned near bottom, not overlapping content */
+.intro-sub {
+  position: absolute;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  width: 235px;
+  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #2c4255;
+  text-align: center;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: iFadeIn 0.8s ease 1.4s forwards;
+}
+
 @keyframes iLogoIn {
   from { opacity: 0; transform: translateX(-50%) translateY(8px); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
-@keyframes iStatIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+@keyframes iFadeUp {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 10px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
 }
 @keyframes iLineIn {
-  from { transform: translateX(-50%) scaleX(0); opacity: 0; }
-  to   { transform: translateX(-50%) scaleX(1); opacity: 1; }
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
 }
 @keyframes iFadeIn { to { opacity: 1; } }
 
@@ -195,7 +204,7 @@ html, body {
 .grad-top {
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 459px;
+  height: 200px;
   background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
   pointer-events: none;
 }
@@ -203,7 +212,7 @@ html, body {
 .grad-bottom {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 328px;
+  height: 170px;
   background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
   pointer-events: none;
 }
@@ -233,7 +242,22 @@ html, body {
   100% { left: -900px; top: 600px;  opacity: 0;   }
 }
 
-/* Nav — starts hidden, slides in via JS */
+/* Bird canvas — full overlay, pointer-events off */
+#bird-canvas {
+  position: absolute;
+  inset: 0;
+  width: 375px;
+  height: 100%;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#bird-canvas.visible { opacity: 1; }
+
+/* Birds drawn on canvas via JS — see script block */
+
 nav {
   position: absolute;
   top: 50px;
@@ -427,14 +451,14 @@ nav.animate-in {
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
     <img class="clouds"
-      src="https://www.figma.com/api/mcp/asset/28d13c91-efbe-455c-944a-3f160429b952"
+      src="https://www.figma.com/api/mcp/asset/39469182-2de8-4c31-a4f4-f9b3a311f310"
       alt="">
 
     <nav>
       <span class="nav-link">Contact</span>
       <div class="nav-logo-wrap">
         <img class="nav-logo"
-          src="https://www.figma.com/api/mcp/asset/2514c4db-aa10-4dd4-8c4f-8ca64f842a87"
+          src="https://www.figma.com/api/mcp/asset/1ba6997f-84a4-4dcf-bfe3-514c0b80f76f"
           alt="Bancroft's School">
       </div>
       <span class="nav-link">Menu</span>
@@ -455,19 +479,29 @@ nav.animate-in {
 
     <!-- Map guide -->
     <img class="map-guide"
-      src="https://www.figma.com/api/mcp/asset/bdb69832-0703-4410-9a03-53cd298e4bfc"
+      src="https://www.figma.com/api/mcp/asset/f32872be-2329-47eb-9d51-20c6cd1b1991"
       alt="Map guide">
+
+    <!-- Birds — drawn on canvas for realistic flapping animation -->
+    <canvas id="bird-canvas" width="375"></canvas>
   </div>
 
   <!-- INTRO SCREEN -->
   <div id="intro">
     <img class="intro-logo"
-      src="https://www.figma.com/api/mcp/asset/5518b3ed-23eb-4d6d-8a49-6049354e07be"
+      src="https://www.figma.com/api/mcp/asset/9cca7a48-2f6e-4c0a-a00f-e732e962bbd1"
       alt="Bancroft's School">
-    <p class="intro-statement">Where London ends,<br>something greater begins.</p>
-    <div class="intro-line"></div>
+
+    <div class="intro-content">
+      <img class="intro-crest"
+        src="https://www.figma.com/api/mcp/asset/bfe82d76-26d1-4111-bf88-1c3ee9821166"
+        alt="Bancroft's crest">
+      <p class="intro-statement">Where London ends,<br>something greater begins.</p>
+      <div class="intro-line"></div>
+      <div class="intro-cta" id="enterBtn">Explore the school</div>
+    </div>
+
     <p class="intro-sub">Woodford Green Est &bull; 1737</p>
-    <div class="intro-cta" id="enterBtn">Explore the school</div>
   </div>
 
 </div>
@@ -484,6 +518,201 @@ nav.animate-in {
   const hotspots     = document.querySelectorAll('.hotspot');
 
   mapVideo.load();
+
+  // ─── Sprite-frame bird system ─────────────────────────────────
+  const canvas = document.getElementById('bird-canvas');
+  const ctx    = canvas.getContext('2d');
+  let birdRaf     = null;
+  let birdsActive = false;
+  canvas.height   = wrapper.offsetHeight || window.innerHeight;
+
+  // Bird viewed from 3/4 above-front left — matching the video reference.
+  // Key shapes from frame analysis:
+  //   - Near (left) wing: large, broad, sweeps back from chest
+  //   - Far (right) wing: foreshortened stub, much smaller
+  //   - Body: chunky rounded head (front), wide chest, tapered tail (back-left)
+  //   - Fanned tail splays on downstroke
+  //   - Body bobs up on downstroke, dips on upstroke
+
+  function drawBirdISO(ctx, x, y, s, phase) {
+    const raw = Math.sin(phase * Math.PI * 2);
+    // Asymmetric: fast downstroke, slow recovery
+    const wp = raw > 0
+      ? Math.pow(raw, 0.65)
+      : -Math.pow(-raw, 0.45);
+    const bob = wp * s * 0.15;
+
+    ctx.save();
+    ctx.translate(x, y + bob);
+    ctx.rotate(0.04);
+
+    // Far (right) wing — foreshortened stub
+    const fLift = wp * s * 0.45;
+    ctx.beginPath();
+    ctx.moveTo(s*0.08, -s*0.04);
+    ctx.bezierCurveTo(s*0.45, -s*0.1+fLift*0.4, s*0.85, -s*0.05+fLift*0.85, s*1.0, s*0.02+fLift*0.75);
+    ctx.bezierCurveTo(s*0.8, s*0.15+fLift*0.5, s*0.4, s*0.14+fLift*0.2, s*0.05, s*0.1);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(24,20,18,0.82)';
+    ctx.fill();
+
+    // Head
+    ctx.beginPath();
+    ctx.arc(s*0.48, -s*0.2, s*0.2, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(20,16,14,0.95)';
+    ctx.fill();
+
+    // Body torso
+    ctx.beginPath();
+    ctx.moveTo(s*0.55, -s*0.32);
+    ctx.bezierCurveTo(s*0.72, -s*0.38, s*0.68, -s*0.28, s*0.6, -s*0.14);
+    ctx.bezierCurveTo(s*0.65, s*0.05, s*0.28, s*0.22, -s*0.5, s*0.14);
+    ctx.bezierCurveTo(-s*0.72, s*0.08, -s*0.75, -s*0.06, -s*0.52, -s*0.2);
+    ctx.bezierCurveTo(-s*0.18, -s*0.3, s*0.28, -s*0.32, s*0.55, -s*0.32);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(20,16,14,0.95)';
+    ctx.fill();
+
+    // Tail fan
+    const tailFan = 1 + wp * 0.18;
+    ctx.beginPath();
+    ctx.moveTo(-s*0.42, s*0.1);
+    ctx.bezierCurveTo(-s*0.82, s*0.04*tailFan, -s*1.05, -s*0.08*tailFan, -s*0.95, -s*0.24);
+    ctx.bezierCurveTo(-s*0.75, -s*0.2, -s*0.6, -s*0.1, -s*0.48, -s*0.16);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(22,18,16,0.88)';
+    ctx.fill();
+
+    // Near (left) wing — large dominant
+    const nLift = wp * s * 0.88;
+    ctx.beginPath();
+    ctx.moveTo(-s*0.08, -s*0.1);
+    ctx.bezierCurveTo(-s*0.55, -s*0.28+nLift*0.45, -s*1.15, -s*0.22+nLift*0.9, -s*1.6, -s*0.08+nLift*0.78);
+    ctx.bezierCurveTo(-s*1.52, s*0.06+nLift*0.62, -s*1.38, s*0.14+nLift*0.45, -s*1.12, s*0.2+nLift*0.3);
+    ctx.bezierCurveTo(-s*0.68, s*0.28+nLift*0.15, -s*0.28, s*0.22, -s*0.05, s*0.12);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(26,22,20,0.92)';
+    ctx.fill();
+
+    // Wing highlight
+    ctx.beginPath();
+    ctx.moveTo(-s*0.12, -s*0.08);
+    ctx.bezierCurveTo(-s*0.55, -s*0.24+nLift*0.44, -s*1.08, -s*0.18+nLift*0.85, -s*1.45, -s*0.06+nLift*0.74);
+    ctx.bezierCurveTo(-s*1.1, s*0.04+nLift*0.55, -s*0.6, s*0.12+nLift*0.18, -s*0.1, s*0.04);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(52,44,38,0.3)';
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  const FRAMES = [
+    (ctx,x,y,s) => drawBirdISO(ctx,x,y,s, 0.96),
+    (ctx,x,y,s) => drawBirdISO(ctx,x,y,s, 0.05),
+    (ctx,x,y,s) => drawBirdISO(ctx,x,y,s, 0.14),
+    (ctx,x,y,s) => drawBirdISO(ctx,x,y,s, 0.22),
+    (ctx,x,y,s) => drawBirdISO(ctx,x,y,s, 0.32),
+    (ctx,x,y,s) => drawBirdISO(ctx,x,y,s, 0.55),
+    (ctx,x,y,s) => drawBirdISO(ctx,x,y,s, 0.72),
+    (ctx,x,y,s) => drawBirdISO(ctx,x,y,s, 0.86),
+  ];
+
+  // Frame timing: glide holds longer, power stroke is faster
+  // Each number = how many animation frames to hold this wing position
+  const FRAME_HOLD = [6, 4, 3, 3, 3, 3, 4, 5]; // total = 31 frames per cycle
+  const CYCLE_LEN  = FRAME_HOLD.reduce((a, b) => a + b, 0); // 31
+
+  function getWingFrame(tick) {
+    const t = tick % CYCLE_LEN;
+    let acc = 0;
+    for (let i = 0; i < FRAME_HOLD.length; i++) {
+      acc += FRAME_HOLD[i];
+      if (t < acc) return i;
+    }
+    return 0;
+  }
+
+  function makeBird(yBase, ySpread, size, speed, delayFrames) {
+    return {
+      x:      -80 - Math.random() * 100,
+      y:      yBase + (Math.random() - 0.5) * ySpread,
+      baseY:  yBase,
+      size,
+      speed,
+      tick:   Math.floor(Math.random() * CYCLE_LEN), // random start frame
+      opacity: 0.55 + Math.random() * 0.3,
+      delay:   delayFrames + Math.floor(Math.random() * 100),
+      active:  false,
+    };
+  }
+
+  // Birds spread across full screen height
+  const birds = [
+    // Upper zone (60–140px)
+    makeBird(90,  25, 2.8, 0.65, 0),
+    makeBird(90,  25, 2.2, 0.72, 30),
+    makeBird(130, 20, 2.5, 0.60, 60),
+    // Mid-upper zone (180–260px)
+    makeBird(200, 28, 3.0, 0.45, 150),
+    makeBird(240, 22, 2.4, 0.50, 190),
+    // Mid zone (300–400px)
+    makeBird(330, 30, 2.6, 0.55, 80),
+    makeBird(380, 25, 2.0, 1.0,  260),
+    // Lower zone (450–580px)
+    makeBird(470, 30, 3.2, 0.38, 290),
+    makeBird(520, 25, 2.7, 0.42, 335),
+    // Bottom zone (600–700px)
+    makeBird(630, 30, 2.9, 0.48, 120),
+    makeBird(680, 25, 2.3, 0.52, 400),
+  ];
+
+  let frameCount = 0;
+  const W = 375;
+
+  function tickBirds() {
+    ctx.clearRect(0, 0, W, canvas.height);
+    frameCount++;
+
+    for (const b of birds) {
+      if (!b.active) {
+        if (frameCount >= b.delay) { b.active = true; b.x = -80; }
+        else continue;
+      }
+
+      // Edge fade
+      let alpha = 1;
+      if (b.x < 60)     alpha = Math.max(0, b.x / 60);
+      if (b.x > W - 60) alpha = Math.max(0, (W - b.x) / 60);
+
+      ctx.save();
+      ctx.globalAlpha = b.opacity * alpha;
+
+      FRAMES[getWingFrame(b.tick)](ctx, b.x, b.y, b.size);
+
+      ctx.restore();
+
+      b.x    += b.speed;
+      b.tick += 1;
+
+      if (b.x > W + 80) {
+        b.active  = false;
+        b.delay   = frameCount + 240 + Math.floor(Math.random() * 320);
+        b.y       = b.baseY + (Math.random() - 0.5) * 25;
+        b.tick    = Math.floor(Math.random() * CYCLE_LEN);
+        b.opacity = 0.55 + Math.random() * 0.3;
+      }
+    }
+
+    birdRaf = requestAnimationFrame(tickBirds);
+  }
+
+  function startBirds() {
+    if (birdsActive) return;
+    birdsActive = true;
+    canvas.classList.add('visible');
+    tickBirds();
+  }
+  // ─────────────────────────────────────────────────────────────
 
   function animateNav() {
     navEl.classList.add('animate-in');
@@ -503,6 +732,7 @@ nav.animate-in {
     uiOverlay.classList.add('visible');
     animateNav();
     animateHotspots();
+    startBirds();
   }
 
   function startSequence() {
@@ -518,7 +748,6 @@ nav.animate-in {
       }, 650);
     }, 400);
 
-    // Trigger end screen 2 seconds before video finishes
     let endScreenTriggered = false;
     mapVideo.addEventListener('timeupdate', () => {
       if (!endScreenTriggered && mapVideo.duration && mapVideo.currentTime >= mapVideo.duration - 2) {
@@ -535,14 +764,12 @@ nav.animate-in {
   enterBtn.addEventListener('click', startSequence);
   enterBtn.addEventListener('touchend', (e) => { e.preventDefault(); startSequence(); });
 
-  // Visit Us hotspot — fade CTA in/out
   visitHotspot.addEventListener('click', (e) => {
     e.stopPropagation();
     const isActive = visitHotspot.classList.toggle('active');
     visitCta.classList.toggle('visible', isActive);
   });
 
-  // Tap background to dismiss
   uiOverlay.addEventListener('click', () => {
     visitHotspot.classList.remove('active');
     visitCta.classList.remove('visible');
