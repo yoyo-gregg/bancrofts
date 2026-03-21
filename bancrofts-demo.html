@@ -185,6 +185,25 @@ html, body {
 
 #map-video.visible { opacity: 1; }
 
+/* Static last frame — shown after video ends, never has iOS resume issues */
+#map-static {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: none;
+}
+
+#map-static.visible {
+  display: block;
+  opacity: 1;
+}
+
 /* ─────────────────────────────
    UI OVERLAY
 ───────────────────────────── */
@@ -712,6 +731,25 @@ html, body {
 
 #map-video.visible { opacity: 1; }
 
+/* Static last frame — shown after video ends, never has iOS resume issues */
+#map-static {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: none;
+}
+
+#map-static.visible {
+  display: block;
+  opacity: 1;
+}
+
 /* ─────────────────────────────
    UI OVERLAY
 ───────────────────────────── */
@@ -958,10 +996,13 @@ nav.animate-in {
 <body>
 <div class="phone-wrapper">
 
-  <!-- VIDEO -->
+  <!-- VIDEO — plays once then is replaced by static image -->
   <video id="map-video" playsinline muted preload="auto">
     <source src="Mobile-Map.mp4" type="video/mp4">
   </video>
+
+  <!-- Static last frame — shown after video ends (fixes iOS resume bug) -->
+  <img id="map-static" src="Mobile_Map.jpg" alt="">
 
   <!-- UI OVERLAY -->
   <div id="ui-overlay">
@@ -1081,7 +1122,7 @@ nav.animate-in {
 
     ctx.save();
     ctx.translate(x, y + bob);
-    ctx.rotate(0.04);
+    ctx.rotate(0.18); // tilted nose-down to match ~10° diagonal flight path
 
     // Far (right) wing — foreshortened stub
     const fLift = wp * s * 0.45;
@@ -1090,13 +1131,13 @@ nav.animate-in {
     ctx.bezierCurveTo(s*0.45, -s*0.1+fLift*0.4, s*0.85, -s*0.05+fLift*0.85, s*1.0, s*0.02+fLift*0.75);
     ctx.bezierCurveTo(s*0.8, s*0.15+fLift*0.5, s*0.4, s*0.14+fLift*0.2, s*0.05, s*0.1);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(24,20,18,0.82)';
+    ctx.fillStyle = 'rgba(245,245,245,0.82)';
     ctx.fill();
 
     // Head
     ctx.beginPath();
     ctx.arc(s*0.48, -s*0.2, s*0.2, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(20,16,14,0.95)';
+    ctx.fillStyle = 'rgba(245,245,245,0.95)';
     ctx.fill();
 
     // Body torso
@@ -1107,7 +1148,7 @@ nav.animate-in {
     ctx.bezierCurveTo(-s*0.72, s*0.08, -s*0.75, -s*0.06, -s*0.52, -s*0.2);
     ctx.bezierCurveTo(-s*0.18, -s*0.3, s*0.28, -s*0.32, s*0.55, -s*0.32);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(20,16,14,0.95)';
+    ctx.fillStyle = 'rgba(245,245,245,0.95)';
     ctx.fill();
 
     // Tail fan
@@ -1117,7 +1158,7 @@ nav.animate-in {
     ctx.bezierCurveTo(-s*0.82, s*0.04*tailFan, -s*1.05, -s*0.08*tailFan, -s*0.95, -s*0.24);
     ctx.bezierCurveTo(-s*0.75, -s*0.2, -s*0.6, -s*0.1, -s*0.48, -s*0.16);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(22,18,16,0.88)';
+    ctx.fillStyle = 'rgba(245,245,245,0.88)';
     ctx.fill();
 
     // Near (left) wing — large dominant
@@ -1128,7 +1169,7 @@ nav.animate-in {
     ctx.bezierCurveTo(-s*1.52, s*0.06+nLift*0.62, -s*1.38, s*0.14+nLift*0.45, -s*1.12, s*0.2+nLift*0.3);
     ctx.bezierCurveTo(-s*0.68, s*0.28+nLift*0.15, -s*0.28, s*0.22, -s*0.05, s*0.12);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(26,22,20,0.92)';
+    ctx.fillStyle = 'rgba(245,245,245,0.92)';
     ctx.fill();
 
     // Wing highlight
@@ -1137,7 +1178,7 @@ nav.animate-in {
     ctx.bezierCurveTo(-s*0.55, -s*0.24+nLift*0.44, -s*1.08, -s*0.18+nLift*0.85, -s*1.45, -s*0.06+nLift*0.74);
     ctx.bezierCurveTo(-s*1.1, s*0.04+nLift*0.55, -s*0.6, s*0.12+nLift*0.18, -s*0.1, s*0.04);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(52,44,38,0.3)';
+    ctx.fillStyle = 'rgba(245,245,245,0.18)';
     ctx.fill();
 
     ctx.restore();
@@ -1176,7 +1217,10 @@ nav.animate-in {
       baseY:  yBase,
       size,
       speed,
-      tick:   Math.floor(Math.random() * CYCLE_LEN), // random start frame
+      // Slight downward drift per frame — creates diagonal path matching the
+      // aerial perspective angle (approx 15-20° downward as they cross)
+      drift:  0.12 + Math.random() * 0.08,
+      tick:   Math.floor(Math.random() * CYCLE_LEN),
       opacity: 0.55 + Math.random() * 0.3,
       delay:   delayFrames + Math.floor(Math.random() * 100),
       active:  false,
@@ -1186,21 +1230,21 @@ nav.animate-in {
   // Birds spread across full screen height
   const birds = [
     // Upper zone (60–140px)
-    makeBird(90,  25, 2.8, 0.65, 0),
-    makeBird(90,  25, 2.2, 0.72, 30),
-    makeBird(130, 20, 2.5, 0.60, 60),
+    makeBird(90,  25, 3.36, 0.65, 0),
+    makeBird(90,  25, 2.64, 0.72, 30),
+    makeBird(130, 20, 3.0, 0.60, 60),
     // Mid-upper zone (180–260px)
-    makeBird(200, 28, 3.0, 0.45, 150),
-    makeBird(240, 22, 2.4, 0.50, 190),
+    makeBird(200, 28, 3.6, 0.45, 150),
+    makeBird(240, 22, 2.88, 0.50, 190),
     // Mid zone (300–400px)
-    makeBird(330, 30, 2.6, 0.55, 80),
-    makeBird(380, 25, 2.0, 1.0,  260),
+    makeBird(330, 30, 3.12, 0.55, 80),
+    makeBird(380, 25, 2.4, 1.0,  260),
     // Lower zone (450–580px)
-    makeBird(470, 30, 3.2, 0.38, 290),
-    makeBird(520, 25, 2.7, 0.42, 335),
+    makeBird(470, 30, 3.84, 0.38, 290),
+    makeBird(520, 25, 3.24, 0.42, 335),
     // Bottom zone (600–700px)
-    makeBird(630, 30, 2.9, 0.48, 120),
-    makeBird(680, 25, 2.3, 0.52, 400),
+    makeBird(630, 30, 3.48, 0.48, 120),
+    makeBird(680, 25, 2.76, 0.52, 400),
   ];
 
   let frameCount = 0;
@@ -1223,17 +1267,23 @@ nav.animate-in {
 
       ctx.save();
       ctx.globalAlpha = b.opacity * alpha;
+      // Flip horizontally so birds face and fly left-to-right
+      ctx.translate(b.x, b.y);
+      ctx.scale(-1, 1);
+      ctx.translate(-b.x, -b.y);
 
       FRAMES[getWingFrame(b.tick)](ctx, b.x, b.y, b.size);
 
       ctx.restore();
 
       b.x    += b.speed;
+      b.y    += b.drift;  // drift downward for diagonal flight path
       b.tick += 1;
 
       if (b.x > W + 80) {
         b.active  = false;
         b.delay   = frameCount + 240 + Math.floor(Math.random() * 320);
+        // Reset y back to base so next pass starts fresh from top of zone
         b.y       = b.baseY + (Math.random() - 0.5) * 25;
         b.tick    = Math.floor(Math.random() * CYCLE_LEN);
         b.opacity = 0.55 + Math.random() * 0.3;
@@ -1299,7 +1349,13 @@ nav.animate-in {
     });
 
     mapVideo.addEventListener('ended', () => {
-      mapVideo.currentTime = mapVideo.duration;
+      // Swap video for static image — eliminates iOS resume-mid-video bug
+      const mapStatic = document.getElementById('map-static');
+      mapStatic.classList.add('visible');
+      // Brief crossfade then hide video entirely
+      setTimeout(() => {
+        mapVideo.style.display = 'none';
+      }, 350);
     }, { once: true });
   }
 
