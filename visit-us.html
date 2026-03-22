@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Visit Us - Bancrofts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: "PP Writer";
+  src: url("pp-writer-book.woff2") format("woff2"), url("pp-writer-book.woff") format("woff");
+  font-weight: 400; font-style: normal;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
+:root { --navy: #2c4255; --cream: #f5f5f5; --gold: #c8a96e; --font: "PP Writer","Cormorant Garamond",Georgia,serif; --mono: "EB Garamond",Georgia,serif; }
+html { overflow-x: hidden; }
+
+/* body is plain block — no flex, no transform, so fixed children work correctly */
+body { width: 100%; background: #e0dcd4; }
+
+/* Centred page column */
+.page { width: 375px; margin: 0 auto; background: var(--cream); min-height: 100vh; }
+
+/* Fade overlay — opaque in CSS from first paint, no flash */
+#fade-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #f5f5f5;
+  z-index: 9998;
+  opacity: 1;
+  pointer-events: all;
+  transition: opacity 0.4s ease;
+}
+#fade-overlay.hidden { opacity: 0; pointer-events: none; }
+
+nav {
+  position: relative;
+  top: 50px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin-bottom: 50px;
+}
+.nav-link {
+  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--navy);
+  cursor: pointer;
+  min-width: 48px;
+}
+.nav-link:last-child { text-align: right; }
+.nav-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 32px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+/* Hero — padded to clear fixed nav */
+.hero { text-align: center; padding: 80px 24px 28px; }
+.hero-label { font-family: var(--font); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
+.hero-line { width: 50px; height: 1px; background: var(--gold); margin: 0 auto 18px; }
+.hero-title { font-family: var(--font); font-size: 52px; font-weight: 400; line-height: 1; color: var(--navy); margin-bottom: 18px; }
+.hero-body { font-family: var(--font); font-size: 16px; line-height: 1.2; color: var(--navy); width: 261px; margin: 0 auto; }
+
+.images { display: flex; gap: 10px; padding: 56px 20px 128px; align-items: flex-start; }
+.img-l { width: 165px; height: 206px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; }
+.img-r { width: 165px; height: 100px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; }
+
+.section-title { font-family: var(--font); font-size: 34px; font-weight: 400; line-height: 1.1; color: var(--navy); text-align: center; width: 194px; margin: 0 auto 40px; }
+
+.timeline { position: relative; padding-bottom: 300px; }
+.timeline::before { content: ""; position: absolute; left: 50%; transform: translateX(-0.5px); top: 0; bottom: 0; width: 1px; background: rgba(44,66,85,0.15); }
+
+.group { display: flex; align-items: stretch; }
+.group-labels { width: 50%; position: relative; }
+.group-label { position: sticky; top: 80px; padding-right: 24px; text-align: right; }
+.group-label span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); line-height: 1; }
+.group-rows { width: 50%; padding-left: 24px; }
+.row { padding-bottom: 52px; }
+
+.event-title { font-family: var(--font); font-size: 28px; font-weight: 400; line-height: 1.1; color: var(--navy); margin-bottom: 12px; }
+.event-date { font-family: var(--font); font-size: 16px; line-height: 1.2; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 20px; font-feature-settings: "lnum" 1, "tnum" 1; }
+.event-date p { margin-bottom: 2px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); padding: 8px 12px 6px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+
+.footer { background: var(--navy); padding: 32px 24px; text-align: center; }
+.footer p { font-family: var(--font); font-size: 14px; font-style: italic; color: rgba(245,245,245,0.65); line-height: 1.5; margin-bottom: 14px; }
+.footer-contact { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+</style>
+</head>
+<body>
+
+  <div id="fade-overlay"></div>
+
+  <div class="page">
+
+    <nav>
+      <span class="nav-link">Contact</span>
+      <img class="nav-logo" id="backBtn"
+        src="https://www.figma.com/api/mcp/asset/0fb19eca-4bce-4b1e-bb75-5cc5fd48e5ec"
+        alt="Bancrofts">
+      <span class="nav-link">Menu</span>
+    </nav>
+
+    <div class="hero">
+      <p class="hero-label">Admissions</p>
+      <div class="hero-line"></div>
+      <h1 class="hero-title">Visit us</h1>
+      <p class="hero-body">Our open events give you the chance to see Bancroft's at its best. Busy, warm and full of life.</p>
+    </div>
+
+    <div class="images">
+      <img class="img-l" id="imgL" src="https://www.figma.com/api/mcp/asset/ae56c5d6-d49f-472e-bc04-871fd66f4a76" alt="School building">
+      <img class="img-r" id="imgR" src="https://www.figma.com/api/mcp/asset/13ba3245-c8fc-4188-82aa-d6313b5e2caf" alt="School pupils">
+    </div>
+
+    <h2 class="section-title">Open days &amp; mornings</h2>
+
+    <div class="timeline">
+
+      <div class="group">
+        <div class="group-labels">
+          <div class="group-label"><span>Prep &ndash; Year 3 entry</span></div>
+        </div>
+        <div class="group-rows">
+          <div class="row">
+            <div class="event-title">7+<br>Open Morning</div>
+            <div class="event-date"><p>Saturday</p><p>9th May 2026</p><p>10:00am &ndash; 12:00pm</p></div>
+            <div class="btn">Book a place</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-labels">
+          <div class="group-label"><span>Senior &ndash; Year 7 entry</span></div>
+        </div>
+        <div class="group-rows">
+          <div class="row">
+            <div class="event-title">11+<br>Open Morning</div>
+            <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>9:30am &ndash; 11:30am</p></div>
+            <div class="btn">Book session 1</div>
+          </div>
+          <div class="row">
+            <div class="event-title">11+<br>Open Morning</div>
+            <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>11:00am &ndash; 1:00pm</p></div>
+            <div class="btn">Book session 2</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-labels">
+          <div class="group-label"><span>Flexible visits</span></div>
+        </div>
+        <div class="group-rows">
+          <div class="row">
+            <div class="event-title">Private<br>Tours</div>
+            <div class="event-date"><p>Available on</p><p>working days</p><p>by arrangement</p></div>
+            <div class="btn">Contact us</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <p>Questions before you visit? Our admissions team is here to help.</p>
+      <span class="footer-contact">admissions @ bancrofts.org</span>
+    </div>
+
+  </div>
+
+<script>
+(function() {
+  var overlay = document.getElementById('fade-overlay');
+  var backBtn = document.getElementById('backBtn');
+  var imgL    = document.getElementById('imgL');
+  var imgR    = document.getElementById('imgR');
+  var ticking = false;
+
+  // Fade in — overlay is opaque in CSS, fade out after first two paint frames
+  document.addEventListener('DOMContentLoaded', function() {
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        overlay.classList.add('hidden');
+      });
+    });
+  });
+
+  // Logo — fade to cream then navigate back
+  backBtn.addEventListener('click', function() {
+    overlay.classList.remove('hidden');
+    setTimeout(function() {
+      window.location.href = 'index.html';
+    }, 420);
+  });
+
+  // Parallax
+  function updateParallax() {
+    var s = window.pageYOffset || document.documentElement.scrollTop;
+    imgL.style.transform = 'translateY(' + (s * 0.12) + 'px)';
+    imgR.style.transform = 'translateY(' + (s * 0.22) + 'px)';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(updateParallax); ticking = true; }
+  }, { passive: true });
+  updateParallax();
+})();
+</script>
+</body>
+</html>
