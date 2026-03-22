@@ -20,7 +20,7 @@ html { overflow-x: hidden; }
 body { width: 100%; background: #e0dcd4; }
 
 /* Centred page column */
-.page { width: 375px; margin: 0 auto; background: var(--cream); min-height: 100vh; }
+.page { width: 375px; margin: 0 auto; background: var(--cream); min-height: 100vh; padding-bottom: 1px; }
 
 /* Fade overlay — opaque in CSS from first paint, no flash */
 #fade-overlay {
@@ -86,16 +86,15 @@ nav {
 .group-label { position: sticky; top: 80px; padding-right: 24px; text-align: right; }
 .group-label span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); line-height: 1; }
 .group-rows { width: 50%; padding-left: 24px; }
-.row { padding-bottom: 52px; }
+.row { padding-bottom: 112px; }
 
 .event-title { font-family: var(--font); font-size: 28px; font-weight: 400; line-height: 1.1; color: var(--navy); margin-bottom: 12px; }
 .event-date { font-family: var(--font); font-size: 16px; line-height: 1.2; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 20px; font-feature-settings: "lnum" 1, "tnum" 1; }
 .event-date p { margin-bottom: 2px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); padding: 8px 12px 6px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
 
-.footer { background: var(--navy); padding: 32px 24px; text-align: center; }
-.footer p { font-family: var(--font); font-size: 14px; font-style: italic; color: rgba(245,245,245,0.65); line-height: 1.5; margin-bottom: 14px; }
-.footer-contact { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+.footer-image { margin: 0 18px 18px; overflow: hidden; height: 456px; }
+.footer-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
 </style>
 </head>
 <body>
@@ -107,7 +106,7 @@ nav {
     <nav>
       <span class="nav-link">Contact</span>
       <img class="nav-logo" id="backBtn"
-        src="https://www.figma.com/api/mcp/asset/0fb19eca-4bce-4b1e-bb75-5cc5fd48e5ec"
+        src="https://www.figma.com/api/mcp/asset/794cb364-9c0a-4cd6-b1a1-c4b7ad83c4f7"
         alt="Bancrofts">
       <span class="nav-link">Menu</span>
     </nav>
@@ -120,8 +119,8 @@ nav {
     </div>
 
     <div class="images">
-      <img class="img-l" id="imgL" src="https://www.figma.com/api/mcp/asset/ae56c5d6-d49f-472e-bc04-871fd66f4a76" alt="School building">
-      <img class="img-r" id="imgR" src="https://www.figma.com/api/mcp/asset/13ba3245-c8fc-4188-82aa-d6313b5e2caf" alt="School pupils">
+      <img class="img-l" id="imgL" src="https://www.figma.com/api/mcp/asset/dde9d428-6b16-40e8-8d18-24cddfb2f627" alt="School building">
+      <img class="img-r" id="imgR" src="https://www.figma.com/api/mcp/asset/16abac1a-52f0-4f96-a46d-3047d3cd7e1f" alt="School pupils">
     </div>
 
     <h2 class="section-title">Open days &amp; mornings</h2>
@@ -146,7 +145,7 @@ nav {
           <div class="group-label"><span>Senior &ndash; Year 7 entry</span></div>
         </div>
         <div class="group-rows">
-          <div class="row">
+          <div class="row" style="padding-bottom:32px;">
             <div class="event-title">11+<br>Open Morning</div>
             <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>9:30am &ndash; 11:30am</p></div>
             <div class="btn">Book session 1</div>
@@ -159,24 +158,24 @@ nav {
         </div>
       </div>
 
-      <div class="group">
-        <div class="group-labels">
-          <div class="group-label"><span>Flexible visits</span></div>
-        </div>
-        <div class="group-rows">
-          <div class="row">
-            <div class="event-title">Private<br>Tours</div>
-            <div class="event-date"><p>Available on</p><p>working days</p><p>by arrangement</p></div>
-            <div class="btn">Contact us</div>
+      <!-- Flexible visits: plain flex row, label aligned with CTA -->
+      <div style="display:flex;align-items:stretch;padding-bottom:112px;">
+        <div style="width:50%;position:relative;">
+          <div style="position:sticky;top:80px;padding-right:24px;text-align:right;">
+            <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy);line-height:1;">Flexible visits</span>
           </div>
+        </div>
+        <div style="width:50%;padding-left:24px;">
+          <div class="event-title">Private<br>Tours</div>
+          <div class="event-date" style="font-size:14px;line-height:1.5;letter-spacing:0;margin-bottom:33px;"><p>Prefer a quieter, more personal visit? Our admissions team can arrange a private tour on a working day at a time that suits you.</p></div>
+          <div class="btn">Contact us</div>
         </div>
       </div>
 
     </div>
 
-    <div class="footer">
-      <p>Questions before you visit? Our admissions team is here to help.</p>
-      <span class="footer-contact">admissions @ bancrofts.org</span>
+    <div class="footer-image">
+      <img src="https://www.figma.com/api/mcp/asset/3dce370a-27d1-4323-ae76-83783fb15bd8" alt="Bancrofts School">
     </div>
 
   </div>
