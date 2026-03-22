@@ -13,14 +13,13 @@
   font-weight: 400; font-style: normal;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
-:root { --navy: #2c4255; --cream: #f5f5f5; --gold: #c8a96e; --font: "PP Writer","Cormorant Garamond",Georgia,serif; --mono: "EB Garamond",Georgia,serif; }
+:root { --navy: #2c4255; --cream: #f5f5f5; --gold: #B19660; --font: "PP Writer","Cormorant Garamond",Georgia,serif; --mono: "EB Garamond",Georgia,serif; }
 html { overflow-x: hidden; }
 
-/* body is plain block — no flex, no transform, so fixed children work correctly */
-body { width: 100%; background: #e0dcd4; }
+body { width: 100%; background: #f5f5f5; display: flex; justify-content: center; }
 
 /* Centred page column */
-.page { width: 375px; margin: 0 auto; background: var(--cream); min-height: 100vh; padding-bottom: 1px; }
+.page { width: 375px; flex-shrink: 0; background: var(--cream); min-height: 100vh; padding-bottom: 18px; }
 
 /* Fade overlay — opaque in CSS from first paint, no flash */
 #fade-overlay {
@@ -73,8 +72,8 @@ nav {
 .hero-body { font-family: var(--font); font-size: 16px; line-height: 1.2; color: var(--navy); width: 261px; margin: 0 auto; }
 
 .images { display: flex; gap: 10px; padding: 56px 20px 128px; align-items: flex-start; }
-.img-l { width: 165px; height: 206px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; }
-.img-r { width: 165px; height: 100px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; }
+.img-l { width: 165px; height: 206px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; opacity: 0; transition: opacity 0.8s ease; }
+.img-r { width: 165px; height: 100px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; opacity: 0; transition: opacity 0.8s ease 0.3s; }
 
 .section-title { font-family: var(--font); font-size: 34px; font-weight: 400; line-height: 1.1; color: var(--navy); text-align: center; width: 194px; margin: 0 auto 40px; }
 
@@ -91,9 +90,9 @@ nav {
 .event-title { font-family: var(--font); font-size: 28px; font-weight: 400; line-height: 1.1; color: var(--navy); margin-bottom: 12px; }
 .event-date { font-family: var(--font); font-size: 16px; line-height: 1.2; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 20px; font-feature-settings: "lnum" 1, "tnum" 1; }
 .event-date p { margin-bottom: 2px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); padding: 8px 12px 6px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+.btn { display: inline-flex; align-items: center; justify-content: center; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); padding: 10px 12px 10px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; vertical-align: middle; line-height: 1; }
 
-.footer-image { margin: 0 18px 18px; overflow: hidden; height: 456px; }
+.footer-image { margin: 0 18px; overflow: hidden; height: 456px; padding-bottom: 0; }
 .footer-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
 </style>
 </head>
@@ -188,11 +187,16 @@ nav {
   var imgR    = document.getElementById('imgR');
   var ticking = false;
 
-  // Fade in — overlay is opaque in CSS, fade out after first two paint frames
+  // Fade in — overlay fades out, images fade in after overlay clears
   document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(function() {
       requestAnimationFrame(function() {
         overlay.classList.add('hidden');
+        // Fade images in after overlay clears (0.4s overlay + slight buffer)
+        setTimeout(function() {
+          imgL.style.opacity = '1';
+          imgR.style.opacity = '1';
+        }, 500);
       });
     });
   });
