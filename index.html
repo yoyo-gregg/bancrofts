@@ -66,6 +66,7 @@ html, body {
   object-fit: contain;
   opacity: 0;
   animation: iLogoIn 0.9s ease 0.3s forwards;
+  filter: brightness(0) saturate(100%) invert(24%) sepia(17%) saturate(1071%) hue-rotate(170deg) brightness(94%) contrast(90%);
 }
 
 /* Centre column — crest, statement, line, CTA stacked with 30px gaps */
@@ -88,6 +89,7 @@ html, body {
   height: 51px;
   object-fit: contain;
   display: block;
+  filter: brightness(0) saturate(100%) invert(64%) sepia(33%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(88%);
 }
 
 .intro-statement {
@@ -240,11 +242,10 @@ html, body {
 /* Cloud animation */
 .clouds {
   position: absolute;
-  width: 791px;
-  height: 274px;
+  width: 543px;
+  height: 364px;
   left: 400px;
-  top: -300px;
-  transform: rotate(-16.94deg);
+  top: -50px;
   opacity: 0;
   pointer-events: none;
   filter: drop-shadow(0px 180px 30px rgba(0,0,0,0.5));
@@ -255,11 +256,11 @@ html, body {
 }
 
 @keyframes cloudDrift {
-  0%   { left: 400px;  top: -300px; opacity: 0;   }
+  0%   { left: 400px;  top: -50px; opacity: 0;   }
   5%   { opacity: 0.4; }
   80%  { opacity: 0.4; }
   95%  { opacity: 0;   }
-  100% { left: -900px; top: 600px;  opacity: 0;   }
+  100% { left: -900px; top: 450px;  opacity: 0;   }
 }
 
 /* Bird canvas — full overlay, pointer-events off */
@@ -328,6 +329,7 @@ nav.animate-in {
   height: 32px;
   object-fit: contain;
   display: block;
+  filter: brightness(0) invert(1);
 }
 
 /* ─────────────────────────────
@@ -613,6 +615,7 @@ html, body {
   object-fit: contain;
   opacity: 0;
   animation: iLogoIn 0.9s ease 0.3s forwards;
+  filter: brightness(0) saturate(100%) invert(24%) sepia(17%) saturate(1071%) hue-rotate(170deg) brightness(94%) contrast(90%);
 }
 
 /* Centre column — crest, statement, line, CTA stacked with 30px gaps */
@@ -635,6 +638,7 @@ html, body {
   height: 51px;
   object-fit: contain;
   display: block;
+  filter: brightness(0) saturate(100%) invert(64%) sepia(33%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(88%);
 }
 
 .intro-statement {
@@ -787,11 +791,10 @@ html, body {
 /* Cloud animation */
 .clouds {
   position: absolute;
-  width: 791px;
-  height: 274px;
+  width: 543px;
+  height: 364px;
   left: 400px;
-  top: -300px;
-  transform: rotate(-16.94deg);
+  top: -50px;
   opacity: 0;
   pointer-events: none;
   filter: drop-shadow(0px 180px 30px rgba(0,0,0,0.5));
@@ -802,11 +805,11 @@ html, body {
 }
 
 @keyframes cloudDrift {
-  0%   { left: 400px;  top: -300px; opacity: 0;   }
+  0%   { left: 400px;  top: -50px; opacity: 0;   }
   5%   { opacity: 0.4; }
   80%  { opacity: 0.4; }
   95%  { opacity: 0;   }
-  100% { left: -900px; top: 600px;  opacity: 0;   }
+  100% { left: -900px; top: 450px;  opacity: 0;   }
 }
 
 /* Bird canvas — full overlay, pointer-events off */
@@ -875,6 +878,7 @@ nav.animate-in {
   height: 32px;
   object-fit: contain;
   display: block;
+  filter: brightness(0) invert(1);
 }
 
 /* ─────────────────────────────
