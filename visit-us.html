@@ -13,29 +13,26 @@
   font-weight: 400; font-style: normal;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
-:root { --navy: #2c4255; --cream: #f5f5f5; --gold: #B19660; --font: "PP Writer","Cormorant Garamond",Georgia,serif; --mono: "EB Garamond",Georgia,serif; }
-html { overflow-x: hidden; }
-
-body { width: 100%; background: #f5f5f5; display: flex; justify-content: center; }
-
-/* Centred page column */
-.page { width: 375px; flex-shrink: 0; background: var(--cream); min-height: 100vh; padding-bottom: 18px; }
-
-/* Fade overlay — opaque in CSS from first paint, no flash */
-#fade-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: #f5f5f5;
-  z-index: 9998;
-  opacity: 1;
-  pointer-events: all;
-  transition: opacity 0.4s ease;
+:root {
+  --navy: #2c4255;
+  --cream: #f5f5f5;
+  --gold: #B19660;
+  --gold-dark: #876b33;
+  --font: 'Minion Pro', 'EB Garamond', Georgia, serif;
+  --font-heading: 'PP Writer', 'Cormorant Garamond', Georgia, serif;
+  --mono: 'Minion Pro', 'EB Garamond', Georgia, serif;
 }
+html { overflow-x: hidden; }
+body { width: 100%; background: #f5f5f5; display: flex; justify-content: center; }
+.page { width: 375px; flex-shrink: 0; background: var(--cream); min-height: 100vh; padding-bottom: 1px; }
+
+#fade-overlay { position: fixed; inset: 0; background: #f5f5f5; z-index: 9998; opacity: 1; pointer-events: all; transition: opacity 0.4s ease; }
 #fade-overlay.hidden { opacity: 0; pointer-events: none; }
 
+/* Nav */
 nav {
   position: relative;
-  top: 50px;
+  top: 32px;
   height: 42px;
   display: flex;
   align-items: center;
@@ -44,7 +41,7 @@ nav {
   margin-bottom: 50px;
 }
 .nav-link {
-  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+  font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -65,21 +62,25 @@ nav {
   filter: brightness(0) saturate(100%) invert(24%) sepia(17%) saturate(1071%) hue-rotate(170deg) brightness(94%) contrast(90%);
 }
 
-/* Hero — padded to clear fixed nav */
+/* ── Hero ── */
 .hero { text-align: center; padding: 80px 24px 28px; }
-.hero-label { font-family: var(--font); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
+.hero-label { font-family: var(--font-heading); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
+.hero-title { font-family: var(--font-heading); font-size: 52px; font-weight: 400; line-height: 0.9; color: var(--navy); margin-bottom: 18px; letter-spacing: -0.5px; }
 .hero-line { width: 50px; height: 1px; background: var(--gold); margin: 0 auto 18px; }
-.hero-title { font-family: var(--font); font-size: 52px; font-weight: 400; line-height: 1; color: var(--navy); margin-bottom: 18px; }
-.hero-body { font-family: var(--font); font-size: 16px; line-height: 1.2; color: var(--navy); width: 261px; margin: 0 auto; }
+.hero-body { font-family: var(--font); font-weight: 400; font-size: 16px; line-height: 1.2; color: var(--navy); width: 215px; margin: 0 auto; letter-spacing: -0.02em; }
 
-.images { display: flex; gap: 10px; padding: 56px 20px 128px; align-items: flex-start; }
+/* ── Photos ── */
+.images { display: flex; gap: 10px; padding: 36px 20px 128px; align-items: flex-start; }
 .img-l { width: 165px; height: 206px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; opacity: 0; transition: opacity 0.8s ease; }
 .img-r { width: 165px; height: 100px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; opacity: 0; transition: opacity 0.8s ease 0.3s; }
 
-.section-title { font-family: var(--font); font-size: 34px; font-weight: 400; line-height: 1.1; color: var(--navy); text-align: center; width: 194px; margin: 0 auto 40px; }
+/* ── Open Days section heading ── */
+.section-title { font-family: var(--font-heading); font-size: 34px; font-weight: 400; line-height: 1.1; color: var(--navy); text-align: center; width: 194px; margin: 0 auto 40px; }
 
-.timeline { position: relative; padding-bottom: 300px; }
-.timeline::before { content: ""; position: absolute; left: 50%; transform: translateX(-0.5px); top: 0; bottom: 0; width: 1px; background: rgba(44,66,85,0.15); }
+/* ── Timeline ── */
+.visits-wrapper { position: relative; padding-bottom: 40px; }
+.visits-wrapper::before { content: ""; position: absolute; left: 50%; transform: translateX(-0.5px); top: 0; bottom: 0; width: 1px; background: var(--gold); pointer-events: none; }
+.timeline { position: relative; }
 
 .group { display: flex; align-items: stretch; }
 .group-labels { width: 50%; position: relative; }
@@ -87,99 +88,234 @@ nav {
 .group-label span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); line-height: 1; }
 .group-rows { width: 50%; padding-left: 24px; }
 .row { padding-bottom: 112px; }
-
-.event-title { font-family: var(--font); font-size: 28px; font-weight: 400; line-height: 1.1; color: var(--navy); margin-bottom: 12px; }
-.event-date { font-family: var(--font); font-size: 16px; line-height: 1.2; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 20px; font-feature-settings: "lnum" 1, "tnum" 1; }
+.event-title { font-family: var(--font); font-size: 28px; font-weight: 400; line-height: 1.06; color: var(--navy); margin-bottom: 12px; }
+.event-date { font-family: var(--font); font-weight: 400; font-size: 16px; line-height: 1.2; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 20px; font-feature-settings: "lnum" 1, "tnum" 1; }
 .event-date p { margin-bottom: 2px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); padding: 10px 12px 10px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; vertical-align: middle; line-height: 1; }
+.btn { display: inline-flex; align-items: center; justify-content: center; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); padding: 9px 12px 7px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; line-height: 1; }
+.btn-gold { background: var(--gold-dark); border-color: rgba(177,150,96,0.5); box-shadow: 0 0 0 2px rgba(177,150,96,0.18); }
 
-.footer-image { margin: 0 18px; overflow: hidden; height: 456px; padding-bottom: 0; }
-.footer-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Flexible visits plain layout */
+.flexible-group { display: flex; align-items: stretch; }
+.flexible-labels { width: 50%; position: relative; }
+.flexible-label { position: sticky; top: 80px; padding-right: 24px; text-align: right; }
+.flexible-label span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); line-height: 1; }
+.flexible-rows { width: 50%; padding-left: 24px; padding-bottom: 0; }
+
+/* ── Your admissions journey ── */
+.admissions-section { padding: 0 0 40px; }
+.admissions-title { font-family: var(--font); font-weight: 400; font-size: 34px; line-height: 1.1; color: var(--navy); text-align: center; width: 234px; margin: 0 auto 32px; }
+.entry-card { background: #fff; border: 1px solid var(--gold); margin: 0 18px 17px; height: 285px; position: relative; overflow: hidden; }
+.entry-details { position: absolute; top: 27px; left: 31px; width: 275px; display: flex; flex-direction: column; gap: 24px; }
+.entry-title-group { display: flex; flex-direction: column; gap: 4px; }
+.entry-deadline { font-family: var(--mono); font-size: 10px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); line-height: 1; }
+.entry-title { font-family: var(--font); font-size: 28px; font-weight: 400; line-height: 1.2; color: var(--navy); }
+.entry-sub { font-family: var(--font); font-size: 16px; font-weight: 400; line-height: 1.2; color: var(--navy); }
+.entry-desc { font-family: var(--font); font-size: 16px; font-weight: 400; line-height: 1.2; color: var(--navy); }
+.entry-cta { position: absolute; top: 208px; left: 31px; width: 275px; height: 42px; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.entry-cta span { font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); line-height: normal; }
+
+/* ── Our History promo ── */
+.promo { margin: 0 18px 0; height: 688px; position: relative; overflow: hidden; }
+.promo-img-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.promo-copy { position: absolute; bottom: 345px; left: 0; right: 0; display: flex; flex-direction: column; gap: 48px; align-items: center; }
+.promo-content { display: flex; flex-direction: column; gap: 23px; align-items: center; }
+.promo-label { font-family: var(--font-heading); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); }
+.promo-heading { font-family: var(--font-heading); font-size: 52px; font-weight: 400; line-height: 0.9; color: var(--navy); text-align: center; letter-spacing: -0.5px; }
+.promo-line { width: 50px; height: 1px; background: var(--gold); }
+.promo-body { font-family: var(--font); font-weight: 400; font-size: 16px; line-height: 1.2; color: var(--navy); text-align: center; letter-spacing: -0.02em; width: 261px; }
+
+/* ── Footer ── */
+.footer { background: var(--navy); padding: 0; margin-top: 18px; }
+.footer-crest { width: 100px; height: 73px; object-fit: contain; margin: 0 18px; padding-top: 40px; display: block; filter: brightness(0) saturate(100%) invert(64%) sepia(33%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(88%); }
+.footer-rule-full { height: 1px; background: var(--gold); margin: 24px 18px 0; }
+.footer-rule-short { width: 50px; height: 1px; background: var(--gold); margin: 24px 18px 0; }
+.footer-links { padding: 24px 18px 0; display: flex; flex-direction: column; gap: 8px; }
+.footer-links a { font-family: var(--mono); font-size: 10px; line-height: 1.2; color: var(--cream); text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; }
+.footer-address { font-family: var(--mono); padding: 24px 18px 0; }
+.footer-address p { font-size: 16px; line-height: 1.2; color: var(--cream); }
+.footer-social { display: flex; align-items: center; gap: 16px; padding: 24px 18px 0; }
+.footer-social img.social-icon { height: 20px; width: auto; }
+.footer-logos { display: flex; align-items: center; gap: 16px; padding: 24px 18px 0; }
+.footer-back-to-top { width: 47px; height: 47px; flex-shrink: 0; margin-left: auto; cursor: pointer; display: block; }
+.footer-copy { padding: 24px 18px 40px; }
+.footer-copy p { font-family: var(--mono); font-size: 16px; line-height: 1.2; color: var(--cream); margin-bottom: 8px; }
+.footer-copy p.muted { color: rgba(245,245,245,0.7); }
 </style>
 </head>
 <body>
+<div class="page">
 
   <div id="fade-overlay"></div>
 
-  <div class="page">
+  <nav>
+    <span class="nav-link">Contact</span>
+    <img class="nav-logo" id="backBtn" src="Logo.svg" alt="Bancrofts">
+    <span class="nav-link">Menu</span>
+  </nav>
 
-    <nav>
-      <span class="nav-link">Contact</span>
-      <img class="nav-logo" id="backBtn"
-        src="Logo.svg"
-        alt="Bancrofts">
-      <span class="nav-link">Menu</span>
-    </nav>
+  <!-- Hero -->
+  <div class="hero">
+    <p class="hero-label">Admissions</p>
+    <h1 class="hero-title">Visit us</h1>
+    <div class="hero-line"></div>
+    <p class="hero-body">Our open events give you the chance to see Bancroft's at its best. Busy, warm and full of life.</p>
+  </div>
 
-    <div class="hero">
-      <p class="hero-label">Admissions</p>
-      <div class="hero-line"></div>
-      <h1 class="hero-title">Visit us</h1>
-      <p class="hero-body">Our open events give you the chance to see Bancroft's at its best. Busy, warm and full of life.</p>
-    </div>
+  <!-- Photos -->
+  <div class="images">
+    <img class="img-l" id="imgL" src="visit-photo-left.jpg" alt="School building">
+    <img class="img-r" id="imgR" src="visit-photo-right.jpg" alt="School pupils">
+  </div>
 
-    <div class="images">
-      <img class="img-l" id="imgL" src="visit-photo-left.jpg" alt="School building">
-      <img class="img-r" id="imgR" src="visit-photo-right.jpg" alt="School pupils">
-    </div>
+  <!-- Open Days -->
+  <h2 class="section-title">Open days &amp; mornings</h2>
 
-    <h2 class="section-title">Open days &amp; mornings</h2>
+  <div class="visits-wrapper">
+  <div class="timeline">
 
-    <div class="timeline">
-
-      <div class="group">
-        <div class="group-labels">
-          <div class="group-label"><span>Prep &ndash; Year 3 entry</span></div>
-        </div>
-        <div class="group-rows">
-          <div class="row">
-            <div class="event-title">7+<br>Open Morning</div>
-            <div class="event-date"><p>Saturday</p><p>9th May 2026</p><p>10:00am &ndash; 12:00pm</p></div>
-            <div class="btn">Book a place</div>
-          </div>
+    <div class="group">
+      <div class="group-labels">
+        <div class="group-label"><span>Prep &ndash; Year 3 entry</span></div>
+      </div>
+      <div class="group-rows">
+        <div class="row">
+          <div class="event-title">7+<br>Open Morning</div>
+          <div class="event-date"><p>Saturday</p><p>9th May 2026</p><p>10:00am &ndash; 12:00pm</p></div>
+          <div class="btn">Book a place</div>
         </div>
       </div>
-
-      <div class="group">
-        <div class="group-labels">
-          <div class="group-label"><span>Senior &ndash; Year 7 entry</span></div>
-        </div>
-        <div class="group-rows">
-          <div class="row" style="padding-bottom:32px;">
-            <div class="event-title">11+<br>Open Morning</div>
-            <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>9:30am &ndash; 11:30am</p></div>
-            <div class="btn">Book session 1</div>
-          </div>
-          <div class="row">
-            <div class="event-title">11+<br>Open Morning</div>
-            <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>11:00am &ndash; 1:00pm</p></div>
-            <div class="btn">Book session 2</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Flexible visits: plain flex row, label aligned with CTA -->
-      <div style="display:flex;align-items:stretch;padding-bottom:112px;">
-        <div style="width:50%;position:relative;">
-          <div style="position:sticky;top:80px;padding-right:24px;text-align:right;">
-            <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy);line-height:1;">Flexible visits</span>
-          </div>
-        </div>
-        <div style="width:50%;padding-left:24px;">
-          <div class="event-title">Private<br>Tours</div>
-          <div class="event-date" style="font-size:14px;line-height:1.5;letter-spacing:0;margin-bottom:33px;"><p>Prefer a quieter, more personal visit? Our admissions team can arrange a private tour on a working day at a time that suits you.</p></div>
-          <div class="btn">Contact us</div>
-        </div>
-      </div>
-
     </div>
 
-    <div class="footer-image">
-      <img src="visit-photo-footer.jpg" alt="Bancrofts School">
+    <div class="group">
+      <div class="group-labels">
+        <div class="group-label"><span>Senior &ndash; Year 7 entry</span></div>
+      </div>
+      <div class="group-rows">
+        <div class="row" style="padding-bottom:32px;">
+          <div class="event-title">11+<br>Open Morning</div>
+          <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>9:30am &ndash; 11:30am</p></div>
+          <div class="btn">Book session 1</div>
+        </div>
+        <div class="row">
+          <div class="event-title">11+<br>Open Morning</div>
+          <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>11:00am &ndash; 1:00pm</p></div>
+          <div class="btn">Book session 2</div>
+        </div>
+      </div>
     </div>
 
   </div>
 
+  <!-- Flexible visits -->
+  <div class="flexible-group">
+    <div class="flexible-labels">
+      <div class="flexible-label"><span>Flexible visits</span></div>
+    </div>
+    <div class="flexible-rows">
+      <div class="event-title">Private<br>Tours</div>
+      <div class="event-date" style="font-size:14px;line-height:1.5;letter-spacing:0;margin-bottom:33px;">
+        <p>Prefer a quieter, more personal visit? Our admissions team can arrange a private tour on a working day at a time that suits you.</p>
+      </div>
+      <div class="btn btn-gold">Contact us</div>
+    </div>
+  </div>
+
+  </div><!-- /visits-wrapper -->
+
+  <!-- Your admissions journey -->
+  <div class="admissions-section" style="padding-top:80px;">
+    <h2 class="admissions-title">Your admissions journey</h2>
+
+    <div class="entry-card">
+      <div class="entry-details">
+        <div class="entry-title-group">
+          <p class="entry-deadline">Register by 1 December 2026</p>
+          <p class="entry-title">7+ Entry</p>
+        </div>
+        <p class="entry-sub">Prep School &middot; Year 3 &middot; September 2027</p>
+        <p class="entry-desc">Come and experience Bancroft's Prep through the voices of our pupils and staff.</p>
+      </div>
+      <div class="entry-cta"><span>Start your 7+ journey</span></div>
+    </div>
+
+    <div class="entry-card">
+      <div class="entry-details">
+        <div class="entry-title-group">
+          <p class="entry-deadline">Register by 1 December 2026</p>
+          <p class="entry-title">11+ Entry</p>
+        </div>
+        <p class="entry-sub">Senior School &middot; Year 7 &middot; September 2027</p>
+        <p class="entry-desc">Explore the school, meet our staff, and get a genuine sense of life at Bancroft's.</p>
+      </div>
+      <div class="entry-cta"><span>Start your 11+ journey</span></div>
+    </div>
+
+    <div class="entry-card">
+      <div class="entry-details">
+        <div class="entry-title-group">
+          <p class="entry-deadline">Register by 9 October 2026</p>
+          <p class="entry-title">16+ Entry</p>
+        </div>
+        <p class="entry-sub">Sixth Form &middot; September 2027</p>
+        <p class="entry-desc">Find out about A-level options, leavers' destinations, and life in the Sixth Form.</p>
+      </div>
+      <div class="entry-cta"><span>Start your 16+ journey</span></div>
+    </div>
+  </div>
+
+  <!-- Our History promo -->
+  <div class="promo">
+    <img class="promo-img-bg" src="promo-image.jpg" alt="Bancrofts School">
+    <div class="promo-copy">
+      <div class="promo-content">
+        <p class="promo-label">About us</p>
+        <h2 class="promo-heading">Our<br>History</h2>
+        <div class="promo-line"></div>
+        <p class="promo-body">Bancroft's is an exciting, diverse and adventurous community, rooted in north-east London, but connected to the world.</p>
+      </div>
+      <div class="btn">Our history &amp; archives</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <img class="footer-crest" src="Crest.svg" alt="Bancrofts crest">
+    <div class="footer-rule-full"></div>
+    <div class="footer-links">
+      <a href="#">Contact us</a>
+      <a href="#">Fees</a>
+      <a href="#">School Prospectus</a>
+      <a href="#">Good Schools Guide Review</a>
+      <a href="#">Term Dates</a>
+      <a href="#">Entry at 7+</a>
+      <a href="#">Entry at 11+</a>
+      <a href="#">Entry at 16+</a>
+    </div>
+    <div class="footer-address">
+      <p>Bancroft's School</p>
+      <p>Woodford Green</p>
+      <p>Essex. IG8 0RF</p>
+    </div>
+    <div class="footer-rule-short"></div>
+    <div class="footer-social">
+      <img class="social-icon" src="Instagram.svg" alt="Instagram">
+      <img class="social-icon" src="facebook.svg" alt="Facebook">
+      <img class="footer-back-to-top" src="back-to-top.svg" alt="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    </div>
+    <div class="footer-rule-short"></div>
+    <div class="footer-logos">
+      <img src="https://www.figma.com/api/mcp/asset/292f5e65-ffed-4441-91da-1c025e8b1b68" alt="HMC Leading Independent Schools" style="height:47px;width:85px;object-fit:cover;">
+      <img src="https://www.figma.com/api/mcp/asset/1cd0f563-515d-4d39-aef4-c7a1cb3d7f45" alt="The Times" style="height:48px;width:43px;object-fit:cover;">
+      <img src="https://www.figma.com/api/mcp/asset/645d5e2f-2b94-472f-9295-38ff8d665170" alt="The Good Schools Guide" style="height:42px;width:42px;object-fit:cover;">
+    </div>
+    <div class="footer-rule-full"></div>
+    <div class="footer-copy">
+      <p>&#169; Bancroft's School 2026</p>
+      <p class="muted">Bancroft's School is registered as a company in England &amp; Wales, No 3513962; registered charity No. 1068532</p>
+    </div>
+  </div>
+
+</div>
 <script>
 (function() {
   var overlay = document.getElementById('fade-overlay');
@@ -188,12 +324,10 @@ nav {
   var imgR    = document.getElementById('imgR');
   var ticking = false;
 
-  // Fade in — overlay fades out, images fade in after overlay clears
   document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(function() {
       requestAnimationFrame(function() {
         overlay.classList.add('hidden');
-        // Fade images in after overlay clears (0.4s overlay + slight buffer)
         setTimeout(function() {
           imgL.style.opacity = '1';
           imgR.style.opacity = '1';
@@ -202,7 +336,6 @@ nav {
     });
   });
 
-  // Logo — fade to cream then navigate back
   backBtn.addEventListener('click', function() {
     overlay.classList.remove('hidden');
     setTimeout(function() {
@@ -210,7 +343,6 @@ nav {
     }, 420);
   });
 
-  // Parallax
   function updateParallax() {
     var s = window.pageYOffset || document.documentElement.scrollTop;
     imgL.style.transform = 'translateY(' + (s * 0.12) + 'px)';
