@@ -3,143 +3,678 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Visit Us - Bancrofts</title>
+<meta name="format-detection" content="telephone=no">
+<title>Visit Us — Bancroft's School</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 @font-face {
-  font-family: "PP Writer";
-  src: url("pp-writer-book.woff2") format("woff2"), url("pp-writer-book.woff") format("woff");
-  font-weight: 400; font-style: normal;
+  font-family: 'PP Writer';
+  src: url('pp-writer-book.woff2') format('woff2'),
+       url('pp-writer-book.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  --navy: #2c4255;
-  --cream: #f5f5f5;
-  --gold: #B19660;
+  --navy:      #2c4255;
+  --cream:     #f5f5f5;
+  --gold:      #B19660;
   --gold-dark: #876b33;
-  --font: 'Minion Pro', 'EB Garamond', Georgia, serif;
-  --font-heading: 'PP Writer', 'Cormorant Garamond', Georgia, serif;
-  --mono: 'Minion Pro', 'EB Garamond', Georgia, serif;
+  --font:      'Minion Pro', 'EB Garamond', Georgia, serif;
+  --mono:      'Minion Pro', 'EB Garamond', Georgia, serif;
 }
 html { overflow-x: hidden; }
-body { width: 100%; background: #f5f5f5; display: flex; justify-content: center; }
-.page { width: 375px; flex-shrink: 0; background: var(--cream); min-height: 100vh; padding-bottom: 1px; }
+body { width: 100%; background: var(--cream); display: flex; justify-content: center; }
+.page { width: 375px; flex-shrink: 0; background: var(--cream); padding-top: 80px; }
 
-#fade-overlay { position: fixed; inset: 0; background: #f5f5f5; z-index: 9998; opacity: 1; pointer-events: all; transition: opacity 0.4s ease; }
+/* Fade overlay */
+#fade-overlay {
+  position: fixed; inset: 0; background: var(--cream);
+  z-index: 9998; opacity: 1; pointer-events: all;
+  transition: opacity 0.4s ease;
+}
 #fade-overlay.hidden { opacity: 0; pointer-events: none; }
 
-/* Nav */
+/* ─────────────────────────────
+   NAV — 80px tall, fixed, hides on scroll down
+───────────────────────────── */
 nav {
-  position: relative;
-  top: 32px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  margin-bottom: 50px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  z-index: 1000;
+  width: 375px;
+  height: 80px;
+  background: var(--cream);
+  /* default transition = slow ease up when hiding */
+  transition: transform 0.5s ease;
 }
-.nav-link {
+nav.nav-hidden {
+  transform: translateX(-50%) translateY(-100%);
+}
+
+.nav-contact {
+  position: absolute;
+  left: 18px;
+  top: 39px;
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--navy);
   cursor: pointer;
-  min-width: 48px;
+  line-height: normal;
 }
-.nav-link:last-child { text-align: right; }
-.nav-logo {
+
+.nav-logo-wrap {
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 29px;
+  transform: translateX(-50%);
   width: 120px;
   height: 32px;
-  object-fit: contain;
   cursor: pointer;
+}
+.nav-logo {
+  width: 100%; height: 100%;
+  object-fit: contain; display: block;
   filter: brightness(0) saturate(100%) invert(24%) sepia(17%) saturate(1071%) hue-rotate(170deg) brightness(94%) contrast(90%);
 }
 
-/* ── Hero ── */
-.hero { text-align: center; padding: 80px 24px 28px; }
-.hero-label { font-family: var(--font-heading); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
-.hero-title { font-family: var(--font-heading); font-size: 52px; font-weight: 400; line-height: 0.9; color: var(--navy); margin-bottom: 18px; letter-spacing: -0.5px; }
-.hero-line { width: 50px; height: 1px; background: var(--gold); margin: 0 auto 18px; }
-.hero-body { font-family: var(--font); font-weight: 400; font-size: 16px; line-height: 1.2; color: var(--navy); width: 215px; margin: 0 auto; letter-spacing: -0.02em; }
+.nav-menu-wrap {
+  position: absolute;
+  left: 305px;
+  top: 39px;
+  width: 52px;
+  height: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 4px;
+}
+.nav-burger {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 3px;
+  flex-shrink: 0;
+}
+.nav-burger span {
+  display: block;
+  height: 1px;
+  background: var(--navy);
+}
+.nav-burger span:nth-child(1) { width: 8px; margin-left: 4px; margin-bottom: 2px; }
+.nav-burger span:nth-child(2) { width: 12px; margin-bottom: 2px; }
+.nav-burger span:nth-child(3) { width: 12px; }
+.nav-menu-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: normal;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
-/* ── Photos ── */
-.images { display: flex; gap: 10px; padding: 36px 20px 128px; align-items: flex-start; }
-.img-l { width: 165px; height: 206px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; opacity: 0; transition: opacity 0.8s ease; }
-.img-r { width: 165px; height: 100px; object-fit: cover; flex-shrink: 0; display: block; will-change: transform; opacity: 0; transition: opacity 0.8s ease 0.3s; }
+/* ─────────────────────────────
+   HERO — centred col, top 80px below nav
+───────────────────────────── */
+.hero {
+  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 281px;
+  margin: 0 auto;
+}
+.hero-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--navy);
+  text-align: center;
+  line-height: 1;
+}
+.hero-rule {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.hero-body {
+  font-family: var(--font);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--navy);
+  text-align: center;
+  letter-spacing: -0.56px;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
 
-/* ── Open Days section heading ── */
-.section-title { font-family: var(--font-heading); font-size: 34px; font-weight: 400; line-height: 1.1; color: var(--navy); text-align: center; width: 194px; margin: 0 auto 40px; }
+/* ─────────────────────────────
+   PHOTO COLLAGE
+───────────────────────────── */
+.photo-collage {
+  position: relative;
+  width: 375px;
+  height: 830px;
+  margin-top: 0;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.photo-collage img {
+  position: absolute;
+  object-fit: cover;
+  display: block;
+}
+.photo-centre-top   { width: 223px; height: 279px; left: 76px;  top: 69px;  }
+.photo-left         { width: 165px; height: 99px;  left: 18px;  top: 396px; }
+.photo-right        { width: 136px; height: 170px; left: 221px; top: 473px; }
+.photo-centre-bottom{ width: 223px; height: 134px; left: 76px;  top: 692px; }
 
-/* ── Timeline ── */
-.visits-wrapper { position: relative; padding-bottom: 40px; }
-.visits-wrapper::before { content: ""; position: absolute; left: 50%; transform: translateX(-0.5px); top: 0; bottom: 0; width: 1px; background: var(--gold); pointer-events: none; }
-.timeline { position: relative; }
+/* ─────────────────────────────
+   OPEN DAYS SECTION
+───────────────────────────── */
+.section-wrap {
+  margin-top: 188px;
+}
+.section-title {
+  font-family: var(--font);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--navy);
+  text-align: center;
+  width: 194px;
+  margin: 0 auto 40px;
+}
 
-.group { display: flex; align-items: stretch; }
+/* Timeline */
+.visits-wrapper {
+  position: relative;
+  padding-bottom: 192px;
+}
+.visits-wrapper::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-0.5px);
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--gold);
+  pointer-events: none;
+}
+
+.group {
+  display: flex;
+  align-items: stretch;
+}
 .group-labels { width: 50%; position: relative; }
-.group-label { position: sticky; top: 80px; padding-right: 24px; text-align: right; }
-.group-label span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); line-height: 1; }
+.group-label  {
+  position: sticky;
+  top: 100px;
+  padding-right: 24px;
+  text-align: right;
+}
+.group-label span {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: 1;
+}
 .group-rows { width: 50%; padding-left: 24px; }
 .row { padding-bottom: 112px; }
-.event-title { font-family: var(--font); font-size: 28px; font-weight: 400; line-height: 1.06; color: var(--navy); margin-bottom: 12px; }
-.event-date { font-family: var(--font); font-weight: 400; font-size: 16px; line-height: 1.2; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 20px; font-feature-settings: "lnum" 1, "tnum" 1; }
+
+.event-title {
+  font-family: var(--font);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.06;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+.event-date {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--navy);
+  letter-spacing: -0.32px;
+  margin-bottom: 33px;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
 .event-date p { margin-bottom: 2px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); padding: 9px 12px 7px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; line-height: 1; }
-.btn-gold { background: var(--gold-dark); border-color: rgba(177,150,96,0.5); box-shadow: 0 0 0 2px rgba(177,150,96,0.18); }
 
-/* Flexible visits plain layout */
-.flexible-group { display: flex; align-items: stretch; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy);
+  border: 2px solid rgba(44,66,85,0.5);
+  padding: 8px 12px 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  line-height: normal;
+}
+.btn-gold {
+  background: var(--gold-dark);
+  border-color: rgba(135,107,51,0.5);
+}
+
+/* Flexible visits */
+.flexible-group  { display: flex; align-items: stretch; }
 .flexible-labels { width: 50%; position: relative; }
-.flexible-label { position: sticky; top: 80px; padding-right: 24px; text-align: right; }
-.flexible-label span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); line-height: 1; }
-.flexible-rows { width: 50%; padding-left: 24px; padding-bottom: 0; }
+.flexible-label  {
+  position: sticky;
+  top: 100px;
+  padding-right: 24px;
+  text-align: right;
+}
+.flexible-label span {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: 1;
+}
+.flexible-rows { width: 50%; padding-left: 24px; }
 
-/* ── Your admissions journey ── */
-.admissions-section { padding: 0 0 40px; }
-.admissions-title { font-family: var(--font); font-weight: 400; font-size: 34px; line-height: 1.1; color: var(--navy); text-align: center; width: 234px; margin: 0 auto 32px; }
-.entry-card { background: #fff; border: 1px solid var(--gold); margin: 0 18px 17px; height: 285px; position: relative; overflow: hidden; }
-.entry-details { position: absolute; top: 27px; left: 31px; width: 275px; display: flex; flex-direction: column; gap: 24px; }
-.entry-title-group { display: flex; flex-direction: column; gap: 4px; }
-.entry-deadline { font-family: var(--mono); font-size: 10px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); line-height: 1; }
-.entry-title { font-family: var(--font); font-size: 28px; font-weight: 400; line-height: 1.2; color: var(--navy); }
-.entry-sub { font-family: var(--font); font-size: 16px; font-weight: 400; line-height: 1.2; color: var(--navy); }
-.entry-desc { font-family: var(--font); font-size: 16px; font-weight: 400; line-height: 1.2; color: var(--navy); }
-.entry-cta { position: absolute; top: 208px; left: 31px; width: 275px; height: 42px; background: var(--navy); border: 2px solid rgba(44,66,85,0.5); box-shadow: 0 0 0 2px rgba(44,66,85,0.18); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.entry-cta span { font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); line-height: normal; }
+/* ─────────────────────────────
+   YOUR ADMISSIONS JOURNEY
+───────────────────────────── */
+.admissions-intro {
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admissions-title {
+  font-family: var(--font);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--navy);
+  text-align: center;
+  width: 234px;
+}
+/* Small decorative tower in admissions section */
+.admissions-tower {
+  position: relative;
+  width: 20px;
+  height: 25px;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-top: 25px;
+  align-self: center;
+  pointer-events: none;
+}
+.admissions-tower img {
+  position: absolute;
+  width: 571%;
+  height: 1144%;
+  left: -236%;
+  top: -1042%;
+  object-fit: cover;
+}
 
-/* ── Our History promo ── */
-.promo { margin: 0 18px 0; height: 688px; position: relative; overflow: hidden; }
-.promo-img-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.promo-copy { position: absolute; bottom: 345px; left: 0; right: 0; display: flex; flex-direction: column; gap: 48px; align-items: center; }
-.promo-content { display: flex; flex-direction: column; gap: 23px; align-items: center; }
-.promo-label { font-family: var(--font-heading); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); }
-.promo-heading { font-family: var(--font-heading); font-size: 52px; font-weight: 400; line-height: 0.9; color: var(--navy); text-align: center; letter-spacing: -0.5px; }
-.promo-line { width: 50px; height: 1px; background: var(--gold); }
-.promo-body { font-family: var(--font); font-weight: 400; font-size: 16px; line-height: 1.2; color: var(--navy); text-align: center; letter-spacing: -0.02em; width: 261px; }
+/* Short vertical gold connector between title and first panel */
+.admissions-connector {
+  width: 1px;
+  height: 100px;
+  background: var(--gold);
+  margin-top: 32px;
+  flex-shrink: 0;
+}
 
-/* ── Footer ── */
-.footer { background: var(--navy); padding: 0; margin-top: 18px; }
-.footer-crest { width: 100px; height: 73px; object-fit: contain; margin: 0 18px; padding-top: 40px; display: block; filter: brightness(0) saturate(100%) invert(64%) sepia(33%) saturate(600%) hue-rotate(5deg) brightness(95%) contrast(88%); }
-.footer-rule-full { height: 1px; background: var(--gold); margin: 24px 18px 0; }
-.footer-rule-short { width: 50px; height: 1px; background: var(--gold); margin: 24px 18px 0; }
-.footer-links { padding: 24px 18px 0; display: flex; flex-direction: column; gap: 8px; }
-.footer-links a { font-family: var(--mono); font-size: 10px; line-height: 1.2; color: var(--cream); text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; }
-.footer-address { font-family: var(--mono); padding: 24px 18px 0; }
-.footer-address p { font-size: 16px; line-height: 1.2; color: var(--cream); }
-.footer-social { display: flex; align-items: center; gap: 16px; padding: 24px 18px 0; }
-.footer-social img.social-icon { height: 20px; width: auto; }
-.footer-logos { display: flex; align-items: center; gap: 16px; padding: 24px 18px 0; }
-.footer-back-to-top { width: 47px; height: 47px; flex-shrink: 0; margin-left: auto; cursor: pointer; display: block; }
-.footer-copy { padding: 24px 18px 40px; }
-.footer-copy p { font-family: var(--mono); font-size: 16px; line-height: 1.2; color: var(--cream); margin-bottom: 8px; }
-.footer-copy p.muted { color: rgba(245,245,245,0.7); }
+/* Entry panels — full-width, navy, 690px */
+.entry-panel {
+  width: 375px;
+  height: 690px;
+  background: var(--navy);
+  overflow: hidden;
+  position: relative;
+  margin-top: 0;
+}
+.entry-panel + .entry-panel { margin-top: 18px; }
+
+.entry-content {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 48px;
+  width: 281px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.entry-header { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.entry-title-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.entry-deadline {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-align: center;
+  line-height: 1;
+}
+.entry-gold-rule {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.entry-type {
+  font-family: var(--font);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--cream);
+  text-align: center;
+}
+.entry-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-align: center;
+  line-height: 1;
+  width: 100%;
+}
+.entry-desc {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--cream);
+  text-align: center;
+}
+.entry-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 8px 12px 6px;
+  background: var(--cream);
+  border: 2px solid rgba(245,245,245,0.5);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.entry-cta span {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy);
+  white-space: nowrap;
+  line-height: normal;
+}
+/* Photo at bottom of each entry panel */
+.entry-photo-wrap {
+  position: absolute;
+  left: 18px;
+  top: 459px;
+  width: 339px;
+  height: 203px;
+  overflow: hidden;
+}
+.entry-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ─────────────────────────────
+   OUR HISTORY PROMO
+───────────────────────────── */
+.promo {
+  margin: 18px 18px 0;
+  height: 690px;
+  position: relative;
+  overflow: hidden;
+}
+.promo-img-bg {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 417px;
+  object-fit: cover;
+  object-position: center top;
+}
+.promo-copy {
+  position: absolute;
+  bottom: 347px;
+  left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  align-items: center;
+}
+.promo-content {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+  align-items: center;
+}
+.promo-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: 1;
+}
+.promo-heading {
+  font-family: var(--font);
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 0.9;
+  color: var(--navy);
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+.promo-rule {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.promo-body {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--navy);
+  text-align: center;
+  letter-spacing: -0.32px;
+  width: 261px;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
+.promo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy);
+  border: 2px solid rgba(44,66,85,0.5);
+  padding: 8px 12px 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  line-height: normal;
+}
+
+/* ─────────────────────────────
+   FOOTER — 880px, navy, all absolute
+───────────────────────────── */
+.footer {
+  position: relative;
+  width: 375px;
+  height: 880px;
+  background: var(--navy);
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+/* Crest */
+.footer-crest {
+  position: absolute;
+  left: 18px;
+  top: 48px;
+  width: 119px;
+  height: 87px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(64%) sepia(33%) saturate(600%)
+          hue-rotate(5deg) brightness(95%) contrast(88%);
+}
+
+/* Tower */
+.footer-tower {
+  position: absolute;
+  left: 253px;
+  top: 343px;
+  width: 80px;
+  height: 194px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Rules */
+.footer-rule {
+  position: absolute;
+  left: 18px;
+  height: 1px;
+  background: var(--gold);
+}
+.footer-rule-full  { width: 336px; }
+.footer-rule-short { width: 50px; }
+
+/* Links */
+.footer-links {
+  position: absolute;
+  left: 18px;
+  top: 231px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 149px;
+}
+.footer-links a {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-decoration: none;
+  line-height: 1.2;
+}
+
+/* Address */
+.footer-address {
+  position: absolute;
+  left: 18px;
+  top: 447px;
+  font-family: var(--mono);
+}
+.footer-address p {
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--cream);
+}
+
+/* Social */
+.footer-social {
+  position: absolute;
+  left: 18px;
+  top: 518px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.footer-social img { height: 20px; width: auto; display: block; }
+
+/* Accreditation logos */
+.footer-logos {
+  position: absolute;
+  left: 18px;
+  top: 639px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.footer-logos img { display: block; object-fit: contain; }
+
+/* Back to top */
+.footer-back-top {
+  position: absolute;
+  left: 267px;
+  top: 634px;
+  width: 47px;
+  height: 47px;
+  display: block;
+  cursor: pointer;
+}
+
+/* Copyright */
+.footer-copy {
+  position: absolute;
+  left: 18px;
+  top: 761px;
+  width: 336px;
+}
+.footer-copy p {
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--cream);
+}
+.footer-copy p + p { margin-top: 19px; }
 </style>
 </head>
 <body>
@@ -147,140 +682,200 @@ nav {
 
   <div id="fade-overlay"></div>
 
+  <!-- ── NAV ── -->
   <nav>
-    <span class="nav-link">Contact</span>
-    <img class="nav-logo" id="backBtn" src="Logo.svg" alt="Bancrofts">
-    <span class="nav-link">Menu</span>
+    <span class="nav-contact" id="backBtn">Contact</span>
+    <div class="nav-logo-wrap" id="logoBtn">
+      <img class="nav-logo" src="Logo.svg" alt="Bancroft's School">
+    </div>
+    <div class="nav-menu-wrap">
+      <div class="nav-burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <span class="nav-menu-label">Menu</span>
+    </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- ── HERO ── -->
   <div class="hero">
-    <p class="hero-label">Admissions</p>
-    <h1 class="hero-title">Visit us</h1>
-    <div class="hero-line"></div>
+    <p class="hero-label">Visit us</p>
+    <div class="hero-rule"></div>
     <p class="hero-body">Our open events give you the chance to see Bancroft's at its best. Busy, warm and full of life.</p>
   </div>
 
-  <!-- Photos -->
-  <div class="images">
-    <img class="img-l" id="imgL" src="visit-photo-left.jpg" alt="School building">
-    <img class="img-r" id="imgR" src="visit-photo-right.jpg" alt="School pupils">
+  <!-- ── PHOTO COLLAGE ── -->
+  <div class="photo-collage">
+    <img class="photo-centre-top"    src="visit-photo-centre-top.jpg"    alt="Bancroft's open day">
+    <img class="photo-left"          src="visit-photo-left.jpg"           alt="School building">
+    <img class="photo-right"         src="visit-photo-right.jpg"          alt="School pupils">
+    <img class="photo-centre-bottom" src="visit-photo-centre-bottom.jpg"  alt="School grounds">
   </div>
 
-  <!-- Open Days -->
-  <h2 class="section-title">Open days &amp; mornings</h2>
+  <!-- ── OPEN DAYS ── -->
+  <div class="section-wrap">
+    <h2 class="section-title">Open days &amp; mornings</h2>
 
-  <div class="visits-wrapper">
-  <div class="timeline">
+    <div class="visits-wrapper">
+      <div class="timeline">
 
-    <div class="group">
-      <div class="group-labels">
-        <div class="group-label"><span>Prep &ndash; Year 3 entry</span></div>
-      </div>
-      <div class="group-rows">
-        <div class="row">
-          <div class="event-title">7+<br>Open Morning</div>
-          <div class="event-date"><p>Saturday</p><p>9th May 2026</p><p>10:00am &ndash; 12:00pm</p></div>
-          <div class="btn">Book a place</div>
+        <!-- Prep / 7+ -->
+        <div class="group">
+          <div class="group-labels">
+            <div class="group-label"><span>Prep &ndash; Year 3 entry</span></div>
+          </div>
+          <div class="group-rows">
+            <div class="row">
+              <div class="event-title">7+<br>Open Morning</div>
+              <div class="event-date">
+                <p>Saturday</p>
+                <p>9th May 2026</p>
+                <p>10:00am &ndash; 12:00pm</p>
+              </div>
+              <div class="btn">Book a place</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Senior / 11+ -->
+        <div class="group">
+          <div class="group-labels">
+            <div class="group-label"><span>Senior &ndash; Year 7 entry</span></div>
+          </div>
+          <div class="group-rows">
+            <div class="row" style="padding-bottom:32px;">
+              <div class="event-title">11+<br>Open Morning</div>
+              <div class="event-date">
+                <p>Saturday</p>
+                <p>6th June 2026</p>
+                <p>9:30am &ndash; 11:30am</p>
+              </div>
+              <div class="btn">Book session 1</div>
+            </div>
+            <div class="row">
+              <div class="event-title">11+<br>Open Morning</div>
+              <div class="event-date">
+                <p>Saturday</p>
+                <p>6th June 2026</p>
+                <p>11:00am &ndash; 1:00pm</p>
+              </div>
+              <div class="btn">Book session 2</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /timeline -->
+
+      <!-- Flexible visits -->
+      <div class="flexible-group">
+        <div class="flexible-labels">
+          <div class="flexible-label"><span>Flexible visits</span></div>
+        </div>
+        <div class="flexible-rows">
+          <div class="event-title">Private<br>Tours</div>
+          <div class="event-date" style="font-size:16px;line-height:1.2;letter-spacing:-0.32px;margin-bottom:33px;">
+            <p>Prefer a quieter, more personal visit? Our admissions team can arrange a private tour on a working day at a time that suits you.</p>
+          </div>
+          <div class="btn btn-gold">Contact us</div>
         </div>
       </div>
-    </div>
 
-    <div class="group">
-      <div class="group-labels">
-        <div class="group-label"><span>Senior &ndash; Year 7 entry</span></div>
-      </div>
-      <div class="group-rows">
-        <div class="row" style="padding-bottom:32px;">
-          <div class="event-title">11+<br>Open Morning</div>
-          <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>9:30am &ndash; 11:30am</p></div>
-          <div class="btn">Book session 1</div>
-        </div>
-        <div class="row">
-          <div class="event-title">11+<br>Open Morning</div>
-          <div class="event-date"><p>Saturday</p><p>6th June 2026</p><p>11:00am &ndash; 1:00pm</p></div>
-          <div class="btn">Book session 2</div>
-        </div>
-      </div>
-    </div>
+    </div><!-- /visits-wrapper -->
+  </div><!-- /section-wrap -->
 
-  </div>
-
-  <!-- Flexible visits -->
-  <div class="flexible-group">
-    <div class="flexible-labels">
-      <div class="flexible-label"><span>Flexible visits</span></div>
-    </div>
-    <div class="flexible-rows">
-      <div class="event-title">Private<br>Tours</div>
-      <div class="event-date" style="font-size:14px;line-height:1.5;letter-spacing:0;margin-bottom:33px;">
-        <p>Prefer a quieter, more personal visit? Our admissions team can arrange a private tour on a working day at a time that suits you.</p>
-      </div>
-      <div class="btn btn-gold">Contact us</div>
-    </div>
-  </div>
-
-  </div><!-- /visits-wrapper -->
-
-  <!-- Your admissions journey -->
-  <div class="admissions-section" style="padding-top:80px;">
+  <!-- ── YOUR ADMISSIONS JOURNEY ── -->
+  <div class="admissions-intro">
     <h2 class="admissions-title">Your admissions journey</h2>
+    <!-- Small decorative tower icon — 32px above the connector line -->
+    <div class="admissions-tower">
+      <img src="tower.png" alt="">
+    </div>
+    <div class="admissions-connector"></div>
+  </div>
 
-    <div class="entry-card">
-      <div class="entry-details">
+  <!-- 7+ Entry Panel -->
+  <div class="entry-panel" style="margin-top:26px;">
+    <div class="entry-content">
+      <div class="entry-header">
         <div class="entry-title-group">
           <p class="entry-deadline">Register by 1 December 2026</p>
-          <p class="entry-title">7+ Entry</p>
+          <div class="entry-gold-rule"></div>
+          <p class="entry-type">7+ Entry</p>
         </div>
         <p class="entry-sub">Prep School &middot; Year 3 &middot; September 2027</p>
-        <p class="entry-desc">Come and experience Bancroft's Prep through the voices of our pupils and staff.</p>
       </div>
+      <p class="entry-desc">Come and experience Bancroft's Prep through the voices of our pupils and staff.</p>
       <div class="entry-cta"><span>Start your 7+ journey</span></div>
     </div>
-
-    <div class="entry-card">
-      <div class="entry-details">
-        <div class="entry-title-group">
-          <p class="entry-deadline">Register by 1 December 2026</p>
-          <p class="entry-title">11+ Entry</p>
-        </div>
-        <p class="entry-sub">Senior School &middot; Year 7 &middot; September 2027</p>
-        <p class="entry-desc">Explore the school, meet our staff, and get a genuine sense of life at Bancroft's.</p>
-      </div>
-      <div class="entry-cta"><span>Start your 11+ journey</span></div>
-    </div>
-
-    <div class="entry-card">
-      <div class="entry-details">
-        <div class="entry-title-group">
-          <p class="entry-deadline">Register by 9 October 2026</p>
-          <p class="entry-title">16+ Entry</p>
-        </div>
-        <p class="entry-sub">Sixth Form &middot; September 2027</p>
-        <p class="entry-desc">Find out about A-level options, leavers' destinations, and life in the Sixth Form.</p>
-      </div>
-      <div class="entry-cta"><span>Start your 16+ journey</span></div>
+    <div class="entry-photo-wrap">
+      <img src="7-plus.jpg" alt="7+ entry">
     </div>
   </div>
 
-  <!-- Our History promo -->
+  <!-- 11+ Entry Panel -->
+  <div class="entry-panel">
+    <div class="entry-content">
+      <div class="entry-header">
+        <div class="entry-title-group">
+          <p class="entry-deadline">Register by 1 December 2026</p>
+          <div class="entry-gold-rule"></div>
+          <p class="entry-type">11+ Entry</p>
+        </div>
+        <p class="entry-sub">Senior School &middot; Year 7 &middot; September 2027</p>
+      </div>
+      <p class="entry-desc">Explore the school, meet our staff, and get a genuine sense of life at Bancroft's.</p>
+      <div class="entry-cta"><span>Start your 11+ journey</span></div>
+    </div>
+    <div class="entry-photo-wrap">
+      <img src="11-plus.jpg" alt="11+ entry">
+    </div>
+  </div>
+
+  <!-- 16+ Entry Panel -->
+  <div class="entry-panel">
+    <div class="entry-content">
+      <div class="entry-header">
+        <div class="entry-title-group">
+          <p class="entry-deadline">Register by 9 October 2026</p>
+          <div class="entry-gold-rule"></div>
+          <p class="entry-type">16+ Entry</p>
+        </div>
+        <p class="entry-sub">Sixth Form &middot; September 2027</p>
+      </div>
+      <p class="entry-desc">Find out about A-level options, leavers' destinations, and life in the Sixth Form.</p>
+      <div class="entry-cta"><span>Start your 16+ journey</span></div>
+    </div>
+    <div class="entry-photo-wrap">
+      <img src="16-plus.jpg" alt="16+ entry">
+    </div>
+  </div>
+
+  <!-- ── OUR HISTORY PROMO ── -->
   <div class="promo">
-    <img class="promo-img-bg" src="promo-image.jpg" alt="Bancrofts School">
+    <img class="promo-img-bg" src="promo-image.jpg" alt="Bancroft's School">
     <div class="promo-copy">
       <div class="promo-content">
         <p class="promo-label">About us</p>
         <h2 class="promo-heading">Our<br>History</h2>
-        <div class="promo-line"></div>
+        <div class="promo-rule"></div>
         <p class="promo-body">Bancroft's is an exciting, diverse and adventurous community, rooted in north-east London, but connected to the world.</p>
       </div>
-      <div class="btn">Our history &amp; archives</div>
+      <div class="promo-btn">Our history &amp; archives</div>
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- ── FOOTER ── -->
   <div class="footer">
-    <img class="footer-crest" src="Crest.svg" alt="Bancrofts crest">
-    <div class="footer-rule-full"></div>
+
+    <img class="footer-crest" src="Crest.svg" alt="Bancroft's crest">
+
+    <img class="footer-tower" src="tower.png" alt="">
+
+    <!-- Top rule -->
+    <div class="footer-rule footer-rule-full" style="top:183px;"></div>
+
+    <!-- Nav links -->
     <div class="footer-links">
       <a href="#">Contact us</a>
       <a href="#">Fees</a>
@@ -291,68 +886,119 @@ nav {
       <a href="#">Entry at 11+</a>
       <a href="#">Entry at 16+</a>
     </div>
+
+    <!-- Short gold rule -->
+    <div class="footer-rule footer-rule-short" style="top:415px;"></div>
+
+    <!-- Address -->
     <div class="footer-address">
       <p>Bancroft's School</p>
       <p>Woodford Green</p>
       <p>Essex. IG8 0RF</p>
     </div>
-    <div class="footer-rule-short"></div>
+
+    <!-- Social icons -->
     <div class="footer-social">
-      <img class="social-icon" src="Instagram.svg" alt="Instagram">
-      <img class="social-icon" src="facebook.svg" alt="Facebook">
-      <img class="footer-back-to-top" src="back-to-top.svg" alt="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <img src="Instagram.svg" alt="Instagram">
+      <img src="facebook.svg"  alt="Facebook">
     </div>
-    <div class="footer-rule-short"></div>
+
+    <!-- Mid rule -->
+    <div class="footer-rule footer-rule-full" style="top:586px;"></div>
+
+    <!-- Accreditation logos -->
     <div class="footer-logos">
-      <img src="https://www.figma.com/api/mcp/asset/292f5e65-ffed-4441-91da-1c025e8b1b68" alt="HMC Leading Independent Schools" style="height:47px;width:85px;object-fit:cover;">
-      <img src="https://www.figma.com/api/mcp/asset/1cd0f563-515d-4d39-aef4-c7a1cb3d7f45" alt="The Times" style="height:48px;width:43px;object-fit:cover;">
-      <img src="https://www.figma.com/api/mcp/asset/645d5e2f-2b94-472f-9295-38ff8d665170" alt="The Good Schools Guide" style="height:42px;width:42px;object-fit:cover;">
+      <img src="logos.png" alt="School accreditations" style="height:42px;width:auto;">
     </div>
-    <div class="footer-rule-full"></div>
+
+    <!-- Back to top -->
+    <img class="footer-back-top" src="back-to-top.svg" alt="Back to top" id="backToTop">
+
+    <!-- Lower rule -->
+    <div class="footer-rule footer-rule-full" style="top:729px;"></div>
+
+    <!-- Copyright -->
     <div class="footer-copy">
       <p>&#169; Bancroft's School 2026</p>
-      <p class="muted">Bancroft's School is registered as a company in England &amp; Wales, No 3513962; registered charity No. 1068532</p>
+      <p>Bancroft's School is registered as a company in England &amp; Wales, No&nbsp;3513962; registered charity No.&nbsp;1068532</p>
     </div>
-  </div>
 
-</div>
+  </div><!-- /footer -->
+
+</div><!-- /page -->
 <script>
 (function() {
-  var overlay = document.getElementById('fade-overlay');
-  var backBtn = document.getElementById('backBtn');
-  var imgL    = document.getElementById('imgL');
-  var imgR    = document.getElementById('imgR');
-  var ticking = false;
+  var overlay  = document.getElementById('fade-overlay');
+  var backBtn  = document.getElementById('backBtn');
+  var logoBtn  = document.getElementById('logoBtn');
+  var backTop  = document.getElementById('backToTop');
 
+  /* Fade in on load */
   document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(function() {
       requestAnimationFrame(function() {
         overlay.classList.add('hidden');
-        setTimeout(function() {
-          imgL.style.opacity = '1';
-          imgR.style.opacity = '1';
-        }, 500);
       });
     });
   });
 
-  backBtn.addEventListener('click', function() {
+  /* Back to index */
+  function goBack() {
     overlay.classList.remove('hidden');
-    setTimeout(function() {
-      window.location.href = 'index.html';
-    }, 420);
-  });
-
-  function updateParallax() {
-    var s = window.pageYOffset || document.documentElement.scrollTop;
-    imgL.style.transform = 'translateY(' + (s * 0.12) + 'px)';
-    imgR.style.transform = 'translateY(' + (s * 0.22) + 'px)';
-    ticking = false;
+    setTimeout(function() { window.location.href = 'index.html'; }, 420);
   }
+  backBtn.addEventListener('click', goBack);
+  logoBtn.addEventListener('click', goBack);
+
+  /* Back to top */
+  if (backTop) {
+    backTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* ── Nav hide/show + photo parallax (shared rAF) ──
+     Scroll DOWN  → slow ease up (0.5s, set in CSS)
+     Scroll UP    → snap back immediately (0.15s override)   */
+  var navEl   = document.querySelector('nav');
+  var lastY   = 0;
+  var ticking = false;
+  var NAV_H   = 80;
+
+  /* Collage photo parallax — different rates for depth */
+  var parallaxPhotos = [
+    { el: document.querySelector('.photo-centre-top'),    rate: 0.08 },
+    { el: document.querySelector('.photo-left'),          rate: 0.13 },
+    { el: document.querySelector('.photo-right'),         rate: 0.17 },
+    { el: document.querySelector('.photo-centre-bottom'), rate: 0.22 }
+  ];
+
   window.addEventListener('scroll', function() {
-    if (!ticking) { requestAnimationFrame(updateParallax); ticking = true; }
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        var y = window.pageYOffset;
+
+        /* Nav */
+        if (y > lastY && y > NAV_H) {
+          navEl.style.transitionDuration = '';
+          navEl.classList.add('nav-hidden');
+        } else if (y < lastY) {
+          navEl.style.transitionDuration = '0.15s';
+          navEl.classList.remove('nav-hidden');
+        }
+
+        /* Parallax */
+        for (var i = 0; i < parallaxPhotos.length; i++) {
+          var p = parallaxPhotos[i];
+          if (p.el) p.el.style.transform = 'translateY(' + (y * p.rate) + 'px)';
+        }
+
+        lastY   = y;
+        ticking = false;
+      });
+      ticking = true;
+    }
   }, { passive: true });
-  updateParallax();
 })();
 </script>
 </body>
