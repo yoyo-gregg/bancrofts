@@ -349,16 +349,67 @@ nav.nav-hidden {
   flex-shrink: 0;
 }
 
+/* ─── ENTRY PANEL STICKY STACK ─── */
+/* Wrapper gives sticky panels a defined containing block so they
+   un-stick cleanly before the promo section. padding-bottom gives
+   the last panel a full panel-height of scroll while it's pinned. */
+.entry-panels-stack {
+  position: relative;
+  margin-top: 26px;
+  padding-bottom: 690px;
+  background: var(--navy); /* fills the padding-bottom area seamlessly */
+}
+
 /* Entry panels — full-width, navy, 690px */
 .entry-panel {
   width: 375px;
   height: 690px;
   background: var(--navy);
   overflow: hidden;
-  position: relative;
+  position: sticky;
+  top: 80px; /* pins just below fixed nav */
   margin-top: 0;
 }
-.entry-panel + .entry-panel { margin-top: 18px; }
+.entry-panel + .entry-panel { margin-top: 0; }
+
+/* Stacking order — each card sits above the previous */
+.entry-panels-stack .entry-panel:nth-child(1) { z-index: 1; }
+.entry-panels-stack .entry-panel:nth-child(2) { z-index: 2; }
+.entry-panels-stack .entry-panel:nth-child(3) { z-index: 3; }
+
+/* Dark overlay — driven by JS as the next panel rises over this one */
+.entry-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  will-change: opacity;
+}
+
+/* ── Content entrance animation ──
+   All animatable children start hidden & shifted down.
+   JS adds .is-visible when the panel reaches its sticky position,
+   triggering staggered fade-up for each element. */
+.entry-panel .entry-deadline,
+.entry-panel .entry-gold-rule,
+.entry-panel .entry-type,
+.entry-panel .entry-sub,
+.entry-panel .entry-desc,
+.entry-panel .entry-cta,
+.entry-panel .entry-photo-wrap {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.entry-panel.is-visible .entry-deadline   { opacity: 1; transform: none; transition-delay:   0ms; }
+.entry-panel.is-visible .entry-gold-rule  { opacity: 1; transform: none; transition-delay:  80ms; }
+.entry-panel.is-visible .entry-type       { opacity: 1; transform: none; transition-delay: 160ms; }
+.entry-panel.is-visible .entry-sub        { opacity: 1; transform: none; transition-delay: 220ms; }
+.entry-panel.is-visible .entry-desc       { opacity: 1; transform: none; transition-delay: 300ms; }
+.entry-panel.is-visible .entry-cta        { opacity: 1; transform: none; transition-delay: 380ms; }
+.entry-panel.is-visible .entry-photo-wrap { opacity: 1; transform: none; transition-delay: 460ms; }
 
 .entry-content {
   position: absolute;
@@ -798,62 +849,70 @@ nav.nav-hidden {
     <div class="admissions-connector"></div>
   </div>
 
-  <!-- 7+ Entry Panel -->
-  <div class="entry-panel" style="margin-top:26px;">
-    <div class="entry-content">
-      <div class="entry-header">
-        <div class="entry-title-group">
-          <p class="entry-deadline">Register by 1 December 2026</p>
-          <div class="entry-gold-rule"></div>
-          <p class="entry-type">7+ Entry</p>
-        </div>
-        <p class="entry-sub">Prep School &middot; Year 3 &middot; September 2027</p>
-      </div>
-      <p class="entry-desc">Come and experience Bancroft's Prep through the voices of our pupils and staff.</p>
-      <div class="entry-cta"><span>Start your 7+ journey</span></div>
-    </div>
-    <div class="entry-photo-wrap">
-      <img src="7-plus.jpg" alt="7+ entry">
-    </div>
-  </div>
+  <!-- ── ENTRY PANELS — sticky stack ── -->
+  <div class="entry-panels-stack">
 
-  <!-- 11+ Entry Panel -->
-  <div class="entry-panel">
-    <div class="entry-content">
-      <div class="entry-header">
-        <div class="entry-title-group">
-          <p class="entry-deadline">Register by 1 December 2026</p>
-          <div class="entry-gold-rule"></div>
-          <p class="entry-type">11+ Entry</p>
+    <!-- 7+ Entry Panel -->
+    <div class="entry-panel">
+      <div class="entry-content">
+        <div class="entry-header">
+          <div class="entry-title-group">
+            <p class="entry-deadline">Register by 1 December 2026</p>
+            <div class="entry-gold-rule"></div>
+            <p class="entry-type">7+ Entry</p>
+          </div>
+          <p class="entry-sub">Prep School &middot; Year 3 &middot; September 2027</p>
         </div>
-        <p class="entry-sub">Senior School &middot; Year 7 &middot; September 2027</p>
+        <p class="entry-desc">Come and experience Bancroft's Prep through the voices of our pupils and staff.</p>
+        <div class="entry-cta"><span>Start your 7+ journey</span></div>
       </div>
-      <p class="entry-desc">Explore the school, meet our staff, and get a genuine sense of life at Bancroft's.</p>
-      <div class="entry-cta"><span>Start your 11+ journey</span></div>
+      <div class="entry-photo-wrap">
+        <img src="7-plus.jpg" alt="7+ entry">
+      </div>
+      <div class="entry-overlay"></div>
     </div>
-    <div class="entry-photo-wrap">
-      <img src="11-plus.jpg" alt="11+ entry">
-    </div>
-  </div>
 
-  <!-- 16+ Entry Panel -->
-  <div class="entry-panel">
-    <div class="entry-content">
-      <div class="entry-header">
-        <div class="entry-title-group">
-          <p class="entry-deadline">Register by 9 October 2026</p>
-          <div class="entry-gold-rule"></div>
-          <p class="entry-type">16+ Entry</p>
+    <!-- 11+ Entry Panel -->
+    <div class="entry-panel">
+      <div class="entry-content">
+        <div class="entry-header">
+          <div class="entry-title-group">
+            <p class="entry-deadline">Register by 1 December 2026</p>
+            <div class="entry-gold-rule"></div>
+            <p class="entry-type">11+ Entry</p>
+          </div>
+          <p class="entry-sub">Senior School &middot; Year 7 &middot; September 2027</p>
         </div>
-        <p class="entry-sub">Sixth Form &middot; September 2027</p>
+        <p class="entry-desc">Explore the school, meet our staff, and get a genuine sense of life at Bancroft's.</p>
+        <div class="entry-cta"><span>Start your 11+ journey</span></div>
       </div>
-      <p class="entry-desc">Find out about A-level options, leavers' destinations, and life in the Sixth Form.</p>
-      <div class="entry-cta"><span>Start your 16+ journey</span></div>
+      <div class="entry-photo-wrap">
+        <img src="11-plus.jpg" alt="11+ entry">
+      </div>
+      <div class="entry-overlay"></div>
     </div>
-    <div class="entry-photo-wrap">
-      <img src="16-plus.jpg" alt="16+ entry">
+
+    <!-- 16+ Entry Panel -->
+    <div class="entry-panel">
+      <div class="entry-content">
+        <div class="entry-header">
+          <div class="entry-title-group">
+            <p class="entry-deadline">Register by 9 October 2026</p>
+            <div class="entry-gold-rule"></div>
+            <p class="entry-type">16+ Entry</p>
+          </div>
+          <p class="entry-sub">Sixth Form &middot; September 2027</p>
+        </div>
+        <p class="entry-desc">Find out about A-level options, leavers' destinations, and life in the Sixth Form.</p>
+        <div class="entry-cta"><span>Start your 16+ journey</span></div>
+      </div>
+      <div class="entry-photo-wrap">
+        <img src="16-plus.jpg" alt="16+ entry">
+      </div>
+      <div class="entry-overlay"></div>
     </div>
-  </div>
+
+  </div><!-- /entry-panels-stack -->
 
   <!-- ── OUR HISTORY PROMO ── -->
   <div class="promo">
@@ -977,10 +1036,31 @@ nav.nav-hidden {
     { el: document.querySelector('.photo-centre-bottom'), rate: 0.18 }
   ];
 
+  /* ── Entry panel sticky stack ── */
+  var entryPanels   = Array.from(document.querySelectorAll('.entry-panels-stack .entry-panel'));
+  var entryOverlays = entryPanels.map(function(p) { return p.querySelector('.entry-overlay'); });
+  var PANEL_H = 690;
+
+  /* Run once on load in case page is loaded mid-scroll */
+  document.addEventListener('DOMContentLoaded', function() {
+    entryPanels.forEach(function(panel) {
+      if (panel.getBoundingClientRect().top <= NAV_H + 80) {
+        panel.classList.add('is-visible');
+      }
+    });
+  });
+
   window.addEventListener('scroll', function() {
     if (!ticking) {
       requestAnimationFrame(function() {
         var y = window.pageYOffset;
+
+        /* ── Read phase (batch getBoundingClientRect before any writes) ── */
+        var nextTops = [];
+        for (var ni = 0; ni < entryPanels.length - 1; ni++) {
+          nextTops.push(entryPanels[ni + 1].getBoundingClientRect().top);
+        }
+        var panelTops = entryPanels.map(function(p) { return p.getBoundingClientRect().top; });
 
         /* Nav */
         if (y > lastY && y > NAV_H) {
@@ -995,6 +1075,22 @@ nav.nav-hidden {
         for (var i = 0; i < parallaxPhotos.length; i++) {
           var p = parallaxPhotos[i];
           if (p.el) p.el.style.transform = 'translateY(' + (-y * p.rate) + 'px)';
+        }
+
+        /* Entry overlay darkening —
+           as the next panel rises and covers the current one,
+           the current panel gets progressively darker. */
+        for (var oi = 0; oi < nextTops.length; oi++) {
+          var coverage = Math.max(0, Math.min(1, 1 - (nextTops[oi] - NAV_H) / PANEL_H));
+          if (entryOverlays[oi]) entryOverlays[oi].style.opacity = coverage * 0.55;
+        }
+
+        /* Entry content entrance —
+           trigger staggered fade-up when panel reaches its sticky pin point */
+        for (var pi = 0; pi < entryPanels.length; pi++) {
+          if (!entryPanels[pi].classList.contains('is-visible') && panelTops[pi] <= NAV_H + 80) {
+            entryPanels[pi].classList.add('is-visible');
+          }
         }
 
         lastY   = y;
