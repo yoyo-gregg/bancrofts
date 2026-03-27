@@ -186,7 +186,7 @@ nav.nav-hidden {
    OPEN DAYS SECTION
 ───────────────────────────── */
 .section-wrap {
-  margin-top: 188px;
+  margin-top: 64px;
 }
 .section-title {
   font-family: var(--font);
@@ -263,8 +263,9 @@ nav.nav-hidden {
   align-items: center;
   justify-content: center;
   background: var(--navy);
+  background-clip: padding-box;
   border: 2px solid rgba(44,66,85,0.5);
-  padding: 8px 12px 6px;
+  padding: 11px 12px 8px;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 500;
@@ -274,7 +275,7 @@ nav.nav-hidden {
   cursor: pointer;
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
-  line-height: normal;
+  line-height: 1;
 }
 .btn-gold {
   background: var(--gold-dark);
@@ -427,8 +428,9 @@ nav.nav-hidden {
   align-items: center;
   justify-content: center;
   height: 42px;
-  padding: 8px 12px 6px;
+  padding: 0 12px;
   background: var(--cream);
+  background-clip: padding-box;
   border: 2px solid rgba(245,245,245,0.5);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -441,7 +443,8 @@ nav.nav-hidden {
   text-transform: uppercase;
   color: var(--navy);
   white-space: nowrap;
-  line-height: normal;
+  line-height: 1;
+  padding-top: 3px;
 }
 /* Photo at bottom of each entry panel */
 .entry-photo-wrap {
@@ -473,10 +476,10 @@ nav.nav-hidden {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 100%;
-  height: 417px;
+  width: 339px;
+  height: 688px;
   object-fit: cover;
-  object-position: center top;
+  object-position: center bottom;
 }
 .promo-copy {
   position: absolute;
@@ -533,8 +536,9 @@ nav.nav-hidden {
   align-items: center;
   justify-content: center;
   background: var(--navy);
+  background-clip: padding-box;
   border: 2px solid rgba(44,66,85,0.5);
-  padding: 8px 12px 6px;
+  padding: 11px 12px 8px;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 500;
@@ -544,7 +548,7 @@ nav.nav-hidden {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
-  line-height: normal;
+  line-height: 1;
 }
 
 /* ─────────────────────────────
@@ -965,12 +969,12 @@ nav.nav-hidden {
   var ticking = false;
   var NAV_H   = 80;
 
-  /* Collage photo parallax — different rates for depth */
+  /* Collage photo parallax — images drift upward at different rates for depth */
   var parallaxPhotos = [
-    { el: document.querySelector('.photo-centre-top'),    rate: 0.08 },
-    { el: document.querySelector('.photo-left'),          rate: 0.13 },
-    { el: document.querySelector('.photo-right'),         rate: 0.17 },
-    { el: document.querySelector('.photo-centre-bottom'), rate: 0.22 }
+    { el: document.querySelector('.photo-centre-top'),    rate: 0.06 },
+    { el: document.querySelector('.photo-left'),          rate: 0.10 },
+    { el: document.querySelector('.photo-right'),         rate: 0.14 },
+    { el: document.querySelector('.photo-centre-bottom'), rate: 0.18 }
   ];
 
   window.addEventListener('scroll', function() {
@@ -990,7 +994,7 @@ nav.nav-hidden {
         /* Parallax */
         for (var i = 0; i < parallaxPhotos.length; i++) {
           var p = parallaxPhotos[i];
-          if (p.el) p.el.style.transform = 'translateY(' + (y * p.rate) + 'px)';
+          if (p.el) p.el.style.transform = 'translateY(' + (-y * p.rate) + 'px)';
         }
 
         lastY   = y;
