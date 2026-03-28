@@ -1104,7 +1104,7 @@ nav.nav-hidden {
         /* ── Entry content entrance ──
            Staggered fade-up fires when a panel reaches its sticky pin. */
         for (var pi = 0; pi < entryPanels.length; pi++) {
-          if (!entryPanels[pi].classList.contains('is-visible') && panelTops[pi] <= NAV_H + 80) {
+          if (!entryPanels[pi].classList.contains('is-visible') && panelTops[pi] <= vH * 0.55) {
             entryPanels[pi].classList.add('is-visible');
           }
         }
