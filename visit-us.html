@@ -356,8 +356,6 @@ nav.nav-hidden {
 .entry-panels-stack {
   position: relative;
   margin-top: 26px;
-  padding-bottom: 690px;
-  background: var(--navy); /* fills the padding-bottom area seamlessly */
 }
 
 /* Entry panels — full-width, navy, 690px */
@@ -497,15 +495,23 @@ nav.nav-hidden {
   line-height: 1;
   padding-top: 3px;
 }
-/* Photo at bottom of each entry panel */
+/* Photo at bottom of each entry panel —
+   z-index 15 keeps it above the darkening overlay (z-index 10)
+   so the image stays vivid while the rest of the panel dims.
+   top moved up 80px so iOS browser chrome doesn't clip the image. */
 .entry-photo-wrap {
   position: absolute;
   left: 18px;
-  top: 459px;
+  top: 379px;
   width: 339px;
   height: 203px;
   overflow: hidden;
+  z-index: 15;
+  transition: opacity 0.45s ease;
 }
+/* JS adds .photo-exit to fade the photo out when the next card
+   reaches 80% visibility, giving a clean image handoff */
+.entry-panel.photo-exit .entry-photo-wrap { opacity: 0; }
 .entry-photo-wrap img {
   width: 100%;
   height: 100%;
@@ -1037,6 +1043,7 @@ nav.nav-hidden {
   ];
 
   /* ── Entry panel sticky stack ── */
+  var entryStack    = document.querySelector('.entry-panels-stack');
   var entryPanels   = Array.from(document.querySelectorAll('.entry-panels-stack .entry-panel'));
   var entryOverlays = entryPanels.map(function(p) { return p.querySelector('.entry-overlay'); });
   var PANEL_H = 690;
@@ -1053,16 +1060,19 @@ nav.nav-hidden {
   window.addEventListener('scroll', function() {
     if (!ticking) {
       requestAnimationFrame(function() {
-        var y = window.pageYOffset;
+        var y  = window.pageYOffset;
+        /* Use clientHeight (stable on iOS — doesn't jump as browser chrome shows/hides) */
+        var vH = document.documentElement.clientHeight;
 
-        /* ── Read phase (batch getBoundingClientRect before any writes) ── */
-        var nextTops = [];
+        /* ── Read phase: batch all getBoundingClientRect calls first ── */
+        var stackRect  = entryStack ? entryStack.getBoundingClientRect() : null;
+        var nextTops   = [];
         for (var ni = 0; ni < entryPanels.length - 1; ni++) {
           nextTops.push(entryPanels[ni + 1].getBoundingClientRect().top);
         }
         var panelTops = entryPanels.map(function(p) { return p.getBoundingClientRect().top; });
 
-        /* Nav */
+        /* ── Nav hide/show (normal behaviour — hides on scroll down) ── */
         if (y > lastY && y > NAV_H) {
           navEl.style.transitionDuration = '';
           navEl.classList.add('nav-hidden');
@@ -1077,19 +1087,52 @@ nav.nav-hidden {
           if (p.el) p.el.style.transform = 'translateY(' + (-y * p.rate) + 'px)';
         }
 
-        /* Entry overlay darkening —
-           as the next panel rises and covers the current one,
-           the current panel gets progressively darker. */
+        /* ── Entry overlay darkening ──
+           As the next panel rises it covers the current one;
+           the current panel darkens progressively.
+           maxCov drives the nav background blend (fix 1). */
+        var maxCov = 0;
         for (var oi = 0; oi < nextTops.length; oi++) {
           var coverage = Math.max(0, Math.min(1, 1 - (nextTops[oi] - NAV_H) / PANEL_H));
           if (entryOverlays[oi]) entryOverlays[oi].style.opacity = coverage * 0.55;
+          if (coverage > maxCov) maxCov = coverage;
         }
 
-        /* Entry content entrance —
-           trigger staggered fade-up when panel reaches its sticky pin point */
+        /* ── Nav background blend ──
+           While any panel is darkening, blend the nav background from cream
+           toward the same darkened-navy the panel shows, so there's no hard
+           cream/dark edge at the 80px nav boundary.
+           overlay opacity at full coverage = 0.55 → panel colour ≈ rgb(20,30,38).
+           We lerp cream(245,245,245) → that dark value using maxCov as t. */
+        if (maxCov > 0) {
+          var ov = maxCov * 0.55;                     /* mirrors panel overlay opacity */
+          var nr = Math.round(245 - 225 * maxCov);    /* 245 → 20 */
+          var ng = Math.round(245 - 215 * maxCov);    /* 245 → 30 */
+          var nb = Math.round(245 - 207 * maxCov);    /* 245 → 38 */
+          navEl.style.background = 'rgb(' + nr + ',' + ng + ',' + nb + ')';
+        } else {
+          navEl.style.background = '';                /* restore CSS default (cream) */
+        }
+
+        /* ── Entry content entrance ──
+           Staggered fade-up fires when a panel reaches its sticky pin. */
         for (var pi = 0; pi < entryPanels.length; pi++) {
           if (!entryPanels[pi].classList.contains('is-visible') && panelTops[pi] <= NAV_H + 80) {
             entryPanels[pi].classList.add('is-visible');
+          }
+        }
+
+        /* ── Image crossfade at 80% next-card visibility ──
+           When 80% of the next panel is showing from the bottom of the viewport,
+           fade out the current panel's photo so the incoming card's image
+           becomes the sole focus — clean visual handoff. */
+        for (var xi = 0; xi < nextTops.length; xi++) {
+          var visible  = Math.max(0, vH - nextTops[xi]);
+          var fraction = visible / PANEL_H;
+          if (fraction >= 0.8) {
+            entryPanels[xi].classList.add('photo-exit');
+          } else {
+            entryPanels[xi].classList.remove('photo-exit');
           }
         }
 
