@@ -365,7 +365,7 @@ nav.nav-hidden {
   background: var(--navy);
   overflow: hidden;
   position: sticky;
-  top: 80px; /* pins just below fixed nav */
+  top: 0; /* fills from the very top of viewport — nav sits above at z-index 1000 */
   margin-top: 0;
 }
 .entry-panel + .entry-panel { margin-top: 0; }
@@ -413,7 +413,7 @@ nav.nav-hidden {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 48px;
+  top: 128px; /* 80px nav clearance + 48px original gap */
   width: 281px;
   display: flex;
   flex-direction: column;
@@ -473,16 +473,16 @@ nav.nav-hidden {
   text-align: center;
 }
 .entry-cta {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 42px;
-  padding: 0 12px;
+  padding: 14px 12px;
   background: var(--cream);
   background-clip: padding-box;
   border: 2px solid rgba(245,245,245,0.5);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 .entry-cta span {
   font-family: var(--mono);
@@ -493,12 +493,8 @@ nav.nav-hidden {
   color: var(--navy);
   white-space: nowrap;
   line-height: 1;
-  padding-top: 3px;
+  vertical-align: middle;
 }
-/* Photo at bottom of each entry panel —
-   z-index 15 keeps it above the darkening overlay (z-index 10)
-   so the image stays vivid while the rest of the panel dims.
-   top moved up 80px so iOS browser chrome doesn't clip the image. */
 .entry-photo-wrap {
   position: absolute;
   left: 18px;
@@ -509,8 +505,6 @@ nav.nav-hidden {
   z-index: 15;
   transition: opacity 0.45s ease;
 }
-/* JS adds .photo-exit to fade the photo out when the next card
-   reaches 80% visibility, giving a clean image handoff */
 .entry-panel.photo-exit .entry-photo-wrap { opacity: 0; }
 .entry-photo-wrap img {
   width: 100%;
@@ -995,6 +989,7 @@ nav.nav-hidden {
   </div><!-- /footer -->
 
 </div><!-- /page -->
+
 <script>
 (function() {
   var overlay  = document.getElementById('fade-overlay');
@@ -1022,7 +1017,17 @@ nav.nav-hidden {
   /* Back to top */
   if (backTop) {
     backTop.addEventListener('click', function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      var start = window.pageYOffset;
+      var startTime = null;
+      var duration = 1400;
+      function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        window.scrollTo(0, start * (1 - easeOutCubic(progress)));
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     });
   }
 
@@ -1047,6 +1052,7 @@ nav.nav-hidden {
   var entryPanels   = Array.from(document.querySelectorAll('.entry-panels-stack .entry-panel'));
   var entryOverlays = entryPanels.map(function(p) { return p.querySelector('.entry-overlay'); });
   var PANEL_H = 690;
+
 
   /* Run once on load in case page is loaded mid-scroll */
   document.addEventListener('DOMContentLoaded', function() {
@@ -1089,29 +1095,10 @@ nav.nav-hidden {
 
         /* ── Entry overlay darkening ──
            As the next panel rises it covers the current one;
-           the current panel darkens progressively.
-           maxCov drives the nav background blend (fix 1). */
-        var maxCov = 0;
+           the current panel darkens progressively. */
         for (var oi = 0; oi < nextTops.length; oi++) {
-          var coverage = Math.max(0, Math.min(1, 1 - (nextTops[oi] - NAV_H) / PANEL_H));
+          var coverage = Math.max(0, Math.min(1, 1 - nextTops[oi] / PANEL_H));
           if (entryOverlays[oi]) entryOverlays[oi].style.opacity = coverage * 0.55;
-          if (coverage > maxCov) maxCov = coverage;
-        }
-
-        /* ── Nav background blend ──
-           While any panel is darkening, blend the nav background from cream
-           toward the same darkened-navy the panel shows, so there's no hard
-           cream/dark edge at the 80px nav boundary.
-           overlay opacity at full coverage = 0.55 → panel colour ≈ rgb(20,30,38).
-           We lerp cream(245,245,245) → that dark value using maxCov as t. */
-        if (maxCov > 0) {
-          var ov = maxCov * 0.55;                     /* mirrors panel overlay opacity */
-          var nr = Math.round(245 - 225 * maxCov);    /* 245 → 20 */
-          var ng = Math.round(245 - 215 * maxCov);    /* 245 → 30 */
-          var nb = Math.round(245 - 207 * maxCov);    /* 245 → 38 */
-          navEl.style.background = 'rgb(' + nr + ',' + ng + ',' + nb + ')';
-        } else {
-          navEl.style.background = '';                /* restore CSS default (cream) */
         }
 
         /* ── Entry content entrance ──
@@ -1122,14 +1109,10 @@ nav.nav-hidden {
           }
         }
 
-        /* ── Image crossfade at 80% next-card visibility ──
-           When 80% of the next panel is showing from the bottom of the viewport,
-           fade out the current panel's photo so the incoming card's image
-           becomes the sole focus — clean visual handoff. */
+        /* ── Image crossfade at 80% next-card visibility ── */
         for (var xi = 0; xi < nextTops.length; xi++) {
-          var visible  = Math.max(0, vH - nextTops[xi]);
-          var fraction = visible / PANEL_H;
-          if (fraction >= 0.8) {
+          var frac = Math.max(0, vH - nextTops[xi]) / PANEL_H;
+          if (frac >= 0.8) {
             entryPanels[xi].classList.add('photo-exit');
           } else {
             entryPanels[xi].classList.remove('photo-exit');
