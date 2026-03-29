@@ -321,24 +321,22 @@ nav.nav-hidden {
   text-align: center;
   width: 234px;
 }
-/* Small decorative tower in admissions section */
+/* Small decorative video in admissions section */
 .admissions-tower {
   position: relative;
-  width: 20px;
-  height: 25px;
+  width: 28px;
+  height: 35px;
   overflow: hidden;
   flex-shrink: 0;
   margin-top: 25px;
   align-self: center;
   pointer-events: none;
 }
-.admissions-tower img {
-  position: absolute;
-  width: 571%;
-  height: 1144%;
-  left: -236%;
-  top: -1042%;
+.admissions-tower video {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 /* Short vertical gold connector between title and first panel */
@@ -586,10 +584,11 @@ nav.nav-hidden {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  height: 44px;
+  padding: 0 16px;
   background: var(--navy);
   background-clip: padding-box;
   border: 2px solid rgba(44,66,85,0.5);
-  padding: 13px 12px 9px;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 500;
@@ -844,7 +843,7 @@ nav.nav-hidden {
     <h2 class="admissions-title">Your admissions journey</h2>
     <!-- Small decorative tower icon — 32px above the connector line -->
     <div class="admissions-tower">
-      <img src="tower.png" alt="">
+      <video src="young-people.mp4" autoplay loop muted playsinline></video>
     </div>
     <div class="admissions-connector"></div>
   </div>
