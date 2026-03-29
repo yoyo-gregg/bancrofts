@@ -166,7 +166,7 @@ nav.nav-hidden {
 .photo-collage {
   position: relative;
   width: 375px;
-  height: 830px;
+  height: 850px;
   margin-top: 0;
   flex-shrink: 0;
   overflow: hidden;
@@ -176,10 +176,14 @@ nav.nav-hidden {
   object-fit: cover;
   display: block;
 }
-.photo-centre-top   { width: 223px; height: 279px; left: 76px;  top: 69px;  }
-.photo-left         { width: 165px; height: 99px;  left: 18px;  top: 396px; }
-.photo-right        { width: 136px; height: 170px; left: 221px; top: 473px; }
-.photo-centre-bottom{ width: 223px; height: 134px; left: 76px;  top: 692px; }
+/* Retina ×2 exports — display at half natural resolution.
+   Page order top→bottom: centre-top, photo-left, photo-right, centre-bottom.
+   Depth (z-index): photo-left=front(4), centre-top(3), photo-right(2), centre-bottom=back(1).
+   Images overlap at diagonal corners — z-index controls which sits in front. */
+.photo-centre-top   { width: 223px; height: 279px; left: 109px; top: 32px;  z-index: 3; }
+.photo-left         { width: 223px; height: 134px; left: 18px;  top: 300px; z-index: 4; }
+.photo-right        { width: 194px; height: 243px; left: 163px; top: 422px; z-index: 2; }
+.photo-centre-bottom{ width: 252px; height: 151px; left: 62px;  top: 654px; z-index: 1; }
 
 /* ─────────────────────────────
    OPEN DAYS SECTION
@@ -761,10 +765,10 @@ nav.nav-hidden {
 
   <!-- ── PHOTO COLLAGE ── -->
   <div class="photo-collage">
-    <img class="photo-centre-top"    src="visit-photo-centre-top.jpg"    alt="Bancroft's open day">
-    <img class="photo-left"          src="visit-photo-left.jpg"           alt="School building">
-    <img class="photo-right"         src="visit-photo-right.jpg"          alt="School pupils">
     <img class="photo-centre-bottom" src="visit-photo-centre-bottom.jpg"  alt="School grounds">
+    <img class="photo-right"         src="visit-photo-right.jpg"          alt="School pupils">
+    <img class="photo-centre-top"    src="visit-photo-centre-top.jpg"     alt="Bancroft's open day">
+    <img class="photo-left"          src="visit-photo-left.jpg"           alt="Bancroft's pupils">
   </div>
 
   <!-- ── OPEN DAYS ── -->
