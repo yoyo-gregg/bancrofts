@@ -175,7 +175,10 @@ nav.nav-hidden {
   position: absolute;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity 1.2s ease;
 }
+.photo-collage img.is-visible { opacity: 1; }
 /* Retina ×2 exports — display at half natural resolution.
    Page order top→bottom: centre-top, photo-left, photo-right, centre-bottom.
    Depth (z-index): photo-left=front(4), centre-top(3), photo-right(2), centre-bottom=back(1).
@@ -1041,6 +1044,27 @@ nav.nav-hidden {
   var lastY   = 0;
   var ticking = false;
   var NAV_H   = 80;
+
+  /* Collage photo fade-in on scroll — staggered via IntersectionObserver */
+  var collageImgs = [
+    document.querySelector('.photo-centre-top'),
+    document.querySelector('.photo-left'),
+    document.querySelector('.photo-right'),
+    document.querySelector('.photo-centre-bottom')
+  ];
+  var collageDelays = [0, 150, 300, 450];
+  var collageObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var idx = collageImgs.indexOf(entry.target);
+        setTimeout(function() {
+          entry.target.classList.add('is-visible');
+        }, collageDelays[idx] || 0);
+        collageObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  collageImgs.forEach(function(img) { if (img) collageObserver.observe(img); });
 
   /* Collage photo parallax — images drift upward at different rates for depth */
   var parallaxPhotos = [
