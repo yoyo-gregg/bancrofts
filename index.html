@@ -226,7 +226,7 @@ html, body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 200px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  background: none;
   pointer-events: none;
 }
 
@@ -234,7 +234,7 @@ html, body {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 170px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+  background: none;
   pointer-events: none;
 }
 
@@ -305,7 +305,7 @@ nav.animate-in {
   font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
   font-size: 11px;
   letter-spacing: 0.16em;
-  color: #f5f5f5;
+  color: #2c4255;
   text-transform: uppercase;
   cursor: pointer;
   min-width: 48px;
@@ -328,7 +328,7 @@ nav.animate-in {
   height: 32px;
   object-fit: contain;
   display: block;
-  filter: brightness(0) invert(1);
+  filter: brightness(0) saturate(100%) invert(24%) sepia(17%) saturate(1071%) hue-rotate(170deg) brightness(94%) contrast(90%);
 }
 
 /* ─────────────────────────────
@@ -341,7 +341,7 @@ nav.animate-in {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(245,245,245,0.9);
+  background: rgba(44,66,85,0.9);
   z-index: 10;
   display: flex;
   align-items: center;
@@ -380,8 +380,8 @@ nav.animate-in {
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245,245,245,0.4); }
-  50%       { box-shadow: 0 0 0 6px rgba(245,245,245,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(44,66,85,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(44,66,85,0); }
 }
 
 .hotspot.interactive {
@@ -390,61 +390,114 @@ nav.animate-in {
 }
 
 .hotspot.interactive.active {
-  background: #fff;
+  background: #2c4255;
   animation: none !important;
-  box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
+  box-shadow: 0 0 0 4px rgba(44,66,85,0.25);
 }
 
 /* Pixel positions from Figma (375px artboard) */
-.hs-1 { left: 246px; top: 235px; }
-.hs-2 { left: 311px; top: 507px; }
-.hs-3 { left: 84px;  top: 494px; }
-.hs-4 { left: 106px; top: 345px; }
+.hs-1 { left: 80px;  top: 300px; }
+.hs-2 { left: 316px; top: 410px; }
+.hs-3 { left: 115px; top: 500px; }
+.hs-4 { left: 165px; top: 634px; }
 
 /* ─────────────────────────────
-   VISIT US CTA
-   Hotspot hs-2 left edge renders at 301px (left:311 + margin-left:-10).
-   CTA right edge at 289px = 12px clear of hotspot left edge.
-   right = 375 - 289 = 86px. No translateX — right is unambiguous.
-   translateY(-50%) centres vertically on hs-2 top (507px).
+   VISIT US POPUP
 ───────────────────────────── */
 .visit-cta {
   position: absolute;
-  right: 86px;
-  top: 507px;
-  transform: translateY(-50%);
+  left: 90px;
+  top: 398px;
+  width: 168px;
   z-index: 11;
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-  border: 2px solid rgba(245,245,245,0.5);
-  box-shadow: 0 0 0 3px rgba(245,245,245,0.25);
-  padding: 7px 14px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  white-space: nowrap;
+  gap: 16px;
+  background: #2c4255;
+  border: 2px solid rgba(44,66,85,0.5);
+  padding: 18px 12px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
 }
-
 .visit-cta.visible {
   opacity: 1;
   pointer-events: auto;
 }
-
-.visit-cta:hover { background: #fff; }
-
-.visit-cta span {
-  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: #2c4255;
+.visit-cta-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+.visit-cta-title {
+  font-family: 'Minion Pro', 'EB Garamond', Georgia, serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  white-space: nowrap;
+  color: #f5f5f5;
+  text-align: center;
   line-height: 1;
 }
+.visit-cta-rule {
+  width: 50px;
+  height: 1px;
+  background: #B19660;
+  flex-shrink: 0;
+}
+.visit-cta-body {
+  font-family: 'Minion Pro', 'EB Garamond', Georgia, serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #f5f5f5;
+  text-align: center;
+  line-height: 1.4;
+}
+.visit-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  background: #f5f5f5;
+  border: 2px solid rgba(245,245,245,0.5);
+  box-shadow: 0 0 0 3px rgba(245,245,245,0.18);
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Minion Pro', 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #2c4255;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Map statement — "A transformative experience for every child" */
+.map-statement {
+  position: absolute;
+  left: 50%;
+  top: 160px;
+  transform: translateX(-50%);
+  width: 245px;
+  font-family: 'Minion Pro', 'EB Garamond', Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #2c4255;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.map-statement.visible { opacity: 1; }
 
 /* Map guide — pixel-perfect from Figma coordinates.
    Frame: 281x50. Dot centre: x=141, y=14. Glove: x=131, y=12.6, 24x27.75.
@@ -774,7 +827,7 @@ html, body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 200px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  background: none;
   pointer-events: none;
 }
 
@@ -782,7 +835,7 @@ html, body {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 170px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+  background: none;
   pointer-events: none;
 }
 
@@ -853,7 +906,7 @@ nav.animate-in {
   font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
   font-size: 11px;
   letter-spacing: 0.16em;
-  color: #f5f5f5;
+  color: #2c4255;
   text-transform: uppercase;
   cursor: pointer;
   min-width: 48px;
@@ -876,7 +929,7 @@ nav.animate-in {
   height: 32px;
   object-fit: contain;
   display: block;
-  filter: brightness(0) invert(1);
+  filter: brightness(0) saturate(100%) invert(24%) sepia(17%) saturate(1071%) hue-rotate(170deg) brightness(94%) contrast(90%);
 }
 
 /* ─────────────────────────────
@@ -889,7 +942,7 @@ nav.animate-in {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(245,245,245,0.9);
+  background: rgba(44,66,85,0.9);
   z-index: 10;
   display: flex;
   align-items: center;
@@ -928,8 +981,8 @@ nav.animate-in {
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245,245,245,0.4); }
-  50%       { box-shadow: 0 0 0 6px rgba(245,245,245,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(44,66,85,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(44,66,85,0); }
 }
 
 .hotspot.interactive {
@@ -938,60 +991,93 @@ nav.animate-in {
 }
 
 .hotspot.interactive.active {
-  background: #fff;
+  background: #2c4255;
   animation: none !important;
-  box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
+  box-shadow: 0 0 0 4px rgba(44,66,85,0.25);
 }
 
 /* Pixel positions from Figma (375px artboard) */
-.hs-1 { left: 246px; top: 235px; }
-.hs-2 { left: 311px; top: 507px; }
-.hs-3 { left: 84px;  top: 494px; }
-.hs-4 { left: 106px; top: 345px; }
+.hs-1 { left: 80px;  top: 300px; }
+.hs-2 { left: 316px; top: 410px; }
+.hs-3 { left: 115px; top: 500px; }
+.hs-4 { left: 165px; top: 634px; }
 
 /* ─────────────────────────────
-   VISIT US CTA
-   Hotspot hs-2 left edge renders at 301px (left:311 + margin-left:-10).
-   CTA right edge at 289px = 12px clear of hotspot left edge.
-   right = 375 - 289 = 86px. No translateX — right is unambiguous.
-   translateY(-50%) centres vertically on hs-2 top (507px).
+   VISIT US POPUP
 ───────────────────────────── */
 .visit-cta {
   position: absolute;
-  right: 86px;
-  top: 507px;
-  transform: translateY(-50%);
+  left: 90px;
+  top: 398px;
+  width: 168px;
   z-index: 11;
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-  border: 2px solid rgba(245,245,245,0.5);
-  box-shadow: 0 0 0 3px rgba(245,245,245,0.25);
-  padding: 7px 14px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  white-space: nowrap;
+  gap: 16px;
+  background: #2c4255;
+  border: 2px solid rgba(44,66,85,0.5);
+  padding: 18px 12px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
 }
-
 .visit-cta.visible {
   opacity: 1;
   pointer-events: auto;
 }
-
-.visit-cta:hover { background: #fff; }
-
-.visit-cta span {
-  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+.visit-cta-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+.visit-cta-title {
+  font-family: 'Minion Pro', 'EB Garamond', Georgia, serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f5f5f5;
+  text-align: center;
+  line-height: 1;
+}
+.visit-cta-rule {
+  width: 50px;
+  height: 1px;
+  background: #B19660;
+  flex-shrink: 0;
+}
+.visit-cta-body {
+  font-family: 'Minion Pro', 'EB Garamond', Georgia, serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #f5f5f5;
+  text-align: center;
+  line-height: 1.4;
+}
+.visit-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  background: #f5f5f5;
+  border: 2px solid rgba(245,245,245,0.5);
+  box-shadow: 0 0 0 3px rgba(245,245,245,0.18);
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Minion Pro', 'EB Garamond', Georgia, serif;
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   color: #2c4255;
   text-transform: uppercase;
-  white-space: nowrap;
   line-height: 1;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 /* Map guide — exact Figma assets assembled and animated */
@@ -1019,19 +1105,16 @@ nav.animate-in {
 
   <!-- VIDEO — plays once then is replaced by static image -->
   <video id="map-video" playsinline muted preload="auto">
-    <source src="Mobile-Map.mp4" type="video/mp4">
+    <source src="Mobile-Illustration.mp4" type="video/mp4">
   </video>
 
   <!-- Static last frame — shown after video ends (fixes iOS resume bug) -->
-  <img id="map-static" src="Mobile_Map.jpg" alt="">
+  <img id="map-static" src="Mobile-Illustration.jpg" alt="">
 
   <!-- UI OVERLAY -->
   <div id="ui-overlay">
     <div class="grad-top"></div>
     <div class="grad-bottom"></div>
-    <img class="clouds"
-      src="Clouds.png"
-      alt="">
 
     <nav>
       <span class="nav-link">Contact</span>
@@ -1043,6 +1126,9 @@ nav.animate-in {
       <span class="nav-link">Menu</span>
     </nav>
 
+    <!-- Map statement -->
+    <p class="map-statement">A transformative experience for every child</p>
+
     <!-- Display-only hotspots -->
     <div class="hotspot hs-1"></div>
     <div class="hotspot hs-3"></div>
@@ -1051,27 +1137,26 @@ nav.animate-in {
     <!-- Visit Us hotspot (interactive) -->
     <div class="hotspot hs-2 interactive" id="visitHotspot"></div>
 
-    <!-- Visit Us CTA — hidden until hotspot tapped -->
+    <!-- Visit Us popup — hidden until hotspot tapped -->
     <div class="visit-cta" id="visitCta">
-      <span>Visit us</span>
+      <div class="visit-cta-copy">
+        <p class="visit-cta-title">The Great Hall</p>
+        <div class="visit-cta-rule"></div>
+        <p class="visit-cta-body">Where every open day begins. Come and see Bancroft's for yourself.</p>
+      </div>
+      <div class="visit-cta-btn" id="visitBtn">Visit us</div>
     </div>
 
     <!-- Map guide — exact Figma SVG assets -->
     <div class="map-guide-wrap" id="mapGuide">
 
       <!-- Dot line (static, full width) -->
-      <svg class="map-guide-line" width="261" height="7" viewBox="0 0 261 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="6.5" y1="3.5" x2="254.5" y2="3.5" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.1 4"/>
-        <path d="M3.5 6.5L0.5 3.5L3.5 0.5" stroke="#F5F5F5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M257.5 0.5L260.5 3.5L257.5 6.5" stroke="#F5F5F5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <img class="map-guide-line" src="Dot_Line.svg" alt="">
 
       <!-- Glove + dot: absolutely positioned so fingertip sits on dot -->
       <div class="map-guide-slider">
         <!-- Dot on the line -->
-        <svg class="map-guide-dot" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="6" cy="6" r="5" fill="#2C4255" stroke="#F5F5F5" stroke-width="2"/>
-        </svg>
+        <img class="map-guide-dot" src="Dot.svg" alt="">
         <!-- Glove above, fingertip aligned to dot centre -->
         <svg class="map-guide-glove" width="24" height="28" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M22.5655 9.77543C22.1797 9.57322 21.7426 9.46566 21.3022 9.46566C20.8618 9.46566 20.4247 9.57322 20.0389 9.77543C19.9724 9.80985 19.9092 9.84857 19.8459 9.88729C19.7348 9.70551 19.6029 9.53665 19.4492 9.38499C18.9401 8.8827 18.2621 8.60519 17.5416 8.60519C17.0784 8.60519 16.6326 8.72351 16.2413 8.93647C16.0396 8.49549 15.7148 8.10613 15.281 7.81572C14.9757 7.61136 14.628 7.47368 14.2661 7.41022C13.7124 7.3145 13.1816 7.38656 12.7183 7.58339V2.71961C12.7183 2.02264 12.4676 1.34072 11.9826 0.83412C11.4539 0.283422 10.7301 -0.014514 9.96167 0.000544176C8.48579 0.031736 7.32274 1.2622 7.32274 2.71961V13.5862L6.22727 12.2848C4.98683 10.8123 2.76319 10.6101 1.27096 11.833C0.463257 12.4945 0 13.469 0 14.5058C0 15.3136 0.288855 16.102 0.813153 16.7237L7.02734 24.1011C7.6977 24.8981 8.06722 25.907 8.06722 26.9428V27.7495H16.9062C20.8237 27.7495 24 24.6152 24 20.7496V12.1266C24 11.4168 23.7199 10.7488 23.2097 10.2444C23.019 10.0562 22.8021 9.89804 22.5655 9.77435V9.77543Z" fill="#2C4255"/>
@@ -1152,13 +1237,13 @@ nav.animate-in {
     ctx.bezierCurveTo(s*0.45, -s*0.1+fLift*0.4, s*0.85, -s*0.05+fLift*0.85, s*1.0, s*0.02+fLift*0.75);
     ctx.bezierCurveTo(s*0.8, s*0.15+fLift*0.5, s*0.4, s*0.14+fLift*0.2, s*0.05, s*0.1);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(245,245,245,0.82)';
+    ctx.fillStyle = 'rgba(44,66,85,0.82)';
     ctx.fill();
 
     // Head
     ctx.beginPath();
     ctx.arc(s*0.48, -s*0.2, s*0.2, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(245,245,245,0.95)';
+    ctx.fillStyle = 'rgba(44,66,85,0.95)';
     ctx.fill();
 
     // Body torso
@@ -1169,7 +1254,7 @@ nav.animate-in {
     ctx.bezierCurveTo(-s*0.72, s*0.08, -s*0.75, -s*0.06, -s*0.52, -s*0.2);
     ctx.bezierCurveTo(-s*0.18, -s*0.3, s*0.28, -s*0.32, s*0.55, -s*0.32);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(245,245,245,0.95)';
+    ctx.fillStyle = 'rgba(44,66,85,0.95)';
     ctx.fill();
 
     // Tail fan
@@ -1179,7 +1264,7 @@ nav.animate-in {
     ctx.bezierCurveTo(-s*0.82, s*0.04*tailFan, -s*1.05, -s*0.08*tailFan, -s*0.95, -s*0.24);
     ctx.bezierCurveTo(-s*0.75, -s*0.2, -s*0.6, -s*0.1, -s*0.48, -s*0.16);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(245,245,245,0.88)';
+    ctx.fillStyle = 'rgba(44,66,85,0.88)';
     ctx.fill();
 
     // Near (left) wing — large dominant
@@ -1190,7 +1275,7 @@ nav.animate-in {
     ctx.bezierCurveTo(-s*1.52, s*0.06+nLift*0.62, -s*1.38, s*0.14+nLift*0.45, -s*1.12, s*0.2+nLift*0.3);
     ctx.bezierCurveTo(-s*0.68, s*0.28+nLift*0.15, -s*0.28, s*0.22, -s*0.05, s*0.12);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(245,245,245,0.92)';
+    ctx.fillStyle = 'rgba(44,66,85,0.92)';
     ctx.fill();
 
     // Wing highlight
@@ -1339,13 +1424,19 @@ nav.animate-in {
   function showEndScreen() {
     uiOverlay.classList.add('visible');
     animateNav();
-    animateHotspots();
+    // Hotspots appear towards end — base 2000ms + 0–600ms random stagger
+    setTimeout(animateHotspots, 2000);
     startBirds();
-    // Show animated map guide after a short delay
+    // Statement fades in at 2500ms
+    setTimeout(() => {
+      const ms = document.querySelector('.map-statement');
+      if (ms) ms.classList.add('visible');
+    }, 2500);
+    // Map guide appears at 3200ms
     setTimeout(() => {
       const mg = document.getElementById('mapGuide');
       if (mg) mg.classList.add('visible');
-    }, 800);
+    }, 3200);
   }
 
   function startSequence() {
@@ -1389,13 +1480,16 @@ nav.animate-in {
     visitCta.classList.toggle('visible', isActive);
   });
 
-  // Visit Us CTA — fade out then navigate to visit us page
-  visitCta.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const overlay = document.getElementById('fade-overlay');
-    overlay.classList.add('active');
-    setTimeout(() => { window.location.href = 'visit-us.html'; }, 420);
-  });
+  // Visit Us button inside popup — fade out then navigate
+  const visitBtn = document.getElementById('visitBtn');
+  if (visitBtn) {
+    visitBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const overlay = document.getElementById('fade-overlay');
+      overlay.classList.add('active');
+      setTimeout(() => { window.location.href = 'visit-us.html'; }, 420);
+    });
+  }
 
   uiOverlay.addEventListener('click', () => {
     visitHotspot.classList.remove('active');
