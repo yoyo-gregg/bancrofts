@@ -313,6 +313,33 @@ nav.animate-in {
 
 .nav-link:last-child { text-align: right; }
 
+.nav-menu-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-burger {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.nav-burger span {
+  display: block;
+  height: 1px;
+  background: #2c4255;
+}
+.nav-burger span:nth-child(1) { width: 8px; margin-left: 4px; margin-bottom: 2px; }
+.nav-burger span:nth-child(2) { width: 12px; margin-bottom: 2px; }
+.nav-burger span:nth-child(3) { width: 12px; }
+.nav-menu-label {
+  font-family: 'PP Writer', 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #2c4255;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
 .nav-logo-wrap {
   position: absolute;
   left: 50%;
@@ -1123,7 +1150,14 @@ nav.animate-in {
           src="Logo.svg"
           alt="Bancroft's School">
       </div>
-      <span class="nav-link">Menu</span>
+      <div class="nav-menu-wrap">
+        <div class="nav-burger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="nav-menu-label">Menu</span>
+      </div>
     </nav>
 
     <!-- Map statement -->
